@@ -101,6 +101,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func checkVersion() {
         let currentVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+        let installedShippingProfile = ShippingDefaultProfile.applyIfFreshInstall(
+            to: .standard,
+            persistentDomainName: Bundle.main.bundleIdentifier
+        )
+        if installedShippingProfile {
+            ShippingDefaultProfile.synchronizeStandardDefaults()
+        }
         if let lastVersion = Defaults.lastVersion.value,
            let intLastVersion = Int(lastVersion) {
             if intLastVersion < 46 {
@@ -116,7 +123,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         } else {
             Defaults.installVersion.value = currentVersion
-            Defaults.allowAnyShortcut.enabled = true
         }
         MASShortcutMigration.syncRenamedSideShortcutAliases()
         

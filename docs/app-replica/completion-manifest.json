@@ -17,6 +17,7 @@
     {"id":"settings.shortcuts","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
     {"id":"settings.snap-areas","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
     {"id":"settings.general","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"settings.exhaustive-reference-audit","kind":"both","in_scope":true,"status":"unresolved","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
     {"id":"shortcut.unique-assignment","kind":"behavior","in_scope":true,"status":"pass","exercised":true,"evidence":{"reference":["docs/app-replica/scope.md"],"candidate":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"],"comparison":[],"behavior":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"]}},
     {"id":"action.window-layouts","kind":"behavior","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
     {"id":"action.multi-display","kind":"behavior","in_scope":true,"status":"unresolved","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},

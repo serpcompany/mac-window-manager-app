@@ -38,6 +38,8 @@ The first Release archive exposed a real Team-ID mismatch between an ad-hoc app 
 - Multi-display behavior cannot be directly exercised with the current one-display environment.
 - Candidate-owned update infrastructure is intentionally absent.
 - No independent verifier was authorized, so the completion gate remains red.
+- Issue #4's screenshot-defined shipping profile is implemented and source-tested on its issue branch, but the signed issue-branch artifact has not yet replaced the installed app and its manual action matrix has not been exercised.
+- **HIGH-PRIORITY UNRESOLVED TODO:** the candidate Settings UI visibly differs from `/Applications/Rectangle.app`. Exhaustively audit every Settings screen/state/control with paired same-geometry screenshots, accessibility trees, interactions, side effects, and relaunch persistence before making any Settings or clone-parity claim.
 
 ## Runtime defects found during installed testing
 

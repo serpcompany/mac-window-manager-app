@@ -14,6 +14,195 @@ class RectangleTests: XCTestCase {
     }
 }
 
+final class ShippingDefaultProfileTests: XCTestCase {
+    private var suiteName: String!
+    private var userDefaults: UserDefaults!
+
+    override func setUp() {
+        super.setUp()
+        suiteName = "ShippingDefaultProfileTests.\(UUID().uuidString)"
+        userDefaults = UserDefaults(suiteName: suiteName)!
+        userDefaults.removePersistentDomain(forName: suiteName)
+    }
+
+    override func tearDown() {
+        userDefaults.removePersistentDomain(forName: suiteName)
+        userDefaults = nil
+        suiteName = nil
+        super.tearDown()
+    }
+
+    func testEveryCanonicalShortcutHasExactKeyCodeAndModifiers() throws {
+        let expected: [String: (keyCode: Int, modifierFlags: UInt)] = [
+            "leftHalf": (123, 1_835_008), "rightHalf": (124, 1_835_008),
+            "centerHalf": (87, 1_835_008), "topHalf": (126, 1_966_080),
+            "bottomHalf": (125, 1_966_080), "topLeft": (32, 786_432),
+            "bottomLeft": (38, 786_432), "bottomRight": (40, 786_432),
+            "maximize": (126, 1_835_008), "smaller": (27, 786_432),
+            "larger": (24, 786_432), "center": (46, 1_835_008),
+            "restore": (51, 786_432), "nextDisplay": (124, 786_432),
+            "previousDisplay": (123, 786_432), "firstThird": (18, 1_835_008),
+            "centerThird": (19, 1_835_008), "lastThird": (20, 1_835_008),
+            "firstTwoThirds": (21, 1_835_008), "lastTwoThirds": (22, 1_835_008),
+            "lastFourth": (119, 1_835_008), "firstThreeFourths": (89, 1_835_008),
+            "lastThreeFourths": (92, 1_835_008), "topLeftSixth": (21, 1_966_080),
+            "topCenterSixth": (23, 1_966_080), "topRightSixth": (22, 1_966_080),
+            "bottomLeftSixth": (26, 1_966_080), "bottomCenterSixth": (28, 1_966_080),
+            "bottomRightSixth": (25, 1_966_080), "toggleTodo": (11, 1_048_576),
+            "reflowTodo": (45, 786_432)
+        ]
+
+        XCTAssertEqual(ShippingDefaultProfile.shortcutByDefaultsKey.count, expected.count)
+        for (defaultsKey, identity) in expected {
+            let shortcut = try XCTUnwrap(ShippingDefaultProfile.shortcutByDefaultsKey[defaultsKey], defaultsKey)
+            XCTAssertEqual(shortcut.keyCode, identity.keyCode, defaultsKey)
+            XCTAssertEqual(shortcut.modifierFlags, identity.modifierFlags, defaultsKey)
+        }
+    }
+
+    func testCanonicalShortcutsAreUnique() {
+        let identities = ShippingDefaultProfile.shortcutByDefaultsKey.values.map {
+            "\($0.keyCode):\($0.modifierFlags)"
+        }
+        XCTAssertEqual(Set(identities).count, identities.count)
+    }
+
+    func testApplyStoresAssignmentsAndLeavesEveryOtherWindowActionUnassigned() throws {
+        ShippingDefaultProfile.apply(to: userDefaults)
+
+        for (defaultsKey, expected) in ShippingDefaultProfile.shortcutByDefaultsKey {
+            let actual = try XCTUnwrap(ShortcutCycle.shortcut(forDefaultsKey: defaultsKey, userDefaults: userDefaults))
+            XCTAssertEqual(actual.keyCode, expected.keyCode, defaultsKey)
+            XCTAssertEqual(actual.modifierFlags.rawValue, expected.modifierFlags, defaultsKey)
+        }
+        for action in ShippingDefaultProfile.intentionallyUnassignedWindowActions {
+            XCTAssertEqual(userDefaults.dictionary(forKey: action.name)?.count, 0, action.name)
+            XCTAssertNil(ShortcutCycle.shortcut(for: action, userDefaults: userDefaults), action.name)
+        }
+        for defaultsKey in StackBadgeManager.defaultsKeys {
+            XCTAssertNil(userDefaults.object(forKey: defaultsKey), defaultsKey)
+        }
+    }
+
+    func testApplyStoresSnapAndGeneralProfile() throws {
+        ShippingDefaultProfile.apply(to: userDefaults)
+
+        XCTAssertTrue(userDefaults.bool(forKey: "launchOnLogin"))
+        XCTAssertEqual(userDefaults.integer(forKey: "shippingDefaultProfileVersion"), ShippingDefaultProfile.version)
+        XCTAssertFalse(userDefaults.bool(forKey: "hideMenubarIcon"))
+        XCTAssertEqual(userDefaults.integer(forKey: "subsequentExecutionMode"), SubsequentExecutionMode.acrossMonitor.rawValue)
+        XCTAssertFalse(userDefaults.bool(forKey: "allowAnyShortcut"))
+        XCTAssertEqual(userDefaults.integer(forKey: "windowSnapping"), 1)
+        XCTAssertEqual(userDefaults.integer(forKey: "unsnapRestore"), 1)
+        XCTAssertEqual(userDefaults.float(forKey: "footprintAnimationDurationMultiplier"), 0.75, accuracy: 0.001)
+        XCTAssertEqual(userDefaults.integer(forKey: "hapticFeedbackOnSnap"), 1)
+        XCTAssertEqual(userDefaults.float(forKey: "gapSize"), 0)
+        XCTAssertFalse(userDefaults.bool(forKey: "skipGapTopEdge"))
+        XCTAssertEqual(userDefaults.integer(forKey: "moveCursorAcrossDisplays"), 1)
+        XCTAssertEqual(userDefaults.integer(forKey: "doubleClickTitleBar"), 0)
+        XCTAssertTrue(userDefaults.bool(forKey: "greenButtonOverride"))
+        XCTAssertEqual(userDefaults.integer(forKey: "todo"), 1)
+        XCTAssertEqual(userDefaults.float(forKey: "todoSidebarWidth"), 400)
+        XCTAssertEqual(userDefaults.integer(forKey: "todoSidebarWidthUnit"), TodoSidebarWidthUnit.pixels.rawValue)
+        XCTAssertEqual(userDefaults.integer(forKey: "todoSidebarSide"), TodoSidebarSide.right.rawValue)
+        XCTAssertEqual(userDefaults.float(forKey: "stageSize"), 190)
+
+        let landscape: [Directional: SnapAreaConfig] = try decodeJSONDefault("landscapeSnapAreas")
+        assertSnap(landscape, .tl, action: .topLeft)
+        assertSnap(landscape, .t, action: .maximize)
+        assertSnap(landscape, .tr, action: .topRight)
+        assertSnap(landscape, .l, action: .leftHalf)
+        assertSnap(landscape, .r, compound: .rightTopBottomHalf)
+        assertSnap(landscape, .bl, action: .bottomLeft)
+        assertSnap(landscape, .b, compound: .thirds)
+        assertSnap(landscape, .br, action: .bottomRight)
+
+        let portrait: [Directional: SnapAreaConfig] = try decodeJSONDefault("portraitSnapAreas")
+        assertSnap(portrait, .tl, action: .topLeft)
+        assertSnap(portrait, .t, action: .maximize)
+        assertSnap(portrait, .tr, action: .topRight)
+        assertSnap(portrait, .l, compound: .portraitThirdsSide)
+        assertSnap(portrait, .r, compound: .portraitThirdsSide)
+        assertSnap(portrait, .bl, action: .bottomLeft)
+        assertSnap(portrait, .b, compound: .halves)
+        assertSnap(portrait, .br, action: .bottomRight)
+    }
+
+    func testFreshInstallGateAppliesOnce() throws {
+        XCTAssertTrue(ShippingDefaultProfile.applyIfFreshInstall(to: userDefaults, persistentDomainName: suiteName))
+        userDefaults.set("custom", forKey: "leftHalf")
+
+        XCTAssertFalse(ShippingDefaultProfile.applyIfFreshInstall(to: userDefaults, persistentDomainName: suiteName))
+        XCTAssertEqual(userDefaults.string(forKey: "leftHalf"), "custom")
+    }
+
+    func testOrdinaryUpgradePreservesExistingPreferences() {
+        userDefaults.set("99", forKey: "lastVersion")
+        userDefaults.set(["com.example.custom"], forKey: "disabledApps")
+        userDefaults.set(["custom": "shortcut"], forKey: WindowAction.leftHalf.name)
+        userDefaults.set(Float(27), forKey: "gapSize")
+        userDefaults.set(false, forKey: "launchOnLogin")
+
+        XCTAssertFalse(ShippingDefaultProfile.applyIfFreshInstall(to: userDefaults, persistentDomainName: suiteName))
+        XCTAssertEqual(userDefaults.array(forKey: "disabledApps") as? [String], ["com.example.custom"])
+        XCTAssertEqual(userDefaults.dictionary(forKey: WindowAction.leftHalf.name)?["custom"] as? String, "shortcut")
+        XCTAssertEqual(userDefaults.float(forKey: "gapSize"), 27)
+        XCTAssertFalse(userDefaults.bool(forKey: "launchOnLogin"))
+    }
+
+    func testNonemptyCandidateDomainWithoutVersionMarkerIsNotTreatedAsFresh() {
+        userDefaults.set(["com.example.custom"], forKey: "disabledApps")
+
+        XCTAssertFalse(ShippingDefaultProfile.applyIfFreshInstall(to: userDefaults, persistentDomainName: suiteName))
+        XCTAssertNil(userDefaults.object(forKey: WindowAction.leftHalf.name))
+        XCTAssertNil(userDefaults.object(forKey: "launchOnLogin"))
+    }
+
+    func testExplicitApplyRestoresMutatedProfileAndCodableRoundTripIsLossless() throws {
+        userDefaults.set(["custom": "shortcut"], forKey: WindowAction.topRight.name)
+        userDefaults.set(Float(44), forKey: "gapSize")
+        ShippingDefaultProfile.apply(to: userDefaults)
+
+        XCTAssertEqual(userDefaults.dictionary(forKey: WindowAction.topRight.name)?.count, 0)
+        XCTAssertEqual(userDefaults.float(forKey: "gapSize"), 0)
+
+        let config = Config(
+            bundleId: "co.serp.rectangleclone",
+            version: "ShippingDefaultProfileTests",
+            shortcuts: ShippingDefaultProfile.shortcutByDefaultsKey,
+            defaults: [
+                "shippingDefaultProfileVersion": CodableDefault(int: ShippingDefaultProfile.version),
+                "launchOnLogin": CodableDefault(bool: userDefaults.bool(forKey: "launchOnLogin")),
+                "landscapeSnapAreas": CodableDefault(string: userDefaults.string(forKey: "landscapeSnapAreas")),
+                "portraitSnapAreas": CodableDefault(string: userDefaults.string(forKey: "portraitSnapAreas"))
+            ]
+        )
+        let decoded = try JSONDecoder().decode(Config.self, from: JSONEncoder().encode(config))
+        XCTAssertEqual(decoded.shortcuts.count, ShippingDefaultProfile.shortcutByDefaultsKey.count)
+        for (key, expected) in ShippingDefaultProfile.shortcutByDefaultsKey {
+            XCTAssertEqual(decoded.shortcuts[key]?.keyCode, expected.keyCode, key)
+            XCTAssertEqual(decoded.shortcuts[key]?.modifierFlags, expected.modifierFlags, key)
+        }
+        XCTAssertEqual(decoded.defaults["landscapeSnapAreas"]?.string, userDefaults.string(forKey: "landscapeSnapAreas"))
+        XCTAssertEqual(decoded.defaults["portraitSnapAreas"]?.string, userDefaults.string(forKey: "portraitSnapAreas"))
+    }
+
+    private func decodeJSONDefault<T: Decodable>(_ key: String) throws -> T {
+        let string = try XCTUnwrap(userDefaults.string(forKey: key))
+        return try JSONDecoder().decode(T.self, from: Data(string.utf8))
+    }
+
+    private func assertSnap(_ map: [Directional: SnapAreaConfig],
+                            _ direction: Directional,
+                            action: WindowAction? = nil,
+                            compound: CompoundSnapArea? = nil,
+                            file: StaticString = #filePath,
+                            line: UInt = #line) {
+        XCTAssertEqual(map[direction]?.action, action, file: file, line: line)
+        XCTAssertEqual(map[direction]?.compound, compound, file: file, line: line)
+    }
+}
+
 class PositionCyclesTests: XCTestCase {
 
     func testSixthsReturnTrue() {
@@ -360,6 +549,7 @@ class DefaultsExportTests: XCTestCase {
         XCTAssertTrue(keys.contains("cyclingOverlapMaxCascade"), "cyclingOverlapMaxCascade missing from Defaults.array")
         XCTAssertTrue(keys.contains("cooperativeCornerResize"), "cooperativeCornerResize missing from Defaults.array")
         XCTAssertTrue(keys.contains("stackBadge"), "stackBadge missing from Defaults.array")
+        XCTAssertTrue(keys.contains("shippingDefaultProfileVersion"), "shipping profile marker missing from Defaults.array")
     }
 }
 
@@ -368,9 +558,11 @@ class ConfigImportTests: XCTestCase {
     private static let shortcutKeys = WindowAction.active.map(\.name) + TodoManager.defaultsKeys + StackBadgeManager.defaultsKeys
     private var storedValues = [String: Any]()
     private var absentKeys = Set<String>()
+    private var previousShippingProfileVersion = 0
 
     override func setUp() {
         super.setUp()
+        previousShippingProfileVersion = Defaults.shippingDefaultProfileVersion.value
         for key in Self.shortcutKeys {
             if let value = UserDefaults.standard.object(forKey: key) {
                 storedValues[key] = value
@@ -390,6 +582,7 @@ class ConfigImportTests: XCTestCase {
         }
         storedValues.removeAll()
         absentKeys.removeAll()
+        Defaults.shippingDefaultProfileVersion.value = previousShippingProfileVersion
         super.tearDown()
     }
 
@@ -452,17 +645,30 @@ class ConfigImportTests: XCTestCase {
         XCTAssertNil(UserDefaults.standard.object(forKey: action.name))
     }
 
+    func testImportOfShippingProfileKeepsOmittedShortcutExplicitlyUnassigned() throws {
+        let action = WindowAction.topRight
+        store(Shortcut(NSEvent.ModifierFlags.command.rawValue, 14), forKey: action.name)
+
+        try loadConfig(
+            shortcuts: [:],
+            defaults: ["shippingDefaultProfileVersion": CodableDefault(int: ShippingDefaultProfile.version)]
+        )
+
+        XCTAssertEqual(UserDefaults.standard.dictionary(forKey: action.name)?.count, 0)
+        XCTAssertNil(ShortcutCycle.shortcut(for: action))
+    }
+
     private func store(_ shortcut: Shortcut, forKey key: String) {
         let transformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName))!
         let value = transformer.reverseTransformedValue(shortcut.toMASSHortcut())
         UserDefaults.standard.set(value, forKey: key)
     }
 
-    private func loadConfig(shortcuts: [String: Shortcut]) throws {
+    private func loadConfig(shortcuts: [String: Shortcut], defaults: [String: CodableDefault] = [:]) throws {
         let config = Config(bundleId: "co.serp.rectangleclone",
                             version: "ConfigImportTests",
                             shortcuts: shortcuts,
-                            defaults: [:])
+                            defaults: defaults)
         let data = try JSONEncoder().encode(config)
         let fileURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("ConfigImportTests-\(UUID().uuidString).json")

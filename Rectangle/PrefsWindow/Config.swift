@@ -63,6 +63,9 @@ extension Defaults {
         guard let jsonString = try? String(contentsOf: fileUrl, encoding: .utf8),
               let config = convert(jsonString: jsonString) else { return }
 
+        let importsShippingProfile = (config.defaults["shippingDefaultProfileVersion"]?.int ?? 0)
+            >= ShippingDefaultProfile.version
+
         for availableDefault in Defaults.array {
             if let codedDefault = config.defaults[availableDefault.key] {
                 availableDefault.load(from: codedDefault)
@@ -76,7 +79,11 @@ extension Defaults {
                 let dictValue = dictTransformer.reverseTransformedValue(shortcut)
                 UserDefaults.standard.setValue(dictValue, forKey: action.name)
             } else {
-                UserDefaults.standard.removeObject(forKey: action.name)
+                if importsShippingProfile {
+                    UserDefaults.standard.set([String: Any](), forKey: action.name)
+                } else {
+                    UserDefaults.standard.removeObject(forKey: action.name)
+                }
             }
         }
         for defaultsKey in TodoManager.defaultsKeys + StackBadgeManager.defaultsKeys {

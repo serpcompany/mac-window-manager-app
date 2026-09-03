@@ -249,24 +249,32 @@ class SettingsViewController: NSViewController {
     }
     
     @IBAction func restoreDefaults(_ sender: Any) {
-        // Ask user if they want to restore to Rectangle or Spectacle defaults
-        let currentDefaults = Defaults.alternateDefaultShortcuts.enabled ? "Rectangle Clone" : "Spectacle"
         let defaultShortcutsTitle = NSLocalizedString("Default Shortcuts", tableName: "Main", value: "", comment: "")
-        let currentlyUsingText = NSLocalizedString("Currently using: ", tableName: "Main", value: "", comment: "")
         let cancelText = NSLocalizedString("Cancel", tableName: "Main", value: "", comment: "")
-        let response = AlertUtil.threeButtonAlert(question: defaultShortcutsTitle, text: currentlyUsingText + currentDefaults, buttonOneText: "Rectangle Clone", buttonTwoText: "Spectacle", buttonThreeText: cancelText)
-        if response == .alertThirdButtonReturn { return }
+        let response = AlertUtil.twoButtonAlert(
+            question: defaultShortcutsTitle,
+            text: "Restore the shipping shortcuts, Snap Areas, and behavior settings?",
+            confirmText: "Restore Defaults",
+            cancelText: cancelText
+        )
+        guard response == .alertFirstButtonReturn else { return }
 
-        //  Restore default shortcuts
-        let rectangleDefaults = response == .alertFirstButtonReturn
-        WindowAction.active.forEach { UserDefaults.standard.removeObject(forKey: $0.name) }
-        Defaults.alternateDefaultShortcuts.enabled = rectangleDefaults
+        guard ShippingDefaultProfile.applyToStandardDefaults() else {
+            AlertUtil.oneButtonAlert(
+                question: "Unable to Restore Defaults",
+                text: "The shortcut storage service is unavailable. No settings were changed."
+            )
+            return
+        }
         Notification.Name.changeDefaults.post()
-        
-        // Restore snap areas
-        Defaults.portraitSnapAreas.typedValue = nil
-        Defaults.landscapeSnapAreas.typedValue = nil
         Notification.Name.defaultSnapAreas.post()
+        Notification.Name.configImported.post()
+
+        if #available(macOS 13, *) {
+            LaunchOnLogin.isEnabled = true
+        } else {
+            _ = SMLoginItemSetEnabled(AppDelegate.launcherAppId as CFString, true)
+        }
     }
     
     @IBAction func exportConfig(_ sender: NSButton) {

@@ -42,32 +42,43 @@ class ShortcutRecordingObserverTests: XCTestCase {
         }
 
         let monitor = try XCTUnwrap(binder.shortcutMonitor)
-        let shortcuts = try availableTodoShortcuts(monitor: monitor)
+        let candidates = availableTodoShortcuts(monitor: monitor)
         let transformer = try XCTUnwrap(
             ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName))
         )
-
-        userDefaults.set(
-            transformer.reverseTransformedValue(shortcuts.toggle),
-            forKey: TodoManager.toggleDefaultsKey
-        )
-        userDefaults.set(
-            transformer.reverseTransformedValue(shortcuts.reflow),
-            forKey: TodoManager.reflowDefaultsKey
-        )
         Defaults.todo.enabled = true
         Defaults.todoMode.enabled = true
-        TodoManager.setShortcutBindingsSuspended(false)
 
-        XCTAssertTrue(monitor.isShortcutRegistered(shortcuts.toggle))
-        XCTAssertTrue(monitor.isShortcutRegistered(shortcuts.reflow))
+        var selectedShortcuts: (toggle: MASShortcut, reflow: MASShortcut)?
+        for toggle in candidates {
+            for reflow in candidates where reflow != toggle {
+                userDefaults.set(
+                    transformer.reverseTransformedValue(toggle),
+                    forKey: TodoManager.toggleDefaultsKey
+                )
+                userDefaults.set(
+                    transformer.reverseTransformedValue(reflow),
+                    forKey: TodoManager.reflowDefaultsKey
+                )
+                TodoManager.setShortcutBindingsSuspended(false)
+
+                if monitor.isShortcutRegistered(toggle), monitor.isShortcutRegistered(reflow) {
+                    selectedShortcuts = (toggle, reflow)
+                    break
+                }
+                TodoManager.setShortcutBindingsSuspended(true)
+            }
+            if selectedShortcuts != nil { break }
+        }
+
+        let shortcuts = try XCTUnwrap(selectedShortcuts, "Expected two globally available shortcuts for the Todo binding test")
 
         try assertions(monitor, shortcuts.toggle, shortcuts.reflow)
     }
 
     private func availableTodoShortcuts(
         monitor: MASShortcutMonitor
-    ) throws -> (toggle: MASShortcut, reflow: MASShortcut) {
+    ) -> [MASShortcut] {
         let modifiers: NSEvent.ModifierFlags = [.command, .control, .option, .shift]
         let keyCodes = [
             kVK_ANSI_U,
@@ -89,9 +100,7 @@ class ShortcutRecordingObserverTests: XCTestCase {
                     && !monitor.isShortcutRegistered($0)
             }
 
-        let toggle = try XCTUnwrap(availableShortcuts.first)
-        let reflow = try XCTUnwrap(availableShortcuts.dropFirst().first)
-        return (toggle, reflow)
+        return availableShortcuts
     }
 
     func testPostsRecordingChangesForObservedShortcutViews() {

@@ -1,9 +1,188 @@
 /// Defaults.swift
 
 import Cocoa
+import MASShortcut
+
+/// The owner-approved profile captured in the 2026-09-04 Settings screenshots.
+///
+/// Keep this candidate-owned and deterministic: it is the single source used by
+/// fresh installs, explicit restore, shortcut registration, and tests. It must
+/// never read Rectangle's defaults domain.
+struct ShippingDefaultProfile {
+    static let version = 1
+    static let shortcutByDefaultsKey: [String: Shortcut] = [
+        WindowAction.leftHalf.name: Shortcut(1_835_008, 123),
+        WindowAction.rightHalf.name: Shortcut(1_835_008, 124),
+        WindowAction.centerHalf.name: Shortcut(1_835_008, 87),
+        WindowAction.topHalf.name: Shortcut(1_966_080, 126),
+        WindowAction.bottomHalf.name: Shortcut(1_966_080, 125),
+        WindowAction.topLeft.name: Shortcut(786_432, 32),
+        WindowAction.bottomLeft.name: Shortcut(786_432, 38),
+        WindowAction.bottomRight.name: Shortcut(786_432, 40),
+        WindowAction.maximize.name: Shortcut(1_835_008, 126),
+        WindowAction.smaller.name: Shortcut(786_432, 27),
+        WindowAction.larger.name: Shortcut(786_432, 24),
+        WindowAction.center.name: Shortcut(1_835_008, 46),
+        WindowAction.restore.name: Shortcut(786_432, 51),
+        WindowAction.nextDisplay.name: Shortcut(786_432, 124),
+        WindowAction.previousDisplay.name: Shortcut(786_432, 123),
+        WindowAction.firstThird.name: Shortcut(1_835_008, 18),
+        WindowAction.centerThird.name: Shortcut(1_835_008, 19),
+        WindowAction.lastThird.name: Shortcut(1_835_008, 20),
+        WindowAction.firstTwoThirds.name: Shortcut(1_835_008, 21),
+        WindowAction.lastTwoThirds.name: Shortcut(1_835_008, 22),
+        WindowAction.lastFourth.name: Shortcut(1_835_008, 119),
+        WindowAction.firstThreeFourths.name: Shortcut(1_835_008, 89),
+        WindowAction.lastThreeFourths.name: Shortcut(1_835_008, 92),
+        WindowAction.topLeftSixth.name: Shortcut(1_966_080, 21),
+        WindowAction.topCenterSixth.name: Shortcut(1_966_080, 23),
+        WindowAction.topRightSixth.name: Shortcut(1_966_080, 22),
+        WindowAction.bottomLeftSixth.name: Shortcut(1_966_080, 26),
+        WindowAction.bottomCenterSixth.name: Shortcut(1_966_080, 28),
+        WindowAction.bottomRightSixth.name: Shortcut(1_966_080, 25),
+        TodoManager.toggleDefaultsKey: Shortcut(1_048_576, 11),
+        TodoManager.reflowDefaultsKey: Shortcut(786_432, 45)
+    ]
+
+    static let landscapeSnapAreas: [Directional: SnapAreaConfig] = [
+        .tl: SnapAreaConfig(action: .topLeft),
+        .t: SnapAreaConfig(action: .maximize),
+        .tr: SnapAreaConfig(action: .topRight),
+        .l: SnapAreaConfig(action: .leftHalf),
+        .r: SnapAreaConfig(compound: .rightTopBottomHalf),
+        .bl: SnapAreaConfig(action: .bottomLeft),
+        .b: SnapAreaConfig(compound: .thirds),
+        .br: SnapAreaConfig(action: .bottomRight)
+    ]
+    static let portraitSnapAreas = SnapAreaModel.defaultPortrait
+
+    static let intentionallyUnassignedWindowActions: Set<WindowAction> = Set(WindowAction.active.filter {
+        shortcutByDefaultsKey[$0.name] == nil
+    })
+
+    /// Candidate keys used to distinguish a truly empty domain from an old or
+    /// manually-created domain whose version marker happens to be absent.
+    static var candidatePresenceKeys: [String] {
+        WindowAction.active.map(\.name)
+            + TodoManager.defaultsKeys
+            + StackBadgeManager.defaultsKeys
+            + [
+                "lastVersion", "installVersion", "launchOnLogin", "hideMenubarIcon",
+                "shippingDefaultProfileVersion",
+                "subsequentExecutionMode", "allowAnyShortcut", "windowSnapping",
+                "unsnapRestore", "footprintAnimationDurationMultiplier",
+                "hapticFeedbackOnSnap", "landscapeSnapAreas", "portraitSnapAreas",
+                "gapSize", "skipGapTopEdge", "moveCursorAcrossDisplays",
+                "doubleClickTitleBar", "greenButtonOverride", "todo",
+                "todoSidebarWidth", "todoSidebarWidthUnit", "todoSidebarSide", "stageSize"
+            ]
+    }
+
+    @discardableResult
+    static func applyIfFreshInstall(to userDefaults: UserDefaults,
+                                    persistentDomainName: String? = nil) -> Bool {
+        if let persistentDomainName,
+           let domain = userDefaults.persistentDomain(forName: persistentDomainName),
+           !domain.isEmpty {
+            return false
+        }
+        guard candidatePresenceKeys.allSatisfy({ userDefaults.object(forKey: $0) == nil }) else {
+            return false
+        }
+        return apply(to: userDefaults)
+    }
+
+    @discardableResult
+    static func apply(to userDefaults: UserDefaults) -> Bool {
+        guard let transformer = ValueTransformer(
+            forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName)
+        ) else {
+            return false
+        }
+
+        let allShortcutKeys = WindowAction.active.map(\.name)
+            + TodoManager.defaultsKeys
+            + StackBadgeManager.defaultsKeys
+        allShortcutKeys.forEach { userDefaults.removeObject(forKey: $0) }
+        intentionallyUnassignedWindowActions.forEach { userDefaults.set([String: Any](), forKey: $0.name) }
+
+        for (defaultsKey, shortcut) in shortcutByDefaultsKey {
+            userDefaults.set(transformer.reverseTransformedValue(shortcut.toMASSHortcut()), forKey: defaultsKey)
+        }
+
+        userDefaults.set(true, forKey: "launchOnLogin")
+        userDefaults.set(version, forKey: "shippingDefaultProfileVersion")
+        userDefaults.set(false, forKey: "hideMenubarIcon")
+        userDefaults.set(true, forKey: "alternateDefaultShortcuts")
+        userDefaults.set(SubsequentExecutionMode.acrossMonitor.rawValue, forKey: "subsequentExecutionMode")
+        userDefaults.set(false, forKey: "allowAnyShortcut")
+        userDefaults.set(1, forKey: "windowSnapping")
+        userDefaults.set(1, forKey: "unsnapRestore")
+        userDefaults.set(Float(0.75), forKey: "footprintAnimationDurationMultiplier")
+        userDefaults.set(1, forKey: "hapticFeedbackOnSnap")
+        userDefaults.set(Float(0), forKey: "gapSize")
+        userDefaults.set(false, forKey: "skipGapTopEdge")
+        userDefaults.set(1, forKey: "moveCursorAcrossDisplays")
+        userDefaults.set(0, forKey: "doubleClickTitleBar")
+        userDefaults.set(true, forKey: "greenButtonOverride")
+        userDefaults.set(1, forKey: "todo")
+        userDefaults.set(Float(400), forKey: "todoSidebarWidth")
+        userDefaults.set(TodoSidebarWidthUnit.pixels.rawValue, forKey: "todoSidebarWidthUnit")
+        userDefaults.set(TodoSidebarSide.right.rawValue, forKey: "todoSidebarSide")
+        userDefaults.set(Float(190), forKey: "stageSize")
+        storeJSON(landscapeSnapAreas, forKey: "landscapeSnapAreas", in: userDefaults)
+        storeJSON(portraitSnapAreas, forKey: "portraitSnapAreas", in: userDefaults)
+        return true
+    }
+
+    /// Update the cached `Defaults` wrappers after applying to `.standard` from
+    /// the Restore Defaults UI. Fresh launch normally initializes these wrappers
+    /// after the profile is stored, but this method is safe there too.
+    static func synchronizeStandardDefaults() {
+        Defaults.launchOnLogin.enabled = true
+        Defaults.shippingDefaultProfileVersion.value = version
+        Defaults.hideMenuBarIcon.enabled = false
+        Defaults.alternateDefaultShortcuts.enabled = true
+        Defaults.subsequentExecutionMode.value = .acrossMonitor
+        Defaults.allowAnyShortcut.enabled = false
+        Defaults.windowSnapping.enabled = true
+        Defaults.unsnapRestore.enabled = true
+        Defaults.footprintAnimationDurationMultiplier.value = 0.75
+        Defaults.hapticFeedbackOnSnap.enabled = true
+        Defaults.gapSize.value = 0
+        Defaults.skipGapTopEdge.enabled = false
+        Defaults.moveCursorAcrossDisplays.enabled = true
+        Defaults.doubleClickTitleBar.value = 0
+        Defaults.greenButtonOverride.enabled = true
+        Defaults.todo.enabled = true
+        Defaults.todoSidebarWidth.value = 400
+        Defaults.todoSidebarWidthUnit.value = .pixels
+        Defaults.todoSidebarSide.value = .right
+        Defaults.stageSize.value = 190
+        Defaults.landscapeSnapAreas.typedValue = landscapeSnapAreas
+        Defaults.portraitSnapAreas.typedValue = portraitSnapAreas
+    }
+
+    @discardableResult
+    static func applyToStandardDefaults() -> Bool {
+        guard apply(to: .standard) else { return false }
+        synchronizeStandardDefaults()
+        return true
+    }
+
+    private static func storeJSON<T: Encodable>(_ value: T, forKey key: String, in userDefaults: UserDefaults) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        guard let data = try? encoder.encode(value), let string = String(data: data, encoding: .utf8) else {
+            return
+        }
+        userDefaults.set(string, forKey: key)
+    }
+}
 
 class Defaults {
     static let launchOnLogin = BoolDefault(key: "launchOnLogin")
+    static let shippingDefaultProfileVersion = IntDefault(key: "shippingDefaultProfileVersion")
     static let disabledApps = JSONDefault<Set<String>>(key: "disabledApps")
     static let hideMenuBarIcon = BoolDefault(key: "hideMenubarIcon")
     static let alternateDefaultShortcuts = BoolDefault(key: "alternateDefaultShortcuts") // switch to magnet defaults
@@ -112,6 +291,7 @@ class Defaults {
     static let greenButtonOverride = BoolDefault(key: "greenButtonOverride")
     static var array: [Default] = [
         launchOnLogin,
+        shippingDefaultProfileVersion,
         disabledApps,
         hideMenuBarIcon,
         alternateDefaultShortcuts,

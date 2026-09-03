@@ -22,9 +22,14 @@ class TodoManager {
     static func initToggleShortcut() {
         if UserDefaults.standard.dictionary(forKey: toggleDefaultsKey) == nil {
             guard let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName)) else { return }
-            
-            let toggleShortcut = MASShortcut(keyCode: kVK_ANSI_B,
-                                             modifierFlags: [NSEvent.ModifierFlags.control, NSEvent.ModifierFlags.option])
+
+            let toggleShortcut: MASShortcut
+            if Defaults.shippingDefaultProfileVersion.value >= ShippingDefaultProfile.version {
+                toggleShortcut = ShippingDefaultProfile.shortcutByDefaultsKey[toggleDefaultsKey]!.toMASSHortcut()
+            } else {
+                // Preserve the historical fallback for existing candidate profiles.
+                toggleShortcut = MASShortcut(keyCode: kVK_ANSI_B, modifierFlags: [.control, .option])
+            }
             let toggleShortcutDict = dictTransformer.reverseTransformedValue(toggleShortcut)
             UserDefaults.standard.set(toggleShortcutDict, forKey: toggleDefaultsKey)
         }
@@ -34,8 +39,12 @@ class TodoManager {
         if UserDefaults.standard.dictionary(forKey: reflowDefaultsKey) == nil {
             guard let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName)) else { return }
             
-            let reflowShortcut = MASShortcut(keyCode: kVK_ANSI_N,
-                                             modifierFlags: [NSEvent.ModifierFlags.control, NSEvent.ModifierFlags.option])
+            let reflowShortcut: MASShortcut
+            if Defaults.shippingDefaultProfileVersion.value >= ShippingDefaultProfile.version {
+                reflowShortcut = ShippingDefaultProfile.shortcutByDefaultsKey[reflowDefaultsKey]!.toMASSHortcut()
+            } else {
+                reflowShortcut = MASShortcut(keyCode: kVK_ANSI_N, modifierFlags: [.control, .option])
+            }
             let reflowShortcutDict = dictTransformer.reverseTransformedValue(reflowShortcut)
             UserDefaults.standard.set(reflowShortcutDict, forKey: reflowDefaultsKey)
         }

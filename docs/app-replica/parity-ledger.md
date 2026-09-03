@@ -11,6 +11,7 @@ Status is deliberately red until each row is exercised against the frozen source
 | shortcut.unique-assignment | All shortcut recorders/import/startup | Reject a duplicate, name its owner, normalize legacy duplicates | pass |
 | settings.snap-areas | Snap Areas tab | Configure edge/corner mappings and modifier behavior; persist | untested |
 | settings.general | General tab | Exercise every visible control; import/export/reset; persist | untested |
+| settings.exhaustive-reference-audit | Every Settings screen/state/control versus installed `/Applications/Rectangle.app` | Capture paired full-window screenshots and accessibility trees at identical geometry; compare visual structure, text, controls, interactions, side effects, and relaunch persistence | **HIGH-PRIORITY TODO — unresolved: candidate visibly differs; exhaustive paired audit not yet run** |
 | action.halves | Normal resizable window | Left/right/top/bottom/center half and cycling | untested |
 | action.corners | Normal resizable window | Four quarters and corner cycling | untested |
 | action.thirds | Normal resizable window | Thirds and two-thirds on landscape/portrait | untested |

@@ -151,12 +151,14 @@ class ShortcutManager {
     }
 
     private func registerDefaults() {
-
+        let usesShippingProfile = Defaults.shippingDefaultProfileVersion.value >= ShippingDefaultProfile.version
         let defaultShortcuts = WindowAction.active.reduce(into: [String: MASShortcut]()) { dict, windowAction in
-            guard let defaultShortcut = Defaults.alternateDefaultShortcuts.enabled
-                ? windowAction.alternateDefault
-                : windowAction.spectacleDefault
-            else { return }
+            let defaultShortcut = usesShippingProfile
+                ? ShippingDefaultProfile.shortcutByDefaultsKey[windowAction.name]
+                : (Defaults.alternateDefaultShortcuts.enabled
+                    ? windowAction.alternateDefault
+                    : windowAction.spectacleDefault)
+            guard let defaultShortcut else { return }
             let shortcut = MASShortcut(keyCode: defaultShortcut.keyCode, modifierFlags: NSEvent.ModifierFlags(rawValue: defaultShortcut.modifierFlags))
             dict[windowAction.name] = shortcut
         }
