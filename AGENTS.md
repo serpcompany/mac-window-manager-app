@@ -16,3 +16,7 @@ Maintain an independently identified, behavior-preserving fork of the MIT-licens
 ## Verification
 
 Run `git diff --check`, the full Xcode test suite, a clean candidate build, built-bundle identity checks, static identity searches, and the completion validator. Preserve runtime evidence under `docs/app-replica/evidence/`.
+
+## Releases
+
+For any version/build change, App Store submission, Git tag, or GitHub Release, follow `docs/release/local-release.md`. A release is complete only when the approved App Store version has an annotated `v<version>` tag and a published GitHub Release targeting the exact commit used for its uploaded build.

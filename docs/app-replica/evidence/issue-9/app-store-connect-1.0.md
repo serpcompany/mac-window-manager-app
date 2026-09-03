@@ -6,6 +6,7 @@ Recorded 2026-09-04 (Asia/Tokyo).
 - Bundle ID: `com.serp.windowmanager`
 - Version: 1.0 (`7a92c15a-2073-417d-a0b2-7dc0b2bc0765`)
 - Build: 1 (`57589b0f-f16e-43c7-bbc9-d1ea27c02023`), processing state `VALID`
+- Release source commit: `16c0f57c85dd20ae2510d18630f9170954d290cb`
 - Build attached to version: yes
 - Encryption: exempt / does not use non-exempt encryption
 - Category: Productivity

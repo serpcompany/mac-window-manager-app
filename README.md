@@ -58,6 +58,10 @@ The full action vocabulary and hidden preferences are documented in [TerminalCom
 
 Automatic updates are disabled in this development identity. The fork does not contact Rectangle's appcast, use Rectangle's Sparkle key, or publish through Rectangle's release infrastructure. A candidate-owned feed and signing key can be added after the owner approves a distribution identity.
 
+## Releases
+
+Mac App Store releases are mirrored in this repository with an annotated `v<version>` tag and a matching GitHub Release. The GitHub release points to the exact commit used for the approved App Store build and does not attach the receipt-bound Mac App Store package. See [the release runbook](docs/release/local-release.md).
+
 ## Verification
 
 The upstream source baseline builds and passes 310 tests. The rebranded candidate passes 314 tests, including candidate-specific shortcut-conflict and Dock-identity checks. It is tracked separately in [the parity ledger](docs/app-replica/parity-ledger.md) and [completion manifest](docs/app-replica/completion-manifest.json). A green unit suite is supporting evidence, not a claim of complete installed-runtime parity.
