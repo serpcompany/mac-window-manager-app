@@ -4190,9 +4190,9 @@ class TodoShortcutValidatorTests: XCTestCase {
 
         let isTaken = validator.isShortcutAlreadyTaken(bySystem: duplicateShortcut, explanation: &explanation)
 
-        XCTAssertFalse(validator.isShortcutValid(duplicateShortcut))
-        XCTAssertFalse(isTaken)
-        XCTAssertNil(explanation)
+        XCTAssertTrue(validator.isShortcutValid(duplicateShortcut))
+        XCTAssertTrue(isTaken)
+        XCTAssertTrue(explanation?.contains(WindowAction.centerHalf.displayName ?? WindowAction.centerHalf.name) == true)
     }
 
     func testInvalidatesShortcutUsedByOtherTodoActionWithoutAlreadyTakenError() {
@@ -4208,9 +4208,9 @@ class TodoShortcutValidatorTests: XCTestCase {
 
         let isTaken = validator.isShortcutAlreadyTaken(bySystem: duplicateShortcut, explanation: &explanation)
 
-        XCTAssertFalse(validator.isShortcutValid(duplicateShortcut))
-        XCTAssertFalse(isTaken)
-        XCTAssertNil(explanation)
+        XCTAssertTrue(validator.isShortcutValid(duplicateShortcut))
+        XCTAssertTrue(isTaken)
+        XCTAssertTrue(explanation?.contains("Reflow Todo") == true)
     }
 
     func testAllowsExistingShortcutForSameTodoAction() {
@@ -4225,6 +4225,68 @@ class TodoShortcutValidatorTests: XCTestCase {
 
         XCTAssertTrue(validator.isShortcutValid(existingShortcut))
         XCTAssertFalse(validator.isShortcutAlreadyTaken(bySystem: existingShortcut, explanation: nil))
+    }
+}
+
+class AppShortcutValidatorTests: XCTestCase {
+
+    private func shortcut(_ keyCode: Int, _ flags: NSEvent.ModifierFlags) -> MASShortcut {
+        MASShortcut(keyCode: keyCode, modifierFlags: flags)
+    }
+
+    private func save(_ shortcut: MASShortcut, forKey key: String, in userDefaults: UserDefaults) {
+        let transformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName))!
+        userDefaults.set(transformer.reverseTransformedValue(shortcut), forKey: key)
+    }
+
+    func testWindowActionValidatorAllowsItsExistingAssignment() {
+        let suiteName = "AppShortcutValidatorTests.\(UUID().uuidString)"
+        let userDefaults = UserDefaults(suiteName: suiteName)!
+        defer { userDefaults.removePersistentDomain(forName: suiteName) }
+        let existing = shortcut(1, [.option, .command])
+        save(existing, forKey: WindowAction.centerHalf.name, in: userDefaults)
+
+        let validator = AppShortcutValidator(defaultsKey: WindowAction.centerHalf.name, userDefaults: userDefaults)
+
+        XCTAssertTrue(validator.isShortcutValid(existing))
+        XCTAssertFalse(validator.isShortcutAlreadyTaken(bySystem: existing, explanation: nil))
+    }
+
+    func testWindowActionValidatorExplainsConflictWithAnotherAction() {
+        let suiteName = "AppShortcutValidatorTests.\(UUID().uuidString)"
+        let userDefaults = UserDefaults(suiteName: suiteName)!
+        defer { userDefaults.removePersistentDomain(forName: suiteName) }
+        let duplicate = shortcut(1, [.option, .command])
+        save(duplicate, forKey: WindowAction.centerHalf.name, in: userDefaults)
+        var explanation: NSString?
+
+        let validator = AppShortcutValidator(defaultsKey: WindowAction.centerThird.name, userDefaults: userDefaults)
+
+        XCTAssertTrue(validator.isShortcutValid(duplicate))
+        XCTAssertTrue(validator.isShortcutAlreadyTaken(bySystem: duplicate, explanation: &explanation))
+        XCTAssertTrue(explanation?.contains(WindowAction.centerHalf.displayName ?? WindowAction.centerHalf.name) == true)
+    }
+
+    func testDuplicateCleanupKeepsFirstActionAndRemovesLaterAssignment() {
+        let suiteName = "AppShortcutValidatorTests.\(UUID().uuidString)"
+        let userDefaults = UserDefaults(suiteName: suiteName)!
+        defer { userDefaults.removePersistentDomain(forName: suiteName) }
+        let duplicate = shortcut(1, [.option, .command])
+        save(duplicate, forKey: WindowAction.centerHalf.name, in: userDefaults)
+        save(duplicate, forKey: WindowAction.centerThird.name, in: userDefaults)
+
+        let removed = AppShortcutConflict.removeDuplicateAssignments(userDefaults: userDefaults)
+
+        XCTAssertNotNil(userDefaults.object(forKey: WindowAction.centerHalf.name))
+        XCTAssertNil(userDefaults.object(forKey: WindowAction.centerThird.name))
+        XCTAssertEqual(removed, [WindowAction.centerThird.name])
+    }
+}
+
+class ProductIdentityTests: XCTestCase {
+
+    func testAppShowsInDockByDefault() {
+        XCTAssertEqual(Bundle.main.object(forInfoDictionaryKey: "LSUIElement") as? Bool, false)
     }
 }
 

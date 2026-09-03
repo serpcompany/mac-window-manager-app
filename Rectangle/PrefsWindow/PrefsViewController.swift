@@ -116,10 +116,7 @@ class PrefsViewController: NSViewController {
         }
         shortcutRecordingObserver.observe(Array(actionsToViews.values))
         
-        if Defaults.allowAnyShortcut.enabled {
-            let passThroughValidator = PassthroughShortcutValidator()
-            actionsToViews.values.forEach { $0.shortcutValidator = passThroughValidator }
-        }
+        applyShortcutValidators(allowSystemConflicts: Defaults.allowAnyShortcut.enabled)
         
         subscribeToAllowAnyShortcutToggle()
         
@@ -135,25 +132,17 @@ class PrefsViewController: NSViewController {
     private func subscribeToAllowAnyShortcutToggle() {
         Notification.Name.allowAnyShortcut.onPost { notification in
             guard let enabled = notification.object as? Bool else { return }
-            let validator = enabled ? PassthroughShortcutValidator() : MASShortcutValidator()
-            self.actionsToViews.values.forEach { $0.shortcutValidator = validator }
+            self.applyShortcutValidators(allowSystemConflicts: enabled)
         }
     }
-    
-}
 
-class PassthroughShortcutValidator: MASShortcutValidator {
-    
-    override func isShortcutValid(_ shortcut: MASShortcut!) -> Bool {
-        return true
-    }
-    
-    override func isShortcutAlreadyTaken(bySystem shortcut: MASShortcut!, explanation: AutoreleasingUnsafeMutablePointer<NSString?>!) -> Bool {
-        return false
-    }
-    
-    override func isShortcut(_ shortcut: MASShortcut!, alreadyTakenIn menu: NSMenu!, explanation: AutoreleasingUnsafeMutablePointer<NSString?>!) -> Bool {
-        return false
+    private func applyShortcutValidators(allowSystemConflicts: Bool) {
+        for (action, view) in actionsToViews {
+            view.shortcutValidator = AppShortcutValidator(
+                defaultsKey: action.name,
+                allowSystemConflicts: allowSystemConflicts
+            )
+        }
     }
     
 }

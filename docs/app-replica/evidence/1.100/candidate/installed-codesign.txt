@@ -1,26 +1,26 @@
 Executable=/Applications/Rectangle Clone.app/Contents/MacOS/Rectangle Clone
 Identifier=co.serp.rectangleclone
 Format=app bundle with Mach-O universal (x86_64 arm64)
-CodeDirectory v=20500 size=2786 flags=0x10000(runtime) hashes=76+7 location=embedded
+CodeDirectory v=20500 size=2818 flags=0x10000(runtime) hashes=77+7 location=embedded
 VersionPlatform=1
 VersionMin=720896
 VersionSDK=1703936
 Hash type=sha256 size=32
-CandidateCDHash sha256=14b40a66f2837639d14c526813ae5053d1713afb
-CandidateCDHashFull sha256=14b40a66f2837639d14c526813ae5053d1713afba5e794715732b3e063804bb5
+CandidateCDHash sha256=967e7f3a0979ec35669ff659a668713f6bc9ffa3
+CandidateCDHashFull sha256=967e7f3a0979ec35669ff659a668713f6bc9ffa3afd0d6bf3286d66c92a93948
 Hash choices=sha256
-CMSDigest=14b40a66f2837639d14c526813ae5053d1713afba5e794715732b3e063804bb5
+CMSDigest=967e7f3a0979ec35669ff659a668713f6bc9ffa3afd0d6bf3286d66c92a93948
 CMSDigestType=2
 Executable Segment base=0
-Executable Segment limit=999424
+Executable Segment limit=1015808
 Executable Segment flags=0x1
 Page size=16384
-CDHash=14b40a66f2837639d14c526813ae5053d1713afb
-Signature size=8986
+CDHash=967e7f3a0979ec35669ff659a668713f6bc9ffa3
+Signature size=8987
 Authority=Developer ID Application: Matthew Schumacher (847HR8U8D9)
 Authority=Developer ID Certification Authority
 Authority=Apple Root CA
-Timestamp=Sep 4, 2026 at 02:03:21
+Timestamp=Sep 4, 2026 at 02:30:11
 Info.plist entries=27
 TeamIdentifier=847HR8U8D9
 Runtime Version=26.0.0

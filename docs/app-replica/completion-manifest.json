@@ -17,6 +17,7 @@
     {"id":"settings.shortcuts","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
     {"id":"settings.snap-areas","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
     {"id":"settings.general","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"shortcut.unique-assignment","kind":"behavior","in_scope":true,"status":"pass","exercised":true,"evidence":{"reference":["docs/app-replica/scope.md"],"candidate":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"],"comparison":[],"behavior":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"]}},
     {"id":"action.window-layouts","kind":"behavior","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
     {"id":"action.multi-display","kind":"behavior","in_scope":true,"status":"unresolved","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
     {"id":"snapping.drag","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
@@ -27,6 +28,8 @@
     {"id":"updates","kind":"behavior","in_scope":true,"status":"unresolved","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
     {"id":"logging","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
     {"id":"persistence.identity","kind":"behavior","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"app.presence.dock","kind":"both","in_scope":true,"status":"pass","exercised":true,"evidence":{"reference":["docs/app-replica/scope.md"],"candidate":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"],"comparison":["docs/app-replica/scope.md"],"behavior":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"]}},
+    {"id":"app.presence.menu-status","kind":"both","in_scope":true,"status":"unresolved","exercised":true,"evidence":{"reference":["docs/app-replica/scope.md"],"candidate":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"],"comparison":[],"behavior":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"]}},
     {"id":"packaging.identity","kind":"both","in_scope":true,"status":"pass","exercised":true,"evidence":{"reference":["docs/app-replica/scope.md","LICENSE"],"candidate":["docs/app-replica/evidence/1.100/candidate/installed-info-plist.txt","docs/app-replica/evidence/1.100/candidate/installed-codesign.txt","docs/app-replica/evidence/1.100/candidate/installed-executable-sha256.txt"],"comparison":["docs/app-replica/brand-inventory.md","docs/app-replica/evidence/1.100/candidate/installed-forbidden-identity-search.txt"],"behavior":["docs/app-replica/verification.md"]}}
   ]
 }

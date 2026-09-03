@@ -1,1 +1,1 @@
-7a9dab5e817ed1d8e524fb7be001ee9de8d87b84773979de4e5514e046a71bcf  /Applications/Rectangle Clone.app/Contents/MacOS/Rectangle Clone
+5b5d04e93e32bafc445c32661605a7b0adb56d48708c1bb0e20cb273d318d88a  /Applications/Rectangle Clone.app/Contents/MacOS/Rectangle Clone

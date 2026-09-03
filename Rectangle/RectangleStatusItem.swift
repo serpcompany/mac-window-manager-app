@@ -33,10 +33,15 @@ class RectangleStatusItem {
     
     private func add() {
         added = true
-        nsStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        nsStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         nsStatusItem?.autosaveName = Self.autosaveName
         nsStatusItem?.menu = self.statusMenu
-        nsStatusItem?.button?.image = NSImage(named: "StatusTemplate")
+        let image = NSImage(named: "StatusTemplate")
+        image?.isTemplate = true
+        nsStatusItem?.button?.image = image
+        nsStatusItem?.button?.imageScaling = .scaleProportionallyDown
+        nsStatusItem?.button?.toolTip = "Rectangle Clone"
+        nsStatusItem?.button?.setAccessibilityLabel("Rectangle Clone")
         // Visibility is controlled only by the in-app preference. Allowing
         // system removal gives macOS a second persisted hidden-state source
         // that can make a fresh candidate identity unreachable.

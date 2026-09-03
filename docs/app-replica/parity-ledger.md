@@ -8,6 +8,7 @@ Status is deliberately red until each row is exercised against the frozen source
 | menu.default | Menu-bar menu, ordinary modifier state | Open menu; inspect enabled actions, shortcuts, settings, ignore, quit | untested |
 | menu.option | Menu-bar menu while Option is held | Reveal logging/about alternate item | untested |
 | settings.shortcuts | Shortcuts tab, default and edited | Record/clear shortcuts; extra shortcuts; persist relaunch | untested |
+| shortcut.unique-assignment | All shortcut recorders/import/startup | Reject a duplicate, name its owner, normalize legacy duplicates | pass |
 | settings.snap-areas | Snap Areas tab | Configure edge/corner mappings and modifier behavior; persist | untested |
 | settings.general | General tab | Exercise every visible control; import/export/reset; persist | untested |
 | action.halves | Normal resizable window | Left/right/top/bottom/center half and cycling | untested |
@@ -30,5 +31,7 @@ Status is deliberately red until each row is exercised against the frozen source
 | logging | Debug logging window | Open, generate action, redact dynamic values as needed, close | untested |
 | persistence.identity | Candidate defaults domain | Settings persist under candidate identity without reading Rectangle preferences | untested |
 | packaging.identity | Built/installed app | Product name, bundle ID, URL scheme, signature, assets, credits | untested |
+| app.presence.dock | Installed app, default launch | Dock and Command-Tab presence; Dock reopen path | pass |
+| app.presence.menu-status | Installed app, crowded menu bar | Create visible labeled status item and survive relaunch | unresolved: Control Center clips third-party item |
 
 The completion manifest is the machine-readable authority. This table is the human review surface and will expand when a newly reachable state is discovered.

@@ -1,0 +1,20 @@
+Issue #1 — duplicate shortcuts
+- Candidate-specific validator and cleanup tests passed in the full 314-test suite.
+- A conflict is routed through MASShortcut's explanatory alert path and names the action that owns the shortcut.
+- Startup/import cleanup keeps the first action in canonical order and removes later duplicates.
+- Installed defaults duplicate-identity audit result: []
+
+Issue #2 — Dock presence
+- Built LSUIElement: false.
+- Installed NSRunningApplication activation policy: regular.
+- Dock accessibility tree contains an item titled Rectangle Clone.
+- Probe: scripts/dock_presence_probe.sh /Applications/Rectangle Clone.app
+- Result: GREEN: Rectangle Clone is present in the Dock with regular activation policy.
+
+Issue #3 — menu-bar visibility
+- Candidate preference: enabled.
+- Candidate AX tree contains a labeled Rectangle Clone status item.
+- Status item uses fixed square length, an explicit template image, candidate-owned autosave name, and no removable hidden-state behavior.
+- Control Center result on this crowded/notched menu bar: RED — moved the third-party status item to its blocked list.
+- There is no public API for a third-party status item to request Control Center's private neverClip behavior.
+- The app now provides guaranteed Dock/Command-Tab presence and a normal top-left application menu; the right-side status item remains enabled and appears when macOS has capacity.

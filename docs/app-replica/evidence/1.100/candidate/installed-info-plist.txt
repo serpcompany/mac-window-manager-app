@@ -30,7 +30,7 @@
   "DTXcodeBuild" => "17A324"
   "LSApplicationCategoryType" => "public.app-category.productivity"
   "LSMinimumSystemVersion" => "10.15"
-  "LSUIElement" => true
+  "LSUIElement" => false
   "NSHumanReadableCopyright" => "Rectangle Clone is derived from Rectangle © 2019-2026 Ryan Hanson and licensed under the MIT License."
   "NSMainStoryboardFile" => "Main"
   "NSPrincipalClass" => "NSApplication"

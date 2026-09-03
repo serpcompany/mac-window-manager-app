@@ -16,11 +16,13 @@ executable="$app_path/Contents/MacOS/Rectangle Clone"
 actual_bundle_id=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$plist")
 actual_name=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleName' "$plist")
 actual_scheme=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleURLTypes:0:CFBundleURLSchemes:0' "$plist")
+ls_ui_element=$(/usr/libexec/PlistBuddy -c 'Print :LSUIElement' "$plist")
 team_id=$(codesign -dv --verbose=4 "$app_path" 2>&1 | sed -n 's/^TeamIdentifier=//p')
 
 [[ "$actual_bundle_id" == "$expected_bundle_id" ]]
 [[ "$actual_name" == "Rectangle Clone" ]]
 [[ "$actual_scheme" == "rectangleclone" ]]
+[[ "$ls_ui_element" == "false" ]]
 [[ "$team_id" == "$expected_team_id" ]]
 
 codesign --verify --deep --strict "$app_path"

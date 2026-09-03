@@ -478,25 +478,6 @@ class SettingsViewController: NSViewController {
             bottomCenterRightEighthShortcutView.setAssociatedUserDefaultsKey(WindowAction.bottomCenterRightEighth.name, withTransformerName: MASDictionaryTransformerName)
             bottomRightEighthShortcutView.setAssociatedUserDefaultsKey(WindowAction.bottomRightEighth.name, withTransformerName: MASDictionaryTransformerName)
 
-            if Defaults.allowAnyShortcut.enabled {
-                let passThroughValidator = PassthroughShortcutValidator()
-                largerWidthShortcutView.shortcutValidator = passThroughValidator
-                smallerWidthShortcutView.shortcutValidator = passThroughValidator
-                topVerticalThirdShortcutView.shortcutValidator = passThroughValidator
-                middleVerticalThirdShortcutView.shortcutValidator = passThroughValidator
-                bottomVerticalThirdShortcutView.shortcutValidator = passThroughValidator
-                topVerticalTwoThirdsShortcutView.shortcutValidator = passThroughValidator
-                bottomVerticalTwoThirdsShortcutView.shortcutValidator = passThroughValidator
-                topLeftEighthShortcutView.shortcutValidator = passThroughValidator
-                topCenterLeftEighthShortcutView.shortcutValidator = passThroughValidator
-                topCenterRightEighthShortcutView.shortcutValidator = passThroughValidator
-                topRightEighthShortcutView.shortcutValidator = passThroughValidator
-                bottomLeftEighthShortcutView.shortcutValidator = passThroughValidator
-                bottomCenterLeftEighthShortcutView.shortcutValidator = passThroughValidator
-                bottomCenterRightEighthShortcutView.shortcutValidator = passThroughValidator
-                bottomRightEighthShortcutView.shortcutValidator = passThroughValidator
-            }
-
             let largerWidthIcon = NSImageView(frame: NSRect(x: 0, y: 0, width: 21, height: 14))
             largerWidthIcon.image = WindowAction.largerWidth.image
             largerWidthIcon.image?.size = NSSize(width: 21, height: 14)
@@ -849,6 +830,40 @@ class SettingsViewController: NSViewController {
             twelfthsCyclingShortcutView.setAssociatedUserDefaultsKey(WindowAction.topLeftTwelfth.name, withTransformerName: MASDictionaryTransformerName)
             sixteenthsCyclingShortcutView.setAssociatedUserDefaultsKey(WindowAction.topLeftSixteenth.name, withTransformerName: MASDictionaryTransformerName)
 
+            let advancedActionShortcutViews: [(WindowAction, MASShortcutView)] = [
+                (.largerWidth, largerWidthShortcutView),
+                (.smallerWidth, smallerWidthShortcutView),
+                (.topVerticalThird, topVerticalThirdShortcutView),
+                (.middleVerticalThird, middleVerticalThirdShortcutView),
+                (.bottomVerticalThird, bottomVerticalThirdShortcutView),
+                (.topVerticalTwoThirds, topVerticalTwoThirdsShortcutView),
+                (.bottomVerticalTwoThirds, bottomVerticalTwoThirdsShortcutView),
+                (.topLeftEighth, topLeftEighthShortcutView),
+                (.topCenterLeftEighth, topCenterLeftEighthShortcutView),
+                (.topCenterRightEighth, topCenterRightEighthShortcutView),
+                (.topRightEighth, topRightEighthShortcutView),
+                (.bottomLeftEighth, bottomLeftEighthShortcutView),
+                (.bottomCenterLeftEighth, bottomCenterLeftEighthShortcutView),
+                (.bottomCenterRightEighth, bottomCenterRightEighthShortcutView),
+                (.bottomRightEighth, bottomRightEighthShortcutView),
+                (.topLeftNinth, ninthsCyclingShortcutView),
+                (.topLeftTwelfth, twelfthsCyclingShortcutView),
+                (.topLeftSixteenth, sixteenthsCyclingShortcutView)
+            ]
+            func applyAdvancedShortcutValidators(allowSystemConflicts: Bool) {
+                for (action, view) in advancedActionShortcutViews {
+                    view.shortcutValidator = AppShortcutValidator(
+                        defaultsKey: action.name,
+                        allowSystemConflicts: allowSystemConflicts
+                    )
+                }
+            }
+            applyAdvancedShortcutValidators(allowSystemConflicts: Defaults.allowAnyShortcut.enabled)
+            Notification.Name.allowAnyShortcut.onPost { notification in
+                guard let enabled = notification.object as? Bool else { return }
+                applyAdvancedShortcutValidators(allowSystemConflicts: enabled)
+            }
+
             let ninthsCyclingIcon = NSImageView(frame: NSRect(x: 0, y: 0, width: 21, height: 14))
             ninthsCyclingIcon.image = WindowAction.topLeftNinth.image
             ninthsCyclingIcon.image?.size = NSSize(width: 21, height: 14)
@@ -883,12 +898,6 @@ class SettingsViewController: NSViewController {
             let twelfthsCyclingRow = makeRow(makeLabelStack(twelfthsCyclingLabel, twelfthsCyclingIcon), twelfthsCyclingShortcutView)
             let sixteenthsCyclingRow = makeRow(makeLabelStack(sixteenthsCyclingLabel, sixteenthsCyclingIcon), sixteenthsCyclingShortcutView)
 
-            if Defaults.allowAnyShortcut.enabled {
-                let passThroughValidator = PassthroughShortcutValidator()
-                ninthsCyclingShortcutView.shortcutValidator = passThroughValidator
-                twelfthsCyclingShortcutView.shortcutValidator = passThroughValidator
-                sixteenthsCyclingShortcutView.shortcutValidator = passThroughValidator
-            }
             shortcutRecordingObserver.observe([
                 largerWidthShortcutView,
                 smallerWidthShortcutView,

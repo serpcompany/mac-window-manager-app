@@ -79,6 +79,7 @@ class ShortcutManager {
         self.sessionIsActive = activeStateProvider()
 
         bindingStore.configure()
+        AppShortcutConflict.removeDuplicateAssignments()
         todoSessionStateChanged(sessionIsActive)
 
         registerDefaults()

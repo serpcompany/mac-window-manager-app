@@ -88,6 +88,8 @@ extension Defaults {
                 UserDefaults.standard.removeObject(forKey: defaultsKey)
             }
         }
+
+        AppShortcutConflict.removeDuplicateAssignments()
         
         Notification.Name.configImported.post(center: notificationCenter)
     }

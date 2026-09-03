@@ -48,3 +48,11 @@ User shortcut preferences, ignored-app lists, logs, window titles, and filesyste
 ## Explicit non-claims
 
 The candidate is not Rectangle, is not endorsed by Rectangle's authors, and must not use their signing identity, bundle IDs, update keys, appcast, domains, support channels, or release infrastructure. Final trademark clearance and final original brand artwork remain owner decisions.
+
+## Owner-approved product differences
+
+On 2026-09-04 the owner explicitly requested these changes from Rectangle behavior:
+
+- Reject duplicate shortcut assignments rather than cycling multiple actions on one shortcut.
+- Show Rectangle Clone in the Dock by default. On macOS this also means showing it in Command-Tab.
+- Keep a menu-bar status item enabled by default, with the Dock as the recovery path when macOS clips third-party items on a crowded menu bar.

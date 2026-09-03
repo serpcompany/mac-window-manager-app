@@ -5,6 +5,7 @@ Rectangle Clone is a rebranded macOS window manager derived from the MIT-license
 - Product: **Rectangle Clone**
 - Bundle identifier: `co.serp.rectangleclone`
 - URL scheme: `rectangleclone://`
+- App presence: Dock, Command-Tab, and menu-bar status item enabled by default
 - Preferences: `~/Library/Preferences/co.serp.rectangleclone.plist`
 - Startup config: `~/Library/Application Support/Rectangle Clone/RectangleCloneConfig.json`
 
@@ -41,7 +42,9 @@ macOS Accessibility approval is tied to the candidate bundle and signature. Do n
 
 ## Use
 
-Rectangle Clone is a menu-bar utility. Open the four-pane menu icon, choose a window action, or use the configured shortcuts. Drag-to-snap and the full set of extra grid sizes are retained from upstream.
+Rectangle Clone is a regular Dock app with a menu-bar status item. Click the Dock icon to reopen Settings, open the four-pane menu item when macOS has space to display it, choose a window action, or use the configured shortcuts. Drag-to-snap and the full set of extra grid sizes are retained from upstream.
+
+macOS couples Dock and Command-Tab presence, so both are enabled together. On a crowded or notched menu bar, macOS may clip third-party status items; the Dock icon remains the reliable recovery path.
 
 Execute an action by URL without intentionally foregrounding the app:
 
@@ -57,7 +60,7 @@ Automatic updates are disabled in this development identity. The fork does not c
 
 ## Verification
 
-The upstream source baseline builds and passes 310 tests. The rebranded candidate is tracked separately in [the parity ledger](docs/app-replica/parity-ledger.md) and [completion manifest](docs/app-replica/completion-manifest.json). A green unit suite is supporting evidence, not a claim of complete installed-runtime parity.
+The upstream source baseline builds and passes 310 tests. The rebranded candidate passes 314 tests, including candidate-specific shortcut-conflict and Dock-identity checks. It is tracked separately in [the parity ledger](docs/app-replica/parity-ledger.md) and [completion manifest](docs/app-replica/completion-manifest.json). A green unit suite is supporting evidence, not a claim of complete installed-runtime parity.
 
 ## License and provenance
 
