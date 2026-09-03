@@ -51,6 +51,7 @@ The first Release archive exposed a real Team-ID mismatch between an ad-hoc app 
 - Duplicate shortcut validators reject conflicts and name the owning action. Startup/import cleanup preserves the first action in canonical order and removes later duplicates; the installed candidate defaults contain no duplicate identities.
 - The installed app uses regular activation policy and appears in the Dock accessibility tree. This intentionally differs from Rectangle's `LSUIElement` behavior at the owner's request.
 - The menu-bar status item uses a fixed square length, an explicit template image, a candidate-owned autosave name, and a Rectangle Clone accessibility label. Control Center still reports the item as blocked from the visible right-side menu bar on this crowded system; there is no public third-party `neverClip` API. The normal top-left app menu and Dock icon remain visible.
+- Issue #4 commit `33b3a5e` was installed and its explicit Restore Defaults flow was exercised. Core/extra Shortcuts, General, and Snap Areas match the requested profile in direct candidate observation; candidate captures and raw defaults are recorded in `docs/app-replica/evidence/issue-4/installed-reset-verification.md`. This remains candidate-only evidence, not the required paired Rectangle Settings audit.
 
 ## Current artifact
 
