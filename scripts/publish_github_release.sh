@@ -76,11 +76,15 @@ if [[ -n "$(git status --porcelain)" ]]; then
   exit 1
 fi
 
-current_repo=$(gh repo view --json nameWithOwner --jq .nameWithOwner)
-if [[ "$current_repo" != "$expected_repo" ]]; then
-  echo "Expected GitHub repository $expected_repo, got $current_repo" >&2
-  exit 1
-fi
+origin_url=$(git remote get-url origin)
+case "$origin_url" in
+  "https://github.com/$expected_repo"|"https://github.com/$expected_repo.git"|"git@github.com:$expected_repo"|"git@github.com:$expected_repo.git") ;;
+  *)
+    echo "Expected origin for $expected_repo, got $origin_url" >&2
+    exit 1
+    ;;
+esac
+gh repo view "$expected_repo" --json nameWithOwner --jq .nameWithOwner >/dev/null
 
 git fetch origin --prune --tags
 
