@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "RectangleStatusTemplate22.png",
+      "filename" : "WindowManagerStatusTemplate1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "RectangleStatusTemplate44.png",
+      "filename" : "WindowManagerStatusTemplate2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "RectangleStatusTemplate.png",
+      "filename" : "WindowManagerStatusTemplate3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

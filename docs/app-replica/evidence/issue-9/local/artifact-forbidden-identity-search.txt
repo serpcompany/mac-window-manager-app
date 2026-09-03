@@ -1,0 +1,2 @@
+Built artifact forbidden identity search
+PASS: no forbidden identity in built bundle

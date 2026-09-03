@@ -2,7 +2,7 @@
 
 Status: source implementation and deterministic verification complete; installed/manual acceptance and Settings parity remain red.
 
-Post-install repair note: the first installed reset exposed missing Snap Areas toggle refresh. That defect has UI-adjacent regression coverage and installed readback. Todo Mode was subsequently removed from scope by the owner on 2026-09-04 and is not part of the shipping profile.
+Post-install repair note: the first installed reset exposed missing Snap Areas toggle refresh. That defect has UI-adjacent regression coverage and installed readback. Todo Mode, Stage Manager integration, and General → Extras were subsequently removed from scope by the owner and are not part of the shipping profile.
 
 ## Scope
 

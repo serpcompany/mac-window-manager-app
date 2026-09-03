@@ -1,0 +1,19 @@
+Window Manager issue #9 local Release verification
+UTC: 2026-09-03T19:57:41Z
+Artifact: /tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app
+Build: SUCCEEDED (unsigned universal Release; signing/profiles are owner blockers)
+Window Manager
+com.serp.windowmanager
+1.0
+1
+windowmanager
+com.serp.windowmanager.launcher
+/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/MacOS/Window Manager: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64]
+/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/MacOS/Window Manager (for architecture x86_64):	Mach-O 64-bit executable x86_64
+/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/MacOS/Window Manager (for architecture arm64):	Mach-O 64-bit executable arm64
+/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/Library/LoginItems/Window Manager Launcher.app/Contents/MacOS/Window Manager Launcher: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64:Mach-O 64-bit executable arm64]
+/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/Library/LoginItems/Window Manager Launcher.app/Contents/MacOS/Window Manager Launcher (for architecture x86_64):	Mach-O 64-bit executable x86_64
+/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/Library/LoginItems/Window Manager Launcher.app/Contents/MacOS/Window Manager Launcher (for architecture arm64):	Mach-O 64-bit executable arm64
+PrivacyInfo.xcprivacy: present
+/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/Resources/PrivacyInfo.xcprivacy: OK
+c2baed5834d94f3a67ef3a3776dd169000aa186b82aa41eaa49a5bbc111c1c74  /tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/MacOS/Window Manager

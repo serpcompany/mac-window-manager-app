@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "claim": "complete-reference",
-  "scope_statement": "Clone the open-source Rectangle macOS app, preserving every reachable behavior from source commit bf86a4b7d3dd246b895f149a99b39bcb89f22bfd while applying a separate working identity.",
+  "scope_statement": "Clone the open-source Rectangle macOS app from source commit bf86a4b7d3dd246b895f149a99b39bcb89f22bfd as Window Manager, except for the owner-approved Todo Mode, Stage Manager, and General Extras exclusions.",
   "inventory_complete": false,
   "primary_workflow_passed": false,
   "installed_artifact_verified": false,
@@ -32,6 +32,8 @@
     {"id":"app.presence.dock","kind":"both","in_scope":true,"status":"pass","exercised":true,"evidence":{"reference":["docs/app-replica/scope.md"],"candidate":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"],"comparison":["docs/app-replica/scope.md"],"behavior":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"]}},
     {"id":"app.presence.menu-status","kind":"both","in_scope":true,"status":"unresolved","exercised":true,"evidence":{"reference":["docs/app-replica/scope.md"],"candidate":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"],"comparison":[],"behavior":["docs/app-replica/evidence/1.100/candidate/issues-1-3-verification.txt"]}},
     {"id":"feature.todo-mode","kind":"both","in_scope":false,"status":"pass","exercised":true,"exclusion_approved":true,"approval":"Owner explicitly removed Todo Mode from the clone scope on 2026-09-04.","evidence":{"reference":["docs/app-replica/scope.md"],"candidate":["docs/app-replica/evidence/issue-4/installed/general-without-todo.png"],"comparison":["docs/app-replica/scope.md"],"behavior":["docs/app-replica/evidence/issue-4/installed/todo-removal-verification.txt"]}},
-    {"id":"packaging.identity","kind":"both","in_scope":true,"status":"pass","exercised":true,"evidence":{"reference":["docs/app-replica/scope.md","LICENSE"],"candidate":["docs/app-replica/evidence/1.100/candidate/installed-info-plist.txt","docs/app-replica/evidence/1.100/candidate/installed-codesign.txt","docs/app-replica/evidence/1.100/candidate/installed-executable-sha256.txt"],"comparison":["docs/app-replica/brand-inventory.md","docs/app-replica/evidence/1.100/candidate/installed-forbidden-identity-search.txt"],"behavior":["docs/app-replica/verification.md"]}}
+    {"id":"feature.stage-manager","kind":"both","in_scope":false,"status":"pass","exercised":false,"exclusion_approved":true,"approval":"Owner explicitly removed Stage Manager integration in GitHub Issue #6.","evidence":{"reference":["docs/app-replica/scope.md"],"candidate":[],"comparison":["docs/app-replica/scope.md"],"behavior":[]}},
+    {"id":"feature.general-extras","kind":"both","in_scope":false,"status":"pass","exercised":false,"exclusion_approved":true,"approval":"Owner explicitly removed General > Extras and its exclusive wiring in GitHub Issue #8.","evidence":{"reference":["docs/app-replica/scope.md"],"candidate":[],"comparison":["docs/app-replica/scope.md"],"behavior":[]}},
+    {"id":"packaging.identity","kind":"both","in_scope":true,"status":"unresolved","exercised":false,"evidence":{"reference":["docs/app-replica/scope.md","LICENSE"],"candidate":[],"comparison":["docs/app-replica/brand-inventory.md"],"behavior":[]}}
   ]
 }

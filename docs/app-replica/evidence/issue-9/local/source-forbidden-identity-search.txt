@@ -1,0 +1,2 @@
+Source forbidden identity search
+PASS: no forbidden identity in release source/configuration

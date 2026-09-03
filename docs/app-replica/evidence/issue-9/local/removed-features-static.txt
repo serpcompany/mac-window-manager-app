@@ -1,0 +1,21 @@
+Owner-approved removal static checks
+PASS: Stage Manager and Extras UI/runtime wiring absent
+Legacy keys appear only in explicit cleanup/tests:
+Rectangle/Defaults.swift:169:            "stageSize", "dragFromStage", "alwaysAccountForStage",
+Rectangle/Defaults.swift:170:            "widthStepSize", "showAdditionalSizesInMenu", "showEighthsInMenu",
+Rectangle/Defaults.swift:171:            "cyclingOverlapOffset", "cyclingOverlapOffsetSize", "cyclingOverlapMaxCascade",
+Rectangle/Defaults.swift:172:            "stackBadge", "horizontalSplitRatio", "verticalSplitRatio"
+Rectangle/Defaults.swift:235:    static let showAdditionalSizesInMenu = OptionalBoolDefault(key: "showAdditionalSizesInMenu")
+Rectangle/Defaults.swift:246:    static let cyclingOverlapOffset = OptionalBoolDefault(key: "cyclingOverlapOffset")
+Rectangle/Defaults.swift:247:    static let cyclingOverlapOffsetSize = FloatDefault(key: "cyclingOverlapOffsetSize", defaultValue: 11)
+Rectangle/Defaults.swift:249:    static let stackBadge = OptionalBoolDefault(key: "stackBadge")
+RectangleTests/RectangleTests.swift:103:        XCTAssertNil(userDefaults.object(forKey: "stageSize"))
+RectangleTests/RectangleTests.swift:128:            "stageSize", "dragFromStage", "alwaysAccountForStage",
+RectangleTests/RectangleTests.swift:129:            "widthStepSize", "showAdditionalSizesInMenu", "showEighthsInMenu",
+RectangleTests/RectangleTests.swift:130:            "cyclingOverlapOffset", "cyclingOverlapOffsetSize", "cyclingOverlapMaxCascade",
+RectangleTests/RectangleTests.swift:131:            "stackBadge", "horizontalSplitRatio", "verticalSplitRatio"
+RectangleTests/RectangleTests.swift:635:        XCTAssertFalse(keys.contains("cyclingOverlapOffset"))
+RectangleTests/RectangleTests.swift:636:        XCTAssertFalse(keys.contains("cyclingOverlapOffsetSize"))
+RectangleTests/RectangleTests.swift:639:        XCTAssertFalse(keys.contains("stackBadge"))
+RectangleTests/RectangleTests.swift:640:        XCTAssertFalse(keys.contains("stageSize"))
+RectangleTests/RectangleTests.swift:641:        XCTAssertFalse(keys.contains("showAdditionalSizesInMenu"))
