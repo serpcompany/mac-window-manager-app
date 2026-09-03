@@ -3,6 +3,9 @@ Locations checked:
 - /Users/devin/Library/MobileDevice/Provisioning Profiles
 - /Users/devin/Library/Developer/Xcode/UserData/Provisioning Profiles
 Match rule: decoded application-identifier contains "windowmanager"
-Result: no matching local main or helper profile found.
+Result: both profiles are installed and active.
 
-The keychain separately contains a valid Apple Distribution identity for team 847HR8U8D9; see local-signing-identities.txt.
+- Main: Window Manager Mac App Store; remote ID 3WHXHWH3PG; UUID 22052bff-6727-46e2-9661-cf22690f66e2
+- Launcher: Window Manager Launcher Mac App Store; remote ID 2A7232VTZ9; UUID 97df2dcb-6899-45d4-8437-90835d54b20b
+- Apple Distribution certificate: remote ID 35VR7927M8; local SHA-1 E57AA6109F858232534334765AB23CCE26F19D88
+- Mac Installer Distribution certificate: remote ID 4DAA9F932Z; local SHA-1 82347BB5FB4E159ED3719A6B7698968E83F41AFC

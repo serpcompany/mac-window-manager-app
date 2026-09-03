@@ -63,9 +63,7 @@ class ShortcutManager {
         scheduler: @escaping ShortcutRebindScheduler = { action in
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: action)
         },
-        appShortcutSessionStateChanged: @escaping (Bool) -> Void = { isActive in
-            StackBadgeManager.setShortcutBindingsSessionActive(isActive)
-        }
+        appShortcutSessionStateChanged: @escaping (Bool) -> Void = { _ in }
     ) {
         self.windowManager = windowManager
         self.bindingStore = bindingStore
@@ -296,7 +294,6 @@ class ShortcutManager {
             }
         }
 
-        StackBadgeManager.setShortcutBindingsSuspended(isRecording)
     }
 
     private func isRepeatAction(parameters: ExecutionParameters, windowElement: AccessibilityElement, windowId: CGWindowID) -> Bool {

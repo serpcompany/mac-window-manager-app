@@ -1,4 +1,4 @@
-RED: 105 completion gate failure(s)
+RED: 117 completion gate failure(s)
 - reference inventory is not complete
 - primary workflow has not passed
 - installed artifact is not verified
@@ -46,6 +46,10 @@ RED: 105 completion gate failure(s)
 - settings.exhaustive-reference-audit: candidate evidence is required
 - settings.exhaustive-reference-audit: comparison evidence is required
 - settings.exhaustive-reference-audit: behavior evidence is required
+- shortcut.unique-assignment: in-scope status is 'untested', not 'pass'
+- shortcut.unique-assignment: was not directly exercised
+- shortcut.unique-assignment: candidate evidence is required
+- shortcut.unique-assignment: behavior evidence is required
 - action.window-layouts: in-scope status is 'untested', not 'pass'
 - action.window-layouts: was not directly exercised
 - action.window-layouts: reference evidence is required
@@ -98,8 +102,16 @@ RED: 105 completion gate failure(s)
 - persistence.identity: reference evidence is required
 - persistence.identity: candidate evidence is required
 - persistence.identity: behavior evidence is required
+- app.presence.dock: in-scope status is 'untested', not 'pass'
+- app.presence.dock: was not directly exercised
+- app.presence.dock: candidate evidence is required
+- app.presence.dock: comparison evidence is required
+- app.presence.dock: behavior evidence is required
 - app.presence.menu-status: in-scope status is 'unresolved', not 'pass'
+- app.presence.menu-status: was not directly exercised
+- app.presence.menu-status: candidate evidence is required
 - app.presence.menu-status: comparison evidence is required
+- app.presence.menu-status: behavior evidence is required
 - packaging.identity: in-scope status is 'unresolved', not 'pass'
 - packaging.identity: was not directly exercised
 - packaging.identity: candidate evidence is required

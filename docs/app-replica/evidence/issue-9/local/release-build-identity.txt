@@ -1,19 +1,23 @@
 Window Manager issue #9 local Release verification
 UTC: 2026-09-03T19:57:41Z
-Artifact: /tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app
-Build: SUCCEEDED (unsigned universal Release; signing/profiles are owner blockers)
+Archive: /tmp/Window Manager.xcarchive
+Export: /tmp/WindowManagerAppStoreExport/Window Manager.pkg
+Build: signed sandboxed universal Mac App Store archive and signed installer export SUCCEEDED
 Window Manager
 com.serp.windowmanager
 1.0
 1
 windowmanager
 com.serp.windowmanager.launcher
-/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/MacOS/Window Manager: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64]
-/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/MacOS/Window Manager (for architecture x86_64):	Mach-O 64-bit executable x86_64
-/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/MacOS/Window Manager (for architecture arm64):	Mach-O 64-bit executable arm64
-/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/Library/LoginItems/Window Manager Launcher.app/Contents/MacOS/Window Manager Launcher: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64:Mach-O 64-bit executable arm64]
-/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/Library/LoginItems/Window Manager Launcher.app/Contents/MacOS/Window Manager Launcher (for architecture x86_64):	Mach-O 64-bit executable x86_64
-/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/Library/LoginItems/Window Manager Launcher.app/Contents/MacOS/Window Manager Launcher (for architecture arm64):	Mach-O 64-bit executable arm64
+/tmp/Window Manager.xcarchive/Products/Applications/Window Manager.app/Contents/MacOS/Window Manager: Mach-O universal binary with x86_64 and arm64 architectures
+/tmp/Window Manager.xcarchive/Products/Applications/Window Manager.app/Contents/Library/LoginItems/Window Manager Launcher.app/Contents/MacOS/Window Manager Launcher: Mach-O universal binary with x86_64 and arm64 architectures
 PrivacyInfo.xcprivacy: present
-/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/Resources/PrivacyInfo.xcprivacy: OK
-c2baed5834d94f3a67ef3a3776dd169000aa186b82aa41eaa49a5bbc111c1c74  /tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app/Contents/MacOS/Window Manager
+/tmp/Window Manager.xcarchive/Products/Applications/Window Manager.app/Contents/Resources/PrivacyInfo.xcprivacy: OK
+Main entitlements: app-sandbox=true; user-selected.read-write=true
+Launcher entitlements: app-sandbox=true
+Main executable SHA-256: 30197b4d4104028e99c7845adb841e7c9228de8260aae3c5df743827309c7bfb
+Exported PKG SHA-256: 86aed1095e494665062c84a9bd85a084f30e9ffdf2e44141993dfd799b5b1f41
+Exported PKG size: 3046738 bytes
+PKG signature: 3rd Party Mac Developer Installer, team 847HR8U8D9
+
+The distribution-signed payload cannot be launched directly without a Mac App Store/TestFlight receipt; macOS AMFI reports “No matching profile found”. Exact installed sandbox runtime verification therefore remains pending a processed store build.

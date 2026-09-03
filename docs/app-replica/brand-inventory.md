@@ -18,7 +18,7 @@ The owner approved the final product identity in Issues #5 and #9. Rectangle rem
 | license.attribution | Legal | MIT notices and credits | keep-system | Preserve accurately | Distribution audit |
 | owner.legal-copy | Legal | Not supplied | owner-decision | Legal entity/copyright wording required | Owner approval |
 | updater | Service/security | Rectangle appcast, key, Sparkle UI | remove | No updater | Dependency/source/bundle/network search |
-| signing.team | Security | `XSYZ3E4B7D` | replace | `847HR8U8D9` | Build settings/signature |
+| signing.team | Security | upstream signing team (forbidden) | replace | `847HR8U8D9` | Build settings/signature |
 | support.privacy | Endpoints | Upstream endpoints | owner-decision | Public owner-controlled URLs required | Owner approval/link audit |
 | release.infrastructure | Distribution | Upstream release channels | remove | Local Mac App Store scaffold | Script audit/ASC records |
 | masshortcut | Third party | rxhanson/MASShortcut | keep-system | Retain under MIT | Package/license audit |

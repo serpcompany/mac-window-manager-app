@@ -11,15 +11,15 @@
 	<key>signingCertificate</key>
 	<string>Apple Distribution</string>
 	<key>installerSigningCertificate</key>
-	<string>Mac Installer Distribution</string>
+	<string>82347BB5FB4E159ED3719A6B7698968E83F41AFC</string>
 	<key>teamID</key>
 	<string>847HR8U8D9</string>
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>com.serp.windowmanager</key>
-		<string>OWNER_SUPPLIED_MAIN_PROFILE_NAME</string>
+		<string>Window Manager Mac App Store</string>
 		<key>com.serp.windowmanager.launcher</key>
-		<string>OWNER_SUPPLIED_LAUNCHER_PROFILE_NAME</string>
+		<string>Window Manager Launcher Mac App Store</string>
 	</dict>
 </dict>
 </plist>

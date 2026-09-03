@@ -1,6 +1,6 @@
 # Window Manager Terminal Commands for Hidden Preferences
 
-The preferences window is purposefully slim, but there's a lot that can be modified via Terminal. After executing a terminal command, restart the app as these values are loaded on application startup. For Rectangle Pro, please replace `com.serp.windowmanager` with `com.knollsoft.Hookshot` for the following commands. A number of the commands below are for configuring keyboard shortcuts, and you'll need to know the key code and modifier flags integer values. You can use the free [key codes app](https://apps.apple.com/us/app/key-codes/id414568915) to help with this.
+The preferences window is purposefully slim, but some supported behavior can be modified via Terminal. After executing a terminal command, restart the app because these values are loaded on application startup. Some commands configure keyboard shortcuts and require key-code and modifier-flag integer values. You can use the free [Key Codes app](https://apps.apple.com/us/app/key-codes/id414568915) to identify them.
 
 ## Contents
 
@@ -8,13 +8,9 @@ The preferences window is purposefully slim, but there's a lot that can be modif
 - [Adjust Behavior on Repeated Commands](#adjust-behavior-on-repeated-commands)
 - [Cycle thirds on repeated Center Half commands](#cycle-thirds-on-repeated-center-half-commands)
 - [Resize on Directional Move](#resize-on-directional-move)
-- [Make the half actions tile like Windows or KDE](#make-the-half-actions-tile-like-windows-or-kde)
-- [Adjust macOS Ventura Stage Manager size](#adjust-macos-ventura-stage-manager-size)
 - [Only allow drag-to-snap when modifier keys are pressed](#only-allow-drag-to-snap-when-modifier-keys-are-pressed)
 - [Almost Maximize](#almost-maximize)
 - [Add an extra centering command with custom size](#add-an-extra-centering-command-with-custom-size)
-- [Add extra "ninths" sizing commands](#add-extra-ninths-sizing-commands)
-- [Add extra "eighths" sizing commands](#add-extra-eighths-sizing-commands)
 - [Add additional "thirds" sizing commands](#add-additional-thirds-sizing-commands)
 - [Add doubling/halving window sizing commands](#add-doublinghalving-window-sizing-commands)
 - [Add additional tiling and cascading commands](#add-additional-tiling-and-cascading-commands)
@@ -23,7 +19,6 @@ The preferences window is purposefully slim, but there's a lot that can be modif
 - [Make Smaller limits](#make-smaller-limits)
 - [Make Smaller/Make Larger size increments](#make-smallermake-larger-size-increments)
 - [Make Smaller/Make Larger "curtain resize" with gaps](#make-smallermake-larger-curtain-resize-with-gaps)
-- [Make Smaller/Make Larger width only](#make-smallermake-larger-width-only)
 - [Make Smaller/Make Larger height only](#make-smallermake-larger-height-only)
 - [Make Smaller shrink the height of full-height windows](#make-smaller-shrink-the-height-of-full-height-windows)
 - [Disabling window restore when moving windows](#disabling-window-restore-when-moving-windows)
@@ -39,7 +34,6 @@ The preferences window is purposefully slim, but there's a lot that can be modif
 - [Change the order of displays to order by x coordinate](#change-the-order-of-displays-to-order-by-x-coordinate-for-next-and-prev-displays-commands)
 - [Keep window size when moving a maximized window to another display](#keep-window-size-when-moving-a-maximized-window-to-another-display)
 - [Attempt to preserve window position when moving to another display](#attempt-to-preserve-window-position-when-moving-to-another-display)
-- [Offset cycling position when overlapping another window](#offset-cycling-position-when-overlapping-another-window)
 - [Move windows that can't fill the snap area to the edge](#move-windows-that-cant-fill-the-snap-area-to-the-edge)
 
 ## Keyboard Shortcuts
@@ -87,34 +81,6 @@ Note that if subsequent execution mode is set to cycle displays when this is ena
 
 ```bash
 defaults write com.serp.windowmanager resizeOnDirectionalMove -bool true
-```
-
-## Make the half actions tile like Windows or KDE
-
-By default, Left Half, Right Half, Top Half and Bottom Half always give the window the full height or width of the screen. Enable this to have each of them only change its own axis and keep the other one, like the Win + arrow keys on Windows or keyboard tiling on KDE:
-
-- Left Half followed by Top Half puts the window in the top left quarter (so does Top Half followed by Left Half).
-- Inside a quarter, the action for the opposite edge expands the window along that axis: Bottom Half takes a top left quarter back to Left Half, Right Half takes it to Top Half.
-- Inside a quarter, the action for the edge the window is docked to cycles the window through the cycle sizes along that axis and keeps the other one: Left Half takes a top left quarter to two thirds wide, then one third wide, while Top Half does the same to its height. This follows the setting for repeated commands; when it does not resize, the window stays as it is.
-- The same goes for halves: Right Half followed by Left Half fills the screen.
-- Windows that are not tiled, and halves that get their own action again, behave as usual (repeated executions still cycle sizes or move across displays, depending on the setting for repeated commands).
-
-```bash
-defaults write com.serp.windowmanager halvesPreserveOtherAxisSize -bool true
-```
-
-## Adjust macOS Ventura Stage Manager size
-
-By default, the Stage Manager area will be set to 190, if enabled.
-
-```bash
-defaults write com.serp.windowmanager stageSize -float <VALUE>
-```
-
-To set it to a proportion of your screen's width, set it to a value between 0 and 1.
-
-```bash
-defaults write com.serp.windowmanager stageSize -float <VALUE_BETWEEN_0_AND_1>
 ```
 
 ## Only allow drag-to-snap when modifier keys are pressed
@@ -174,49 +140,6 @@ For example, the command for setting the shortcut to `ctrl option command C` wou
 defaults write com.serp.windowmanager centerProminently -dict-add keyCode -float 8 modifierFlags -float 1835305
 ```
 
-
-## Add extra "ninths" sizing commands
-
-Commands for resizing to screen ninths are not available in the UI.
-
-The key codes are:
-
-* topLeftNinth
-* topCenterNinth
-* topRightNinth
-* middleLeftNinth
-* middleCenterNinth
-* middleRightNinth
-* bottomLeftNinth
-* bottomCenterNinth
-* bottomRightNinth
-
-For example, the command for setting the top left ninth shortcut to `ctrl opt shift 1` would be:
-
-```bash
-defaults write com.serp.windowmanager topLeftNinth -dict-add keyCode -float 18 modifierFlags -float 917504
-```
-
-## Add extra "eighths" sizing commands
-
-Commands for resizing to screen eighths are not available in the UI. This divides the screen up into a 4x2 grid.
-
-The key codes are:
-
-* topLeftEighth
-* topCenterLeftEighth
-* topCenterRightEighth
-* topRightEighth
-* bottomLeftEighth
-* bottomCenterLeftEighth
-* bottomCenterRightEighth
-* bottomRightEighth
-
-For example, the command for setting the top left eighth shortcut to `ctrl opt shift 1` would be:
-
-```bash
-defaults write com.serp.windowmanager topLeftEighth -dict-add keyCode -float 18 modifierFlags -float 917504
-```
 
 ## Add additional "thirds" sizing commands 
 
@@ -351,17 +274,6 @@ By default, windows touching the edge of the screen will keep those shared edges
 
 ```bash
 defaults write com.serp.windowmanager curtainChangeSize -int 2
-```
-
-## Make Smaller/Make Larger width only
-
-By default, "Make Smaller" and "Make Larger" change both, the window height and the window width. If you only want to change the window width without changing window height, configure shortcuts for the _largerWidth_ and _smallerWidth_ commands.
-
-For example, if you want to assign `ctrl option ]` to _largerWidth_ and `ctrl option [` to _smallerWidth_, the commands would be:
-
-```bash
-defaults write com.serp.windowmanager largerWidth -dict-add keyCode -float 30 modifierFlags -float 786432
-defaults write com.serp.windowmanager smallerWidth -dict-add keyCode -float 33 modifierFlags -float 786432
 ```
 
 ## Make Smaller/Make Larger height only
@@ -587,34 +499,6 @@ To disable it again:
 
 ```bash
 defaults write com.serp.windowmanager attemptMatchOnNextPrevDisplay -int 2
-```
-
-## Offset cycling position when overlapping another window
-
-When cycling through grid positions (sixths, eighths, ninths, twelfths, sixteenths, or quarters with quadrant cycling mode), the target position may land exactly on top of another window, hiding it completely. Enable this to apply a small offset when an overlap is detected, so you can see there's a window underneath.
-
-```bash
-defaults write com.serp.windowmanager cyclingOverlapOffset -bool true
-```
-
-The default offset is 11pt. To customize the offset size:
-
-```bash
-defaults write com.serp.windowmanager cyclingOverlapOffsetSize -float 16
-```
-
-By default, only one cascade layer is shown (the original window plus one offset). To allow more layers:
-
-```bash
-defaults write com.serp.windowmanager cyclingOverlapMaxCascade -int 3
-```
-
-## Show a badge with the stacked windows when hovering over a grid corner
-
-When multiple windows are stacked at the same grid position, resting the cursor on that position's top-left corner shows a small badge with the stack count and a list of the window names. Clicking a name brings that window forward.
-
-```bash
-defaults write com.serp.windowmanager stackBadge -bool true
 ```
 
 ## Move windows that can't fill the snap area to the edge

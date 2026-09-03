@@ -263,7 +263,7 @@ class WindowCalculationFactory {
     static let bottomRightSixteenthCalculation = BottomRightSixteenthCalculation()
     static let specificDisplayCalculation = SpecificDisplayCalculation()
 
-    static let calculationsByAction: [WindowAction: WindowCalculation] = [
+    private static let fullCalculationsByAction: [WindowAction: WindowCalculation] = [
      .leftHalf: leftHalfCalculation,
      .rightHalf: rightHalfCalculation,
      .maximize: maximizeCalculation,
@@ -383,4 +383,8 @@ class WindowCalculationFactory {
      .displayNine: specificDisplayCalculation
         //     .restore: nil
     ]
+
+    static let calculationsByAction = fullCalculationsByAction.filter {
+        !WindowAction.retiredExtras.contains($0.key)
+    }
 }

@@ -18,7 +18,6 @@ extension Notification.Name {
     static let updateAvailability = Notification.Name("updateAvailability")
     static let showAdditionalSizesInMenuChanged = Notification.Name("showAdditionalSizesInMenuChanged")
     static let shortcutRecording = Notification.Name("shortcutRecording")
-    static let stackBadgeChanged = Notification.Name("stackBadgeChanged")
 
     func post(
         center: NotificationCenter = NotificationCenter.default,

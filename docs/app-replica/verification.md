@@ -4,13 +4,13 @@ Status: **Window Manager local release candidate compiles; App Store signing, in
 
 ## Issue #9 local evidence
 
-- Full Debug test suite: 319 tests passed before the asset/release batch; final rerun is required after all changes.
-- Clean unsigned universal Release build: succeeded for arm64 and x86_64 at `/tmp/window-manager-issue9-release/Build/Products/Release/Window Manager.app`.
+- Final full Debug test suite: 273 tests passed after removing retired Extras-only implementation and tests.
+- Signed sandboxed universal Mac App Store archive and signed installer export succeeded at `/tmp/Window Manager.xcarchive` and `/tmp/WindowManagerAppStoreExport/Window Manager.pkg`.
 - Built identity: Window Manager 1.0 (1), `com.serp.windowmanager`, `windowmanager`, embedded `com.serp.windowmanager.launcher`.
 - Built privacy manifest: present and plist-valid.
 - Source and artifact forbidden searches: no Shortcut Coach identity, `com.knollsoft.*`, `XSYZ3E4B7D`, upstream appcast/update key, old candidate bundle ID, or old candidate display name.
 - Canonical metadata: `asc metadata validate --dir ./metadata --output table` reports 0 errors and 0 warnings.
-- Stage Manager and General → Extras UI/runtime wiring are absent; legacy keys are enumerated only for deletion and regression tests.
+- Stage Manager and General → Extras UI/registration/menu/URL/config wiring are absent; the retired calculation factory routes, stack badge, and overlap-offset implementations are removed. Legacy names remain only for deletion, decoding compatibility, and regression assertions.
 - Owner artwork hashes are enforced by `scripts/generate_brand_assets.sh`; legacy and layered icon catalogs compile.
 
 Evidence is under `docs/app-replica/evidence/issue-9/local/` and the asset package under `docs/app-replica/assets/window-manager/`.
@@ -23,7 +23,7 @@ macOS can clip third-party status items on crowded/notched menu bars and exposes
 
 ## Remaining gates
 
-- Mac App Store bundle-ID registration, Apple Distribution certificate, profiles, signed archive/export, upload, processing, strict validation, and submission.
+- App Store Connect app/version creation, upload, processing, strict validation, and submission. Bundle IDs, certificates, profiles, signed archive, and signed installer export are complete.
 - Exact signed `/Applications/Window Manager.app` install and menu-bar, Dock, shortcuts, settings, persistence, Accessibility, login-item, URL, config, quit/relaunch exercises.
 - Screenshots/accessibility trees from that exact artifact, including Settings without Stage Manager or Extras and SERP artwork in Finder/Dock/About/menu bar.
 - Sandbox compatibility for system-wide Accessibility window control.

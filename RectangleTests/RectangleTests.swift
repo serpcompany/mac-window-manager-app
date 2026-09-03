@@ -78,9 +78,6 @@ final class ShippingDefaultProfileTests: XCTestCase {
             XCTAssertEqual(userDefaults.dictionary(forKey: action.name)?.count, 0, action.name)
             XCTAssertNil(ShortcutCycle.shortcut(for: action, userDefaults: userDefaults), action.name)
         }
-        for defaultsKey in StackBadgeManager.defaultsKeys {
-            XCTAssertNil(userDefaults.object(forKey: defaultsKey), defaultsKey)
-        }
     }
 
     func testApplyStoresSnapAndGeneralProfile() throws {
@@ -128,14 +125,18 @@ final class ShippingDefaultProfileTests: XCTestCase {
             "stageSize", "dragFromStage", "alwaysAccountForStage",
             "widthStepSize", "showAdditionalSizesInMenu", "showEighthsInMenu",
             "cyclingOverlapOffset", "cyclingOverlapOffsetSize", "cyclingOverlapMaxCascade",
-            "stackBadge", "horizontalSplitRatio", "verticalSplitRatio"
-        ] + WindowAction.retiredExtras.map(\.name) + StackBadgeManager.defaultsKeys
+            "stackBadge", "toggleStackBadge", "halvesPreserveOtherAxisSize",
+            "horizontalSplitRatio", "verticalSplitRatio"
+        ] + WindowAction.retiredExtras.map(\.name)
         keys.forEach { userDefaults.set("legacy", forKey: $0) }
 
         ShippingDefaultProfile.removeRetiredFeatureDefaults(from: userDefaults)
 
         keys.forEach { XCTAssertNil(userDefaults.object(forKey: $0), $0) }
         XCTAssertTrue(Set(WindowAction.active).isDisjoint(with: WindowAction.retiredExtras))
+        WindowAction.retiredExtras.forEach {
+            XCTAssertNil(WindowCalculationFactory.calculationsByAction[$0], $0.name)
+        }
     }
 
     func testFreshInstallGateAppliesOnce() throws {
@@ -685,15 +686,6 @@ class ConfigImportTests: XCTestCase {
         XCTAssertNil(UserDefaults.standard.object(forKey: action.name))
     }
 
-    func testImportClearsOmittedStackBadgeShortcut() throws {
-        let defaultsKey = StackBadgeManager.toggleDefaultsKey
-        store(Shortcut(NSEvent.ModifierFlags.command.rawValue, 14), forKey: defaultsKey)
-
-        try loadConfig(shortcuts: [:])
-
-        XCTAssertNil(UserDefaults.standard.object(forKey: defaultsKey))
-    }
-
     func testImportAppliesSuppliedActiveShortcut() throws {
         let action = WindowAction.almostMaximize
         let importedShortcut = Shortcut(NSEvent.ModifierFlags.command.rawValue, 12)
@@ -760,385 +752,11 @@ class ConfigImportTests: XCTestCase {
     }
 }
 
-class StackBadgeGeometryTests: XCTestCase {
-
-    private let laptopFrame = CGRect(x: 0, y: 0, width: 2336, height: 1510)
-    // Real rig geometry: external 4K TVs with negative origins.
-    private let tvFrame = CGRect(x: -5212, y: 1510, width: 3840, height: 2160)
-
-    func testCornerCountMatchesUnionOfGridFractions() {
-        // Column fractions across all grids: 0, 1/4, 1/3, 1/2, 2/3, 3/4 (6 values).
-        // Row fractions are the same set. 6 x 6 = 36 unique corners.
-        let corners = StackBadgeGeometry.cornerPoints(in: laptopFrame)
-        XCTAssertEqual(corners.count, 36)
-    }
-
-    func testCoincidentCornersAreDeduplicated() {
-        // The half corner and the quarter corner at x = width/2 coincide;
-        // they must appear once, not once per grid.
-        let corners = StackBadgeGeometry.cornerPoints(in: laptopFrame)
-        let midTop = corners.filter { abs($0.x - 1168) < 1 && abs($0.y - 1510) < 1 }
-        XCTAssertEqual(midTop.count, 1)
-    }
-
-    func testScreenOriginIsACorner() {
-        let corners = StackBadgeGeometry.cornerPoints(in: laptopFrame)
-        XCTAssertTrue(corners.contains { abs($0.x - 0) < 1 && abs($0.y - 1510) < 1 },
-                      "top-left of the screen must be a corner")
-    }
-
-    func testFarEdgesAreNotCorners() {
-        // A cell's top-left can never sit on the right or bottom screen edge.
-        let corners = StackBadgeGeometry.cornerPoints(in: laptopFrame)
-        XCTAssertFalse(corners.contains { abs($0.x - laptopFrame.maxX) < 1 })
-        XCTAssertFalse(corners.contains { abs($0.y - laptopFrame.minY) < 1 })
-    }
-
-    func testNegativeOriginScreenCorners() {
-        let corners = StackBadgeGeometry.cornerPoints(in: tvFrame)
-        XCTAssertEqual(corners.count, 36)
-        XCTAssertTrue(corners.contains { abs($0.x - (-5212)) < 1 && abs($0.y - 3670) < 1 },
-                      "top-left corner of a negative-origin screen")
-        XCTAssertTrue(corners.contains { abs($0.x - (-5212 + 3840.0 / 3)) < 1 && abs($0.y - (3670 - 2160.0 / 3)) < 1 },
-                      "interior ninth corner on a negative-origin screen")
-    }
-
-    func testEmptyFrameYieldsNoCorners() {
-        XCTAssertTrue(StackBadgeGeometry.cornerPoints(in: .zero).isEmpty)
-        XCTAssertTrue(StackBadgeGeometry.cornerPoints(in: .null).isEmpty)
-    }
-
-    func testHoverZoneHitInsideZone() {
-        let corners = [CGPoint(x: 100, y: 500)]
-        // 20pt right, 20pt below (AppKit y down = minus y) - inside a 30pt zone.
-        let hit = StackBadgeGeometry.corner(near: CGPoint(x: 120, y: 480), in: corners, zone: 30)
-        XCTAssertEqual(hit, corners[0])
-    }
-
-    func testHoverZoneMissOutsideZone() {
-        let corners = [CGPoint(x: 100, y: 500)]
-        XCTAssertNil(StackBadgeGeometry.corner(near: CGPoint(x: 140, y: 480), in: corners, zone: 30))
-        // Above the corner is the neighboring cell - must not trigger.
-        XCTAssertNil(StackBadgeGeometry.corner(near: CGPoint(x: 110, y: 520), in: corners, zone: 30))
-        // Left of the corner is the neighboring cell - must not trigger.
-        XCTAssertNil(StackBadgeGeometry.corner(near: CGPoint(x: 80, y: 490), in: corners, zone: 30))
-    }
-
-    func testHoverZonePicksNearestOfTwoCandidates() {
-        let near = CGPoint(x: 100, y: 500)
-        let far = CGPoint(x: 90, y: 510)
-        let hit = StackBadgeGeometry.corner(near: CGPoint(x: 105, y: 495), in: [far, near], zone: 30)
-        XCTAssertEqual(hit, near)
-    }
-
-    // Regression: the cascade offset runs +x but UP in AX y (it's applied in
-    // AppKit coordinates and the y-axis flips), so clustering must accept
-    // origins above the anchor. Real-world origins from a two-window stack
-    // that the first implementation failed to count.
-    func testStackClusterAcceptsUpwardCascade() {
-        let origins = [CGPoint(x: 903, y: -2121), CGPoint(x: 892, y: -2110)]
-        let indices = StackBadgeGeometry.stackIndices(among: origins, cascadeRange: 15, tolerance: 4)
-        XCTAssertEqual(indices.count, 2)
-    }
-
-    // Regression: with maxCascade capped at 1, the second and third windows
-    // share an origin. All three belong to the stack.
-    func testStackClusterCountsCascadeCapSharedOrigins() {
-        let origins = [
-            CGPoint(x: 903, y: -2121),
-            CGPoint(x: 903, y: -2121),
-            CGPoint(x: 892, y: -2110)
-        ]
-        let indices = StackBadgeGeometry.stackIndices(among: origins, cascadeRange: 15, tolerance: 4)
-        XCTAssertEqual(indices.count, 3)
-    }
-
-    func testStackClusterExcludesUnrelatedNeighbor() {
-        // A window 30pt away from the anchor is a neighbor, not a stack member,
-        // even though a gap-widened candidate box may have caught it.
-        let origins = [CGPoint(x: 100, y: 100), CGPoint(x: 111, y: 89), CGPoint(x: 130, y: 130)]
-        let indices = StackBadgeGeometry.stackIndices(among: origins, cascadeRange: 15, tolerance: 4)
-        XCTAssertEqual(indices.sorted(), [0, 1])
-    }
-
-    func testStackClusterAcceptsDownwardCascade() {
-        // Edge clamping can flip the cascade direction locally; both must count.
-        let origins = [CGPoint(x: 100, y: 100), CGPoint(x: 111, y: 111)]
-        let indices = StackBadgeGeometry.stackIndices(among: origins, cascadeRange: 15, tolerance: 4)
-        XCTAssertEqual(indices.count, 2)
-    }
-
-    func testStackClusterEmptyInput() {
-        XCTAssertTrue(StackBadgeGeometry.stackIndices(among: [], cascadeRange: 15, tolerance: 4).isEmpty)
-    }
-
-
-
-
-
-    // Regression (review finding): an unrelated window that happens to be the
-    // leftmost candidate in the gap-widened box must not mask the real stack.
-    func testStackClusterLeftOutlierDoesNotMaskStack() {
-        let origins = [
-            CGPoint(x: 100, y: 105),   // unrelated leftmost outlier
-            CGPoint(x: 120, y: 100),   // buried
-            CGPoint(x: 131, y: 89)     // front (cascade +11, -11)
-        ]
-        let indices = StackBadgeGeometry.stackIndices(among: origins, cascadeRange: 15, tolerance: 4)
-        XCTAssertEqual(indices.sorted(), [1, 2])
-    }
-
-}
-
-/// The cascade math itself. Asserting the resulting rect matters: an earlier
-/// version of this feature was certified by a test that only checked an
-/// eligibility flag, while the offset it enabled was a no-op for anyone
-/// running the default of no gaps.
-class OverlapOffsetGeometryTests: XCTestCase {
-
-    private let screen = CGRect(x: 0, y: 0, width: 1000, height: 800)
-    private let offset: CGFloat = 11
-
-    private func cascade(_ rect: CGRect, occupied: [CGPoint], maxCascade: Int = 1) -> CGRect {
-        OverlapOffsetGeometry.cascadedRect(rect,
-                                           occupiedTopLefts: occupied,
-                                           screenFrame: screen,
-                                           offset: offset,
-                                           maxCascade: maxCascade)
-    }
-
-    /// A maximized window with no gaps fills the visible frame, so there is
-    /// nowhere to shift it - and the caller skips the window scan entirely.
-    func testMaximizedWithoutGapsCannotOffset() {
-        let maximized = screen
-        XCTAssertFalse(OverlapOffsetGeometry.canOffset(maximized, in: screen, by: offset))
-        XCTAssertEqual(cascade(maximized, occupied: [OverlapOffsetGeometry.topLeft(of: maximized)]),
-                       maximized)
-    }
-
-    /// Gaps larger than the offset leave room, so maximized windows cascade.
-    func testMaximizedWithGapsOffsets() {
-        let maximized = CGRect(x: 22, y: 22, width: 956, height: 756)
-        XCTAssertTrue(OverlapOffsetGeometry.canOffset(maximized, in: screen, by: offset))
-        XCTAssertEqual(cascade(maximized, occupied: [OverlapOffsetGeometry.topLeft(of: maximized)]),
-                       CGRect(x: 33, y: 33, width: 956, height: 756))
-    }
-
-    /// Gaps smaller than the offset must not shift the window part way: it
-    /// would end up flush against the far edges, deleting the gaps there.
-    func testGapsSmallerThanOffsetDoNotOffset() {
-        let maximized = CGRect(x: 5, y: 5, width: 990, height: 790)
-        XCTAssertFalse(OverlapOffsetGeometry.canOffset(maximized, in: screen, by: offset))
-        XCTAssertEqual(cascade(maximized, occupied: [OverlapOffsetGeometry.topLeft(of: maximized)]),
-                       maximized)
-    }
-
-    /// A half with no gaps has room across but not up, and still offsets on
-    /// the axis that fits - the behavior shipped in v0.96.
-    func testHalfOffsetsOnTheAxisWithRoom() {
-        let leftHalf = CGRect(x: 0, y: 0, width: 500, height: 800)
-        XCTAssertEqual(cascade(leftHalf, occupied: [OverlapOffsetGeometry.topLeft(of: leftHalf)]),
-                       CGRect(x: 11, y: 0, width: 500, height: 800))
-    }
-
-    func testNoOverlapLeavesTheRectAlone() {
-        let leftHalf = CGRect(x: 0, y: 0, width: 500, height: 800)
-        XCTAssertEqual(cascade(leftHalf, occupied: [CGPoint(x: 500, y: 800)]), leftHalf)
-    }
-
-    func testCascadeStopsAtMaxCascade() {
-        let quarter = CGRect(x: 0, y: 0, width: 400, height: 400)
-        let occupied = [CGPoint(x: 0, y: 400), CGPoint(x: 11, y: 411), CGPoint(x: 22, y: 422)]
-        XCTAssertEqual(cascade(quarter, occupied: occupied, maxCascade: 1).origin,
-                       CGPoint(x: 11, y: 11))
-        XCTAssertEqual(cascade(quarter, occupied: occupied, maxCascade: 3).origin,
-                       CGPoint(x: 33, y: 33))
-    }
-
-    /// Matching is by top-left corner, so a smaller window landing on a larger
-    /// one at the same corner counts as an overlap - an eighth arriving on a
-    /// quarter. Both sit against the top of the screen here, so the window
-    /// offsets across but not up.
-    func testMatchesMixedSizesAtTheSameCorner() {
-        let eighth = CGRect(x: 0, y: 600, width: 250, height: 200)
-        let quarterTopLeft = OverlapOffsetGeometry.topLeft(of: CGRect(x: 0, y: 400, width: 500, height: 400))
-        XCTAssertEqual(quarterTopLeft, OverlapOffsetGeometry.topLeft(of: eighth))
-        XCTAssertEqual(cascade(eighth, occupied: [quarterTopLeft]),
-                       CGRect(x: 11, y: 600, width: 250, height: 200))
-    }
-
-    func testCoversScreen() {
-        XCTAssertTrue(OverlapOffsetGeometry.coversScreen(screen, screenFrame: screen))
-        XCTAssertTrue(OverlapOffsetGeometry.coversScreen(CGRect(x: 22, y: 22, width: 956, height: 756),
-                                                         screenFrame: screen))
-        XCTAssertFalse(OverlapOffsetGeometry.coversScreen(CGRect(x: 0, y: 0, width: 500, height: 800),
-                                                          screenFrame: screen))
-    }
-}
-
-/// Which actions are eligible for the overlap offset. `positionCycles` alone
-/// excluded maximize, so two maximized windows landed exactly on top of each
-/// other. Eligibility is only half of it - whether an eligible window actually
-/// moves is covered by OverlapOffsetGeometryTests.
-class OverlapOffsetEligibilityTests: XCTestCase {
-
-    func testMaximizeGetsTheOffset() {
-        XCTAssertTrue(WindowAction.maximize.overlapOffsetApplies)
-    }
-
-    func testGridPositionsGetTheOffset() {
-        for action in [WindowAction.leftHalf, .topLeft, .topLeftSixth,
-                       .topLeftNinth, .topLeftEighth, .topLeftTwelfth, .topLeftSixteenth] {
-            XCTAssertTrue(action.overlapOffsetApplies, "\(action) should get the overlap offset")
-        }
-    }
-
-    /// Actions that move or resize in place have no "landed on top of
-    /// something" notion, so offsetting them would just displace the window.
-    func testMovesAndResizesDoNotGetTheOffset() {
-        for action in [WindowAction.center, .restore, .moveLeft, .moveRight, .moveUp, .moveDown,
-                       .larger, .smaller, .nextDisplay, .previousDisplay,
-                       .almostMaximize, .maximizeHeight, .tileAll, .cascadeAll] {
-            XCTAssertFalse(action.overlapOffsetApplies, "\(action) should not get the overlap offset")
-        }
-    }
-}
-
-/// The stacked-window list is driven by an event tap, so it decides which
-/// keystrokes to take from the app underneath. Taking the wrong ones would
-/// break typing system-wide while the list is open.
-class StackBadgeKeyHandlingTests: XCTestCase {
-
-    /// The flags macOS actually puts on an arrow keystroke. Every arrow event
-    /// carries them, so a test that passes an empty modifier set is asserting
-    /// against an event the system never delivers - which is exactly how a
-    /// guard that rejected .function shipped with the suite green.
-    private static let arrowFlags: NSEvent.ModifierFlags = [.function, .numericPad]
-
-    private func key(_ code: UInt16, _ modifiers: NSEvent.ModifierFlags = []) -> StackBadgeManager.NavigationKey? {
-        StackBadgeManager.navigationKey(forKeyCode: code, modifiers: modifiers)
-    }
-
-    func testNavigationKeysAreClaimed() {
-        XCTAssertEqual(key(UInt16(kVK_UpArrow), Self.arrowFlags), .up)
-        XCTAssertEqual(key(UInt16(kVK_DownArrow), Self.arrowFlags), .down)
-        XCTAssertEqual(key(UInt16(kVK_Return)), .commit)
-        XCTAssertEqual(key(UInt16(kVK_ANSI_KeypadEnter), .numericPad), .commit)
-        XCTAssertEqual(key(UInt16(kVK_Escape)), .escape)
-    }
-
-    /// Caps lock is not something the user is holding for this keystroke, and
-    /// a window list that stops navigating because caps lock is on would be
-    /// its own bug report.
-    func testCapsLockStillNavigates() {
-        XCTAssertEqual(key(UInt16(kVK_UpArrow), Self.arrowFlags.union(.capsLock)), .up)
-    }
-
-    func testOrdinaryKeysArePassedThrough() {
-        for code in [kVK_ANSI_A, kVK_ANSI_Q, kVK_Tab, kVK_Space, kVK_Delete, kVK_PageUp, kVK_Home] {
-            XCTAssertNil(key(UInt16(code)), "keyCode \(code) must reach the app underneath")
-        }
-        for code in [kVK_LeftArrow, kVK_RightArrow] {
-            XCTAssertNil(key(UInt16(code), Self.arrowFlags),
-                         "keyCode \(code) must reach the app underneath")
-        }
-    }
-
-    /// A held modifier means the keystroke belongs to the frontmost app. Shift
-    /// is included deliberately: shift-return inserts a newline in chat apps
-    /// and shift-arrow extends a selection, so claiming those would break
-    /// ordinary typing whenever the list happened to be open. The arrow cases
-    /// carry the flags macOS sends, so the modifier under test is the only
-    /// difference from a keystroke that must be claimed.
-    func testModifiedKeysArePassedThrough() {
-        for modifier in [NSEvent.ModifierFlags.command, .option, .control, .shift] {
-            for code in [kVK_UpArrow, kVK_DownArrow] {
-                XCTAssertNil(key(UInt16(code), Self.arrowFlags.union(modifier)),
-                             "arrow \(code) with \(modifier) must reach the app underneath")
-            }
-            for code in [kVK_Return, kVK_Escape] {
-                XCTAssertNil(key(UInt16(code), modifier),
-                             "keyCode \(code) with \(modifier) must reach the app underneath")
-            }
-        }
-        XCTAssertNil(key(UInt16(kVK_UpArrow), Self.arrowFlags.union([.command, .option])))
-        XCTAssertNil(key(UInt16(kVK_Return), [.shift]))
-    }
-
-    func testSelectionClampsAtBothEnds() {
-        XCTAssertEqual(StackBadgeManager.selection(from: 0, movedBy: -1, count: 4), 0)
-        XCTAssertEqual(StackBadgeManager.selection(from: 3, movedBy: 1, count: 4), 3)
-        XCTAssertEqual(StackBadgeManager.selection(from: 1, movedBy: 1, count: 4), 2)
-        XCTAssertEqual(StackBadgeManager.selection(from: 1, movedBy: -1, count: 4), 0)
-    }
-
-    func testSelectionWithNoRowsIsNil() {
-        XCTAssertNil(StackBadgeManager.selection(from: 0, movedBy: 1, count: 0))
-    }
-
-    /// Rows that would be clipped are never built, so the arrow keys can't
-    /// select - and Return can't raise - a window with no visible row.
-    func testRowsThatFitIsBoundedByTheScreenBottom() {
-        XCTAssertEqual(StackBadgeManager.rowsThatFit(below: 500, above: 0), 22)
-        XCTAssertEqual(StackBadgeManager.rowsThatFit(below: 60, above: 0), 2)
-        XCTAssertEqual(StackBadgeManager.rowsThatFit(below: 10, above: 0), 0)
-        XCTAssertEqual(StackBadgeManager.rowsThatFit(below: 0, above: 100), 0)
-    }
-}
-
-/// Which windows at a shared corner count as one stack. A window covering the
-/// screen shares its corner with every half and corner placement, so it can
-/// only join a stack, never create one - otherwise an everyday layout (one
-/// maximized window, one tiled to the left half) reads as a stack of two.
-/// Size plays no part in stack membership. A window pegged to the corner is in
-/// the stack whether it is maximized or a sixteenth - and a maximized window
-/// sitting on a smaller one is the case where the smaller window cannot be
-/// seen any other way, which is what the list exists to reveal.
-///
 /// The list briefly excluded screen-covering windows, borrowed from the
 /// overlap offset where the exclusion is necessary (a maximized window shares
 /// its origin with every placement and would otherwise shift them all, #1766).
 /// The list moves nothing, so it never needed it, and the exclusion made a
 /// maximized window over a half-screen window show no list at all.
-class StackBadgeSizeAgnosticTests: XCTestCase {
-
-    private let corner = CGPoint(x: 0, y: 0)
-    private let cascaded = CGPoint(x: 11, y: -11)
-
-    private func stack(_ origins: [CGPoint]) -> [Int] {
-        StackBadgeGeometry.stackIndices(among: origins, cascadeRange: 15, tolerance: 4)
-    }
-
-    /// The reported case: one maximized window over one half-screen window,
-    /// both pegged to the same corner, showed nothing at all.
-    func testMaximizedOverTiledIsAStack() {
-        XCTAssertEqual(stack([corner, corner]).sorted(), [0, 1])
-    }
-
-    /// The maximized windows carry the overlap offset, so they sit a cascade
-    /// step forward of the tiled window they hide.
-    func testOffsetMaximizedWindowsStillIncludeTheTiledOneBeneath() {
-        XCTAssertEqual(stack([cascaded, cascaded, corner]).sorted(), [0, 1, 2])
-    }
-
-    func testSeveralMaximizedWindowsAreAStack() {
-        XCTAssertEqual(stack([corner, cascaded]).count, 2)
-    }
-
-    func testTiledStackIsUnaffected() {
-        XCTAssertEqual(stack([corner, cascaded]).count, 2)
-    }
-
-    /// This returns the densest cluster, which for a single window is that
-    /// window; the caller is what requires two before showing anything.
-    func testLoneWindowIsItsOwnClusterAndTheCallerRejectsIt() {
-        XCTAssertEqual(stack([corner]), [0])
-    }
-
-    func testWindowAtAnotherCornerIsNotInTheCluster() {
-        XCTAssertEqual(stack([corner, CGPoint(x: 900, y: 0)]).count, 1)
-    }
-}
 
 class ChangeSizeCalculationTests: XCTestCase {
     private let visibleFrame = CGRect(x: 0, y: 0, width: 2560, height: 1415)
@@ -3764,84 +3382,6 @@ class HalfSplitCornerCalculationTests: XCTestCase {
     }
 }
 
-class OverlapOffsetGuardsTests: XCTestCase {
-
-    func testMaxCascadeClampedToMinOne() {
-        let result = min(5, max(1, 0))
-        XCTAssertEqual(result, 1)
-    }
-
-    func testMaxCascadeClampedToMaxFive() {
-        let result = min(5, max(1, 999))
-        XCTAssertEqual(result, 5)
-    }
-
-    func testMaxCascadeNegativeClampsToOne() {
-        let result = min(5, max(1, -10))
-        XCTAssertEqual(result, 1)
-    }
-
-    func testMaxCascadeNormalValuePassesThrough() {
-        let result = min(5, max(1, 3))
-        XCTAssertEqual(result, 3)
-    }
-
-    func testOffsetClampingKeepsRectInScreen() {
-        let screenFrame = CGRect(x: 0, y: 0, width: 2336, height: 1466)
-        var candidate = CGRect(x: 2300, y: 1400, width: 400, height: 300)
-        let overlapOffset: CGFloat = 11
-
-        candidate.origin.x += overlapOffset
-        candidate.origin.y += overlapOffset
-
-        if candidate.origin.x + candidate.width > screenFrame.maxX {
-            candidate.origin.x = screenFrame.maxX - candidate.width
-        }
-        if candidate.origin.y + candidate.height > screenFrame.maxY {
-            candidate.origin.y = screenFrame.maxY - candidate.height
-        }
-        if candidate.origin.x < screenFrame.origin.x {
-            candidate.origin.x = screenFrame.origin.x
-        }
-        if candidate.origin.y < screenFrame.origin.y {
-            candidate.origin.y = screenFrame.origin.y
-        }
-
-        XCTAssertLessThanOrEqual(candidate.origin.x + candidate.width, screenFrame.maxX)
-        XCTAssertLessThanOrEqual(candidate.origin.y + candidate.height, screenFrame.maxY)
-        XCTAssertGreaterThanOrEqual(candidate.origin.x, screenFrame.origin.x)
-        XCTAssertGreaterThanOrEqual(candidate.origin.y, screenFrame.origin.y)
-    }
-
-    func testOffsetClampingWithNegativeScreenOrigin() {
-        let screenFrame = CGRect(x: -1372, y: 1510, width: 3840, height: 2160)
-        var candidate = CGRect(x: -1372, y: 1510, width: 960, height: 540)
-        let overlapOffset: CGFloat = 11
-
-        candidate.origin.x += overlapOffset
-        candidate.origin.y += overlapOffset
-
-        if candidate.origin.x + candidate.width > screenFrame.maxX {
-            candidate.origin.x = screenFrame.maxX - candidate.width
-        }
-        if candidate.origin.y + candidate.height > screenFrame.maxY {
-            candidate.origin.y = screenFrame.maxY - candidate.height
-        }
-        if candidate.origin.x < screenFrame.origin.x {
-            candidate.origin.x = screenFrame.origin.x
-        }
-        if candidate.origin.y < screenFrame.origin.y {
-            candidate.origin.y = screenFrame.origin.y
-        }
-
-        XCTAssertLessThanOrEqual(candidate.origin.x + candidate.width, screenFrame.maxX)
-        XCTAssertLessThanOrEqual(candidate.origin.y + candidate.height, screenFrame.maxY)
-        XCTAssertGreaterThanOrEqual(candidate.origin.x, screenFrame.origin.x)
-        XCTAssertGreaterThanOrEqual(candidate.origin.y, screenFrame.origin.y)
-        XCTAssertEqual(candidate.origin.x, -1372 + 11, accuracy: 0.001)
-        XCTAssertEqual(candidate.origin.y, 1510 + 11, accuracy: 0.001)
-    }
-}
 
 class SnappingManagerSessionTests: XCTestCase {
 

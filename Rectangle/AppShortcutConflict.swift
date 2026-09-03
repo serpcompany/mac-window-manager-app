@@ -16,19 +16,12 @@ struct AppShortcutConflict {
             return AppShortcutConflict(shortcutName: action.displayName ?? action.name)
         }
 
-        for defaultsKey in StackBadgeManager.defaultsKeys where defaultsKey != ignoredDefaultsKey {
-            guard let appShortcut = ShortcutCycle.shortcut(forDefaultsKey: defaultsKey, userDefaults: userDefaults),
-                  ShortcutCycle.ShortcutIdentity(appShortcut) == identity
-            else { continue }
-            return AppShortcutConflict(shortcutName: displayName(forDefaultsKey: defaultsKey))
-        }
-
         return nil
     }
 
     @discardableResult
     static func removeDuplicateAssignments(userDefaults: UserDefaults = .standard) -> [String] {
-        let orderedDefaultsKeys = WindowAction.active.map(\.name) + StackBadgeManager.defaultsKeys
+        let orderedDefaultsKeys = WindowAction.active.map(\.name)
         var seen = Set<ShortcutCycle.ShortcutIdentity>()
         var removed = [String]()
 
@@ -45,14 +38,6 @@ struct AppShortcutConflict {
         return removed
     }
 
-    private static func displayName(forDefaultsKey defaultsKey: String) -> String {
-        switch defaultsKey {
-        case StackBadgeManager.toggleDefaultsKey:
-            return NSLocalizedString("Toggle stacked window badge", tableName: "Main", value: "Toggle stacked window badge", comment: "")
-        default:
-            return defaultsKey
-        }
-    }
 }
 
 class AppShortcutValidator: MASShortcutValidator {

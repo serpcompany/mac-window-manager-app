@@ -3,8 +3,7 @@
 The local candidate identity and metadata scaffold are prepared, but submission remains blocked. Do not infer or fabricate these owner/account facts:
 
 - App Store Connect app ID, app-info ID, macOS version ID, uploaded build ID, and submission ID.
-- A registered `com.serp.windowmanager` identifier and `com.serp.windowmanager.launcher` helper identifier under team `847HR8U8D9`.
-- Mac App Store provisioning profiles for both identifiers. A valid local Apple Distribution identity for team `847HR8U8D9` exists, but the local profile audit found no profile whose application identifier contains `windowmanager`.
+- Signed archive/export and installed sandbox-runtime verification. The main and launcher bundle identifiers and Mac App Store profiles are registered under team `847HR8U8D9`; profile IDs are recorded in Issue #9.
 - Seller/legal entity and copyright text.
 - Public support URL and privacy-policy URL.
 - App Privacy questionnaire answers confirmed by the owner. The source audit currently finds local preferences and no candidate analytics, advertising, sign-in, or updater service; this is not authority to answer App Store Connect legal attestations.

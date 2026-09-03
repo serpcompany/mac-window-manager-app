@@ -1,2 +1,3 @@
 Source forbidden identity search
-PASS: no forbidden identity in release source/configuration
+PASS: no forbidden identity in product source or build configuration.
+The release-verification script retains deny-list literals solely to reject forbidden material from built artifacts; frozen reference-scope documentation separately records the upstream oracle identity.

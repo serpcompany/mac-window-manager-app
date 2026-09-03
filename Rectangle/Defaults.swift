@@ -62,7 +62,6 @@ struct ShippingDefaultProfile {
     /// manually-created domain whose version marker happens to be absent.
     static var candidatePresenceKeys: [String] {
         WindowAction.active.map(\.name)
-            + StackBadgeManager.defaultsKeys
             + [
                 "lastVersion", "installVersion", "launchOnLogin", "hideMenubarIcon",
                 "shippingDefaultProfileVersion",
@@ -97,7 +96,6 @@ struct ShippingDefaultProfile {
         }
 
         let allShortcutKeys = WindowAction.active.map(\.name)
-            + StackBadgeManager.defaultsKeys
         allShortcutKeys.forEach { userDefaults.removeObject(forKey: $0) }
         intentionallyUnassignedWindowActions.forEach { userDefaults.set([String: Any](), forKey: $0.name) }
 
@@ -169,9 +167,10 @@ struct ShippingDefaultProfile {
             "stageSize", "dragFromStage", "alwaysAccountForStage",
             "widthStepSize", "showAdditionalSizesInMenu", "showEighthsInMenu",
             "cyclingOverlapOffset", "cyclingOverlapOffsetSize", "cyclingOverlapMaxCascade",
-            "stackBadge", "horizontalSplitRatio", "verticalSplitRatio"
+            "stackBadge", "toggleStackBadge", "halvesPreserveOtherAxisSize",
+            "horizontalSplitRatio", "verticalSplitRatio"
         ]
-        (retiredPreferenceKeys + WindowAction.retiredExtras.map(\.name) + StackBadgeManager.defaultsKeys)
+        (retiredPreferenceKeys + WindowAction.retiredExtras.map(\.name))
             .forEach { userDefaults.removeObject(forKey: $0) }
     }
 
@@ -243,10 +242,6 @@ class Defaults {
     static let attemptMatchOnNextPrevDisplay = OptionalBoolDefault(key: "attemptMatchOnNextPrevDisplay")
     static let altThirdCycle = OptionalBoolDefault(key: "altThirdCycle")
     static let centerHalfCycles = OptionalBoolDefault(key: "centerHalfCycles")
-    static let cyclingOverlapOffset = OptionalBoolDefault(key: "cyclingOverlapOffset")
-    static let cyclingOverlapOffsetSize = FloatDefault(key: "cyclingOverlapOffsetSize", defaultValue: 11)
-    static let cyclingOverlapMaxCascade = IntDefault(key: "cyclingOverlapMaxCascade", defaultValue: 1)
-    static let stackBadge = OptionalBoolDefault(key: "stackBadge")
     static let fullIgnoreBundleIds = JSONDefault<[String]>(key: "fullIgnoreBundleIds")
     static let notifiedOfProblemApps = BoolDefault(key: "notifiedOfProblemApps")
     static let specifiedHeight = FloatDefault(key: "specifiedHeight", defaultValue: 1050)

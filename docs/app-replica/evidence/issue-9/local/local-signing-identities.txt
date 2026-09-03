@@ -4,4 +4,7 @@
   4) E5C5FA9612310BB6FC74471B62BEE2DB4B48C313 "ClipyClone Local Development"
   5) C59F5666E6BFEFA4F37D4AAF96E8D14847FBAD11 "Developer ID Application: Matthew Schumacher (847HR8U8D9)"
   6) C59F5666E6BFEFA4F37D4AAF96E8D14847FBAD11 "Developer ID Application: Matthew Schumacher (847HR8U8D9)"
-     6 valid identities found
+     6 valid code-signing identities found
+
+Installer signing identity:
+  82347BB5FB4E159ED3719A6B7698968E83F41AFC "3rd Party Mac Developer Installer: Matthew Schumacher (847HR8U8D9)"
