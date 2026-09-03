@@ -30,7 +30,7 @@ class MoveLeftRightCalculation: WindowCalculation, RepeatedExecutionsInThirdsCal
                 action = .moveLeft
             }
             
-            rectResult = calculateRect(params.asRectParams(visibleFrame: screen.adjustedVisibleFrame(params.ignoreTodo), differentAction: action))
+            rectResult = calculateRect(params.asRectParams(visibleFrame: screen.adjustedVisibleFrame(), differentAction: action))
         } else {
             rectResult = calculateRect(params.asRectParams())
         }
@@ -91,4 +91,3 @@ class MoveLeftRightCalculation: WindowCalculation, RepeatedExecutionsInThirdsCal
     }
     
 }
-

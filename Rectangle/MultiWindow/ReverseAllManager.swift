@@ -17,7 +17,6 @@ class ReverseAllManager {
 
         for w in windows {
             let wScreen = sd.detectScreens(using: w)?.currentScreen
-            if Defaults.todo.userEnabled && TodoManager.isTodoWindow(w) { continue }
             if wScreen == currentScreen {
                 reverseWindowPosition(w, screenFrame: screenFrame)
             }

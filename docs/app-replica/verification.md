@@ -39,7 +39,7 @@ The first Release archive exposed a real Team-ID mismatch between an ad-hoc app 
 - Candidate-owned update infrastructure is intentionally absent.
 - No independent verifier was authorized, so the completion gate remains red.
 - Issue #4's screenshot-defined shipping profile is implemented and source-tested on its issue branch, but the signed issue-branch artifact has not yet replaced the installed app and its manual action matrix has not been exercised.
-- The first installed reset exposed stale Todo recorder modifiers and Snap Areas toggles that did not refresh. Both defects are repaired and covered at their UI-adjacent seams; the replacement signed build still needs installed readback.
+- The first installed reset exposed stale Todo recorder modifiers and Snap Areas toggles that did not refresh. The Snap Areas refresh defect is repaired and covered at its UI-adjacent seam. Todo Mode was later removed from scope by the owner and its UI, shortcuts, menu commands, layout behavior, and persistence are absent from the candidate.
 - **HIGH-PRIORITY UNRESOLVED TODO:** the candidate Settings UI visibly differs from `/Applications/Rectangle.app`. Exhaustively audit every Settings screen/state/control with paired same-geometry screenshots, accessibility trees, interactions, side effects, and relaunch persistence before making any Settings or clone-parity claim.
 
 ## Runtime defects found during installed testing

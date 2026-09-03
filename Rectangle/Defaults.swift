@@ -39,9 +39,7 @@ struct ShippingDefaultProfile {
         WindowAction.topRightSixth.name: Shortcut(1_966_080, 22),
         WindowAction.bottomLeftSixth.name: Shortcut(1_966_080, 26),
         WindowAction.bottomCenterSixth.name: Shortcut(1_966_080, 28),
-        WindowAction.bottomRightSixth.name: Shortcut(1_966_080, 25),
-        TodoManager.toggleDefaultsKey: Shortcut(1_048_576, 11),
-        TodoManager.reflowDefaultsKey: Shortcut(786_432, 45)
+        WindowAction.bottomRightSixth.name: Shortcut(1_966_080, 25)
     ]
 
     static let landscapeSnapAreas: [Directional: SnapAreaConfig] = [
@@ -64,7 +62,6 @@ struct ShippingDefaultProfile {
     /// manually-created domain whose version marker happens to be absent.
     static var candidatePresenceKeys: [String] {
         WindowAction.active.map(\.name)
-            + TodoManager.defaultsKeys
             + StackBadgeManager.defaultsKeys
             + [
                 "lastVersion", "installVersion", "launchOnLogin", "hideMenubarIcon",
@@ -73,8 +70,7 @@ struct ShippingDefaultProfile {
                 "unsnapRestore", "footprintAnimationDurationMultiplier",
                 "hapticFeedbackOnSnap", "landscapeSnapAreas", "portraitSnapAreas",
                 "gapSize", "skipGapTopEdge", "moveCursorAcrossDisplays",
-                "doubleClickTitleBar", "greenButtonOverride", "todo",
-                "todoSidebarWidth", "todoSidebarWidthUnit", "todoSidebarSide", "stageSize"
+                "doubleClickTitleBar", "greenButtonOverride", "stageSize"
             ]
     }
 
@@ -101,7 +97,6 @@ struct ShippingDefaultProfile {
         }
 
         let allShortcutKeys = WindowAction.active.map(\.name)
-            + TodoManager.defaultsKeys
             + StackBadgeManager.defaultsKeys
         allShortcutKeys.forEach { userDefaults.removeObject(forKey: $0) }
         intentionallyUnassignedWindowActions.forEach { userDefaults.set([String: Any](), forKey: $0.name) }
@@ -125,10 +120,6 @@ struct ShippingDefaultProfile {
         userDefaults.set(1, forKey: "moveCursorAcrossDisplays")
         userDefaults.set(0, forKey: "doubleClickTitleBar")
         userDefaults.set(true, forKey: "greenButtonOverride")
-        userDefaults.set(1, forKey: "todo")
-        userDefaults.set(Float(400), forKey: "todoSidebarWidth")
-        userDefaults.set(TodoSidebarWidthUnit.pixels.rawValue, forKey: "todoSidebarWidthUnit")
-        userDefaults.set(TodoSidebarSide.right.rawValue, forKey: "todoSidebarSide")
         userDefaults.set(Float(190), forKey: "stageSize")
         storeJSON(landscapeSnapAreas, forKey: "landscapeSnapAreas", in: userDefaults)
         storeJSON(portraitSnapAreas, forKey: "portraitSnapAreas", in: userDefaults)
@@ -154,10 +145,6 @@ struct ShippingDefaultProfile {
         Defaults.moveCursorAcrossDisplays.enabled = true
         Defaults.doubleClickTitleBar.value = 0
         Defaults.greenButtonOverride.enabled = true
-        Defaults.todo.enabled = true
-        Defaults.todoSidebarWidth.value = 400
-        Defaults.todoSidebarWidthUnit.value = .pixels
-        Defaults.todoSidebarSide.value = .right
         Defaults.stageSize.value = 190
         Defaults.landscapeSnapAreas.typedValue = landscapeSnapAreas
         Defaults.portraitSnapAreas.typedValue = portraitSnapAreas
@@ -168,6 +155,14 @@ struct ShippingDefaultProfile {
         guard apply(to: .standard) else { return false }
         synchronizeStandardDefaults()
         return true
+    }
+
+    /// Delete persistence left by builds that shipped Rectangle's optional Todo Mode.
+    static func removeRetiredTodoDefaults(from userDefaults: UserDefaults = .standard) {
+        [
+            "todo", "todoMode", "todoApplication", "todoSidebarWidth",
+            "todoSidebarWidthUnit", "todoSidebarSide", "toggleTodo", "reflowTodo"
+        ].forEach { userDefaults.removeObject(forKey: $0) }
     }
 
     private static func storeJSON<T: Encodable>(_ value: T, forKey key: String, in userDefaults: UserDefaults) {
@@ -234,12 +229,6 @@ class Defaults {
     static let footprintFade = OptionalBoolDefault(key: "footprintFade")
     static let footprintColor = JSONDefault<CodableColor>(key: "footprintColor")
     static let SUEnableAutomaticChecks = BoolDefault(key: "SUEnableAutomaticChecks")
-    static let todo = OptionalBoolDefault(key: "todo")
-    static let todoMode = BoolDefault(key: "todoMode")
-    static let todoApplication = StringDefault(key: "todoApplication")
-    static let todoSidebarWidth = FloatDefault(key: "todoSidebarWidth", defaultValue: 400)
-    static let todoSidebarWidthUnit = IntEnumDefault<TodoSidebarWidthUnit>(key: "todoSidebarWidthUnit", defaultValue: .pixels)
-    static let todoSidebarSide = IntEnumDefault<TodoSidebarSide>(key: "todoSidebarSide", defaultValue: .right)
     static let snapModifiers = IntDefault(key: "snapModifiers")
     static let attemptMatchOnNextPrevDisplay = OptionalBoolDefault(key: "attemptMatchOnNextPrevDisplay")
     static let altThirdCycle = OptionalBoolDefault(key: "altThirdCycle")
@@ -337,12 +326,6 @@ class Defaults {
         footprintFade,
         footprintColor,
         SUEnableAutomaticChecks,
-        todo,
-        todoMode,
-        todoApplication,
-        todoSidebarWidth,
-        todoSidebarWidthUnit,
-        todoSidebarSide,
         snapModifiers,
         attemptMatchOnNextPrevDisplay,
         altThirdCycle,

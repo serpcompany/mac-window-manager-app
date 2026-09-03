@@ -34,5 +34,6 @@ Status is deliberately red until each row is exercised against the frozen source
 | packaging.identity | Built/installed app | Product name, bundle ID, URL scheme, signature, assets, credits | untested |
 | app.presence.dock | Installed app, default launch | Dock and Command-Tab presence; Dock reopen path | pass |
 | app.presence.menu-status | Installed app, crowded menu bar | Create visible labeled status item and survive relaunch | unresolved: Control Center clips third-party item |
+| feature.todo-mode | Owner-approved product difference | Todo UI, menu commands, shortcuts, layout behavior, and persisted settings are excluded; stale candidate keys are removed on launch | excluded — approved 2026-09-04; installed absence verified |
 
 The completion manifest is the machine-readable authority. This table is the human review surface and will expand when a newly reachable state is discovered.

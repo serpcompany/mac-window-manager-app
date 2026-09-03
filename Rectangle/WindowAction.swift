@@ -75,8 +75,6 @@ enum WindowAction: Int, Codable {
          bottomRightEighth = 65,
          tileAll = 66,
          cascadeAll = 67,
-         leftTodo = 68,
-         rightTodo = 69,
          cascadeActiveApp = 70,
          centerProminently = 71,
          doubleHeightUp = 72,
@@ -165,7 +163,6 @@ enum WindowAction: Int, Codable {
                          doubleHeightUp, doubleHeightDown, doubleWidthLeft, doubleWidthRight,
                          halveHeightUp, halveHeightDown, halveWidthLeft, halveWidthRight,
                          tileAll, cascadeAll,
-                         leftTodo, rightTodo,
                          cascadeActiveApp, tileActiveApp,
                          displayOne, displayTwo, displayThree, displayFour, displayFive,
                          displaySix, displaySeven, displayEight, displayNine
@@ -277,8 +274,6 @@ enum WindowAction: Int, Codable {
         case .halveWidthRight: return "halveWidthRight"
         case .tileAll: return "tileAll"
         case .cascadeAll: return "cascadeAll"
-        case .leftTodo: return "leftTodo"
-        case .rightTodo: return "rightTodo"
         case .cascadeActiveApp: return "cascadeActiveApp"
         case .tileActiveApp: return "tileActiveApp"
         case .centerProminently: return "centerProminently"
@@ -540,7 +535,7 @@ enum WindowAction: Int, Codable {
             value = "Bottom Right Eighth"
         case .doubleHeightUp, .doubleHeightDown, .doubleWidthLeft, .doubleWidthRight, .halveHeightUp, .halveHeightDown, .halveWidthLeft, .halveWidthRight:
             return nil
-        case .specified, .reverseAll, .tileAll, .cascadeAll, .leftTodo, .rightTodo, .cascadeActiveApp, .tileActiveApp:
+        case .specified, .reverseAll, .tileAll, .cascadeAll, .cascadeActiveApp, .tileActiveApp:
             return nil
         case .centerProminently, .largerWidth, .smallerWidth, .largerHeight, .smallerHeight:
             return nil
@@ -808,8 +803,6 @@ enum WindowAction: Int, Codable {
         case .specified, .reverseAll: return NSImage()
         case .tileAll: return NSImage()
         case .cascadeAll: return NSImage()
-        case .leftTodo: return NSImage()
-        case .rightTodo: return NSImage()
         case .cascadeActiveApp: return NSImage()
         case .tileActiveApp: return NSImage()
         case .centerProminently: return NSImage()
@@ -892,7 +885,6 @@ enum WindowAction: Int, Codable {
             .bottomLeftSixteenth, .bottomCenterLeftSixteenth, .bottomCenterRightSixteenth, .bottomRightSixteenth,
              .doubleHeightUp, .doubleHeightDown, .doubleWidthLeft, .doubleWidthRight,
              .halveHeightUp, .halveHeightDown, .halveWidthLeft, .halveWidthRight,
-            .leftTodo, .rightTodo,
             .topVerticalThird, .middleVerticalThird, .bottomVerticalThird, .topVerticalTwoThirds, .bottomVerticalTwoThirds:
             return .both
         case .moveUp, .moveDown:
@@ -923,7 +915,6 @@ enum WindowAction: Int, Codable {
              .doubleHeightUp, .doubleHeightDown, .doubleWidthLeft, .doubleWidthRight,
              .halveHeightUp, .halveHeightDown, .halveWidthLeft, .halveWidthRight,
              .reverseAll, .tileAll, .cascadeAll, .cascadeActiveApp, .tileActiveApp,
-             .leftTodo, .rightTodo,
              .specified:
             return false
         default:
@@ -1085,10 +1076,7 @@ enum SubWindowAction {
     bottomCenterRightSixteenth,
     bottomRightSixteenth,
 
-    maximize,
-    
-    leftTodo,
-    rightTodo
+    maximize
 
     var gapSharedEdge: Edge {
         switch self {
@@ -1192,8 +1180,6 @@ enum SubWindowAction {
         case .bottomCenterRightSixteenth: return [.left, .top, .right]
         case .bottomRightSixteenth: return [.left, .top]
         case .maximize: return .none
-        case .leftTodo: return .right
-        case .rightTodo: return .left
         }
     }
 }

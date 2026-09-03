@@ -10,7 +10,6 @@ The preferences window is purposefully slim, but there's a lot that can be modif
 - [Resize on Directional Move](#resize-on-directional-move)
 - [Make the half actions tile like Windows or KDE](#make-the-half-actions-tile-like-windows-or-kde)
 - [Adjust macOS Ventura Stage Manager size](#adjust-macos-ventura-stage-manager-size)
-- [Enable Todo Mode](#enable-todo-mode)
 - [Only allow drag-to-snap when modifier keys are pressed](#only-allow-drag-to-snap-when-modifier-keys-are-pressed)
 - [Almost Maximize](#almost-maximize)
 - [Add an extra centering command with custom size](#add-an-extra-centering-command-with-custom-size)
@@ -116,14 +115,6 @@ To set it to a proportion of your screen's width, set it to a value between 0 an
 
 ```bash
 defaults write co.serp.rectangleclone stageSize -float <VALUE_BETWEEN_0_AND_1>
-```
-
-## Enable Todo Mode
-
-See the [wiki](https://github.com/rxhanson/Rectangle/wiki/Todo-Mode) for more info.
-
-```bash
-defaults write co.serp.rectangleclone todo -int 1
 ```
 
 ## Only allow drag-to-snap when modifier keys are pressed

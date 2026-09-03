@@ -19,13 +19,6 @@ class SettingsViewController: NSViewController {
     @IBOutlet weak var cursorAcrossCheckbox: NSButton!
     @IBOutlet weak var useCursorScreenDetectionCheckbox: NSButton!
     @IBOutlet weak var doubleClickTitleBarCheckbox: NSButton!
-    @IBOutlet weak var todoCheckbox: NSButton!
-    @IBOutlet weak var todoView: NSStackView!
-    @IBOutlet weak var todoAppWidthField: AutoSaveFloatField!
-    @IBOutlet weak var todoAppWidthUnitPopUpButton: NSPopUpButton!
-    @IBOutlet weak var todoAppSidePopUpButton: NSPopUpButton!
-    @IBOutlet weak var toggleTodoShortcutView: MASShortcutView!
-    @IBOutlet weak var reflowTodoShortcutView: MASShortcutView!
     @IBOutlet weak var stageView: NSStackView!
     @IBOutlet weak var stageSlider: NSSlider!
     @IBOutlet weak var stageLabel: NSTextField!
@@ -34,11 +27,8 @@ class SettingsViewController: NSViewController {
 
     @IBOutlet var cycleSizesViewHeightConstraint: NSLayoutConstraint!
 
-    @IBOutlet var todoViewHeightConstraint: NSLayoutConstraint!
-
     @IBOutlet weak var extraSettingsButton: NSButton!
 
-    private var aboutTodoWindowController: NSWindowController?
     private var extraSettingsPopover: NSPopover?
     private let shortcutRecordingObserver = ShortcutRecordingObserver()
     
@@ -192,50 +182,6 @@ class SettingsViewController: NSViewController {
         Defaults.halvesPreserveOtherAxisSize.enabled = sender.state == .on
     }
 
-    @IBAction func toggleTodoMode(_ sender: NSButton) {
-        let newSetting: Bool = sender.state == .on
-        Defaults.todo.enabled = newSetting
-        showHideTodoModeSettings(animated: true)
-        Notification.Name.todoMenuToggled.post()
-    }
-    
-    @IBAction func showTodoModeHelp(_ sender: Any) {
-        if aboutTodoWindowController == nil {
-            aboutTodoWindowController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "AboutTodoWindowController") as? NSWindowController
-        }
-        NSApp.activate(ignoringOtherApps: true)
-        aboutTodoWindowController?.showWindow(self)
-    }
-    
-    @IBAction func setTodoWidthUnit(_ sender: NSPopUpButton) {
-        let tag = sender.selectedTag()
-        guard let unit = TodoSidebarWidthUnit(rawValue: tag) else {
-            Logger.log("Expected a pop up button to have a selected item with a valid tag matching a value of TodoSidebarWidthUnit. Got: \(String(describing: tag))")
-            return
-        }
-        Defaults.todoSidebarWidthUnit.value = unit
-        
-        TodoManager.refreshTodoScreen()
-        
-        TodoManager.changeSidebarWidthUnit(to: unit)
-
-        todoAppWidthField.stringValue = "\(Defaults.todoSidebarWidth.value)"
-
-        TodoManager.moveAllIfNeeded(false)
-    }
-    
-    @IBAction func setTodoAppSide(_ sender: NSPopUpButton) {
-        let tag = sender.selectedTag()
-        guard let side = TodoSidebarSide(rawValue: tag) else {
-            Logger.log("Expected a pop up button to have a selected item with a valid tag matching a value of TodoSidebarSide. Got: \(String(describing: tag))")
-            return
-        }
-
-        Defaults.todoSidebarSide.value = side
-        
-        TodoManager.moveAllIfNeeded(false)
-    }
-    
     @IBAction func stageSliderChanged(_ sender: NSSlider) {
         stageLabel.stringValue = "\(sender.intValue) px"
         if let event = NSApp.currentEvent {
@@ -259,9 +205,7 @@ class SettingsViewController: NSViewController {
         )
         guard response == .alertFirstButtonReturn else { return }
 
-        disconnectTodoShortcutViewsForDefaultsReset()
         guard ShippingDefaultProfile.applyToStandardDefaults() else {
-            connectTodoShortcutViewsToDefaults()
             AlertUtil.oneButtonAlert(
                 question: "Unable to Restore Defaults",
                 text: "The shortcut storage service is unavailable. No settings were changed."
@@ -1110,9 +1054,6 @@ class SettingsViewController: NSViewController {
 
         updateCheckForUpdatesTitle()
         
-        initializeTodoModeSettings()
-        shortcutRecordingObserver.observe([toggleTodoShortcutView, reflowTodoShortcutView])
-        
         cycleSizesView.arrangedSubviews.forEach { view in
             cycleSizesView.removeArrangedSubview(view)
             view.removeFromSuperview()
@@ -1144,7 +1085,6 @@ class SettingsViewController: NSViewController {
         initializeAutoMaximizeCheckbox()
 
         Notification.Name.configImported.onPost(using: {_ in
-            self.initializeTodoModeSettings()
             self.initializeToggles()
             self.initializeCycleSizesView(animated: false)
         })
@@ -1160,44 +1100,6 @@ class SettingsViewController: NSViewController {
     
     func updateCheckForUpdatesTitle() {
         checkForUpdatesButton.isHidden = true
-    }
-    
-    func initializeTodoModeSettings() {
-        todoCheckbox.state = Defaults.todo.userEnabled ? .on : .off
-        todoAppWidthField.stringValue = String(Defaults.todoSidebarWidth.value)
-        todoAppWidthField.delegate = self
-        todoAppWidthField.defaults = Defaults.todoSidebarWidth
-        todoAppWidthField.defaultsSetAction = {
-            TodoManager.moveAllIfNeeded(false)
-        }
-        todoAppWidthUnitPopUpButton.selectItem(withTag: Defaults.todoSidebarWidthUnit.value.rawValue)
-        todoAppSidePopUpButton.selectItem(withTag: Defaults.todoSidebarSide.value.rawValue)
-        TodoManager.initToggleShortcut()
-        TodoManager.initReflowShortcut()
-        toggleTodoShortcutView.shortcutValidator = TodoShortcutValidator(defaultsKey: TodoManager.toggleDefaultsKey)
-        reflowTodoShortcutView.shortcutValidator = TodoShortcutValidator(defaultsKey: TodoManager.reflowDefaultsKey)
-        connectTodoShortcutViewsToDefaults()
-        showHideTodoModeSettings(animated: false)
-    }
-
-    /// Cocoa bindings can write a shortcut recorder's stale value back while a
-    /// defaults dictionary is replaced. Disconnect before Restore Defaults so
-    /// the canonical shortcut is not combined with the recorder's old modifiers.
-    func disconnectTodoShortcutViewsForDefaultsReset() {
-        toggleTodoShortcutView.setAssociatedUserDefaultsKey(nil, withTransformerName: MASDictionaryTransformerName)
-        reflowTodoShortcutView.setAssociatedUserDefaultsKey(nil, withTransformerName: MASDictionaryTransformerName)
-    }
-
-    func connectTodoShortcutViewsToDefaults() {
-        // Make repeated config/reset reloads idempotent rather than stacking
-        // multiple bindings on the same recorder.
-        disconnectTodoShortcutViewsForDefaultsReset()
-        toggleTodoShortcutView.setAssociatedUserDefaultsKey(TodoManager.toggleDefaultsKey, withTransformerName: MASDictionaryTransformerName)
-        reflowTodoShortcutView.setAssociatedUserDefaultsKey(TodoManager.reflowDefaultsKey, withTransformerName: MASDictionaryTransformerName)
-    }
-    
-    private func showHideTodoModeSettings(animated: Bool) {
-        setVisibility(shown: Defaults.todo.userEnabled, ofView: todoView, withConstraint: todoViewHeightConstraint, animated: animated)
     }
     
     func initializeToggles() {

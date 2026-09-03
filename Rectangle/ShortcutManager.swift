@@ -40,7 +40,7 @@ class ShortcutManager {
     private let shortcutsProvider: () -> [WindowAction: MASShortcut]
     private let appDisabledProvider: () -> Bool
     private let scheduler: ShortcutRebindScheduler
-    private let todoSessionStateChanged: (Bool) -> Void
+    private let appShortcutSessionStateChanged: (Bool) -> Void
     private var boundShortcutActions = Set<WindowAction>()
     private var shortcutIdentities = [WindowAction: ShortcutCycle.ShortcutIdentity]()
     private var isUpdatingShortcutBindings = false
@@ -63,8 +63,7 @@ class ShortcutManager {
         scheduler: @escaping ShortcutRebindScheduler = { action in
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: action)
         },
-        todoSessionStateChanged: @escaping (Bool) -> Void = { isActive in
-            TodoManager.setShortcutBindingsSessionActive(isActive)
+        appShortcutSessionStateChanged: @escaping (Bool) -> Void = { isActive in
             StackBadgeManager.setShortcutBindingsSessionActive(isActive)
         }
     ) {
@@ -75,12 +74,12 @@ class ShortcutManager {
         self.shortcutsProvider = shortcutsProvider
         self.appDisabledProvider = appDisabledProvider
         self.scheduler = scheduler
-        self.todoSessionStateChanged = todoSessionStateChanged
+        self.appShortcutSessionStateChanged = appShortcutSessionStateChanged
         self.sessionIsActive = activeStateProvider()
 
         bindingStore.configure()
         AppShortcutConflict.removeDuplicateAssignments()
-        todoSessionStateChanged(sessionIsActive)
+        appShortcutSessionStateChanged(sessionIsActive)
 
         registerDefaults()
 
@@ -173,7 +172,7 @@ class ShortcutManager {
         sessionRebindPending = false
         sessionGeneration &+= 1
         unbindShortcuts()
-        todoSessionStateChanged(false)
+        appShortcutSessionStateChanged(false)
     }
 
     @objc private func sessionDidBecomeActive(_ notification: Notification) {
@@ -194,7 +193,7 @@ class ShortcutManager {
             self.sessionRebindPending = false
             self.unbindShortcuts()
             self.bindShortcuts()
-            self.todoSessionStateChanged(true)
+            self.appShortcutSessionStateChanged(true)
         }
     }
 
@@ -207,10 +206,6 @@ class ShortcutManager {
         var parameters = originalParameters
 
         if MultiWindowManager.execute(parameters: parameters) {
-            return
-        }
-
-        if TodoManager.execute(parameters: parameters) {
             return
         }
 
@@ -301,7 +296,6 @@ class ShortcutManager {
             }
         }
 
-        TodoManager.setShortcutBindingsSuspended(isRecording)
         StackBadgeManager.setShortcutBindingsSuspended(isRecording)
     }
 

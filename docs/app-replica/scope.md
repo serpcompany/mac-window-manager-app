@@ -56,3 +56,4 @@ On 2026-09-04 the owner explicitly requested these changes from Rectangle behavi
 - Reject duplicate shortcut assignments rather than cycling multiple actions on one shortcut.
 - Show Rectangle Clone in the Dock by default. On macOS this also means showing it in Command-Tab.
 - Keep a menu-bar status item enabled by default, with the Dock as the recovery path when macOS clips third-party items on a crowded menu bar.
+- Remove Rectangle's Todo Mode feature entirely, including its Settings section, menu commands, shortcuts, persistence keys, layout behavior, and supporting code. The owner explicitly removed it from clone scope on 2026-09-04 after confirming it was not needed.

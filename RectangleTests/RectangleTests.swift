@@ -48,8 +48,7 @@ final class ShippingDefaultProfileTests: XCTestCase {
             "lastThreeFourths": (92, 1_835_008), "topLeftSixth": (21, 1_966_080),
             "topCenterSixth": (23, 1_966_080), "topRightSixth": (22, 1_966_080),
             "bottomLeftSixth": (26, 1_966_080), "bottomCenterSixth": (28, 1_966_080),
-            "bottomRightSixth": (25, 1_966_080), "toggleTodo": (11, 1_048_576),
-            "reflowTodo": (45, 786_432)
+            "bottomRightSixth": (25, 1_966_080)
         ]
 
         XCTAssertEqual(ShippingDefaultProfile.shortcutByDefaultsKey.count, expected.count)
@@ -101,10 +100,6 @@ final class ShippingDefaultProfileTests: XCTestCase {
         XCTAssertEqual(userDefaults.integer(forKey: "moveCursorAcrossDisplays"), 1)
         XCTAssertEqual(userDefaults.integer(forKey: "doubleClickTitleBar"), 0)
         XCTAssertTrue(userDefaults.bool(forKey: "greenButtonOverride"))
-        XCTAssertEqual(userDefaults.integer(forKey: "todo"), 1)
-        XCTAssertEqual(userDefaults.float(forKey: "todoSidebarWidth"), 400)
-        XCTAssertEqual(userDefaults.integer(forKey: "todoSidebarWidthUnit"), TodoSidebarWidthUnit.pixels.rawValue)
-        XCTAssertEqual(userDefaults.integer(forKey: "todoSidebarSide"), TodoSidebarSide.right.rawValue)
         XCTAssertEqual(userDefaults.float(forKey: "stageSize"), 190)
 
         let landscape: [Directional: SnapAreaConfig] = try decodeJSONDefault("landscapeSnapAreas")
@@ -204,46 +199,6 @@ final class ShippingDefaultProfileTests: XCTestCase {
 }
 
 final class ShippingDefaultProfileUIReloadTests: XCTestCase {
-    func testTodoShortcutRecorderDisconnectPreventsStaleModifiersFromOverwritingReset() throws {
-        let userDefaults = UserDefaults.standard
-        let defaultsKey = TodoManager.toggleDefaultsKey
-        let previousValue = userDefaults.object(forKey: defaultsKey)
-        defer {
-            if let previousValue {
-                userDefaults.set(previousValue, forKey: defaultsKey)
-            } else {
-                userDefaults.removeObject(forKey: defaultsKey)
-            }
-        }
-
-        let transformer = try XCTUnwrap(
-            ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName))
-        )
-        let oldShortcut = MASShortcut(keyCode: 11, modifierFlags: [.control, .option])
-        userDefaults.set(transformer.reverseTransformedValue(oldShortcut), forKey: defaultsKey)
-
-        let controller = SettingsViewController()
-        let toggleView = MASShortcutView()
-        let reflowView = MASShortcutView()
-        controller.toggleTodoShortcutView = toggleView
-        controller.reflowTodoShortcutView = reflowView
-        controller.connectTodoShortcutViewsToDefaults()
-        toggleView.shortcutValue = oldShortcut
-
-        controller.disconnectTodoShortcutViewsForDefaultsReset()
-        let resetShortcut = try XCTUnwrap(ShippingDefaultProfile.shortcutByDefaultsKey[defaultsKey]).toMASSHortcut()
-        userDefaults.set(transformer.reverseTransformedValue(resetShortcut), forKey: defaultsKey)
-        controller.connectTodoShortcutViewsToDefaults()
-        defer { controller.disconnectTodoShortcutViewsForDefaultsReset() }
-
-        let displayed = try XCTUnwrap(toggleView.shortcutValue)
-        XCTAssertEqual(displayed.keyCode, 11)
-        XCTAssertEqual(displayed.modifierFlags, NSEvent.ModifierFlags.command)
-        let stored = try XCTUnwrap(ShortcutCycle.shortcut(forDefaultsKey: defaultsKey))
-        XCTAssertEqual(stored.keyCode, 11)
-        XCTAssertEqual(stored.modifierFlags, NSEvent.ModifierFlags.command)
-    }
-
     func testSnapAreaToggleReloadReflectsResetDefaultsImmediately() {
         let saved: [(Default, CodableDefault)] = [
             (Defaults.windowSnapping, Defaults.windowSnapping.toCodable()),
@@ -280,6 +235,44 @@ final class ShippingDefaultProfileUIReloadTests: XCTestCase {
         XCTAssertEqual(hapticFeedbackCheckbox.state, .on)
         XCTAssertEqual(missionControlDraggingCheckbox.state, .off)
         XCTAssertTrue(missionControlDraggingCheckbox.isHidden)
+    }
+}
+
+final class TodoRemovalTests: XCTestCase {
+    func testShippingProfileContainsNoTodoShortcuts() {
+        XCTAssertNil(ShippingDefaultProfile.shortcutByDefaultsKey["toggleTodo"])
+        XCTAssertNil(ShippingDefaultProfile.shortcutByDefaultsKey["reflowTodo"])
+    }
+
+    func testActiveWindowActionsContainNoTodoActions() {
+        let activeNames = Set(WindowAction.active.map(\.name))
+        XCTAssertFalse(activeNames.contains("leftTodo"))
+        XCTAssertFalse(activeNames.contains("rightTodo"))
+    }
+
+    func testExportedDefaultsContainNoTodoPersistenceKeys() {
+        let exportedKeys = Set(Defaults.array.map(\.key))
+        XCTAssertFalse(exportedKeys.contains("todo"))
+        XCTAssertFalse(exportedKeys.contains("todoMode"))
+        XCTAssertFalse(exportedKeys.contains("todoApplication"))
+        XCTAssertFalse(exportedKeys.contains("todoSidebarWidth"))
+        XCTAssertFalse(exportedKeys.contains("todoSidebarWidthUnit"))
+        XCTAssertFalse(exportedKeys.contains("todoSidebarSide"))
+    }
+
+    func testRetiredTodoPersistenceIsRemoved() {
+        let suiteName = "TodoRemovalTests.\(UUID().uuidString)"
+        let userDefaults = UserDefaults(suiteName: suiteName)!
+        defer { userDefaults.removePersistentDomain(forName: suiteName) }
+        let retiredKeys = [
+            "todo", "todoMode", "todoApplication", "todoSidebarWidth",
+            "todoSidebarWidthUnit", "todoSidebarSide", "toggleTodo", "reflowTodo"
+        ]
+        retiredKeys.forEach { userDefaults.set("legacy", forKey: $0) }
+
+        ShippingDefaultProfile.removeRetiredTodoDefaults(from: userDefaults)
+
+        retiredKeys.forEach { XCTAssertNil(userDefaults.object(forKey: $0), $0) }
     }
 }
 
@@ -635,7 +628,7 @@ class DefaultsExportTests: XCTestCase {
 
 class ConfigImportTests: XCTestCase {
 
-    private static let shortcutKeys = WindowAction.active.map(\.name) + TodoManager.defaultsKeys + StackBadgeManager.defaultsKeys
+    private static let shortcutKeys = WindowAction.active.map(\.name) + StackBadgeManager.defaultsKeys
     private var storedValues = [String: Any]()
     private var absentKeys = Set<String>()
     private var previousShippingProfileVersion = 0
@@ -673,15 +666,6 @@ class ConfigImportTests: XCTestCase {
         try loadConfig(shortcuts: [:])
 
         XCTAssertNil(UserDefaults.standard.object(forKey: action.name))
-    }
-
-    func testImportClearsOmittedTodoShortcut() throws {
-        let defaultsKey = TodoManager.toggleDefaultsKey
-        store(Shortcut(NSEvent.ModifierFlags.command.rawValue, 11), forKey: defaultsKey)
-
-        try loadConfig(shortcuts: [:])
-
-        XCTAssertNil(UserDefaults.standard.object(forKey: defaultsKey))
     }
 
     func testImportClearsOmittedStackBadgeShortcut() throws {
@@ -887,10 +871,6 @@ class StackBadgeGeometryTests: XCTestCase {
         XCTAssertEqual(indices.sorted(), [1, 2])
     }
 
-    func testTodoSidebarWidthUnitInExportArray() {
-        let keys = Defaults.array.map { $0.key }
-        XCTAssertTrue(keys.contains("todoSidebarWidthUnit"), "todoSidebarWidthUnit missing from Defaults.array")
-    }
 }
 
 /// The cascade math itself. Asserting the resulting rect matters: an earlier
@@ -4127,7 +4107,7 @@ class ShortcutManagerSessionTests: XCTestCase {
         let shortcuts: ValueBox<[WindowAction: MASShortcut]>
         let appDisabled: ValueBox<Bool>
         let scheduler: SchedulerSpy
-        let todoSessionStates: ValueBox<[Bool]>
+        let appShortcutSessionStates: ValueBox<[Bool]>
     }
 
     private func shortcut(_ keyCode: Int) -> MASShortcut {
@@ -4145,7 +4125,7 @@ class ShortcutManagerSessionTests: XCTestCase {
         let shortcuts = ValueBox(shortcuts ?? [.leftHalf: shortcut(1)])
         let appDisabled = ValueBox(appDisabled)
         let scheduler = SchedulerSpy()
-        let todoSessionStates = ValueBox<[Bool]>([])
+        let appShortcutSessionStates = ValueBox<[Bool]>([])
         let manager = ShortcutManager(
             windowManager: WindowManager(),
             bindingStore: bindingStore,
@@ -4155,7 +4135,7 @@ class ShortcutManagerSessionTests: XCTestCase {
             activeStateProvider: { initiallyActive },
             appDisabledProvider: { appDisabled.value },
             scheduler: { scheduler.schedule($0) },
-            todoSessionStateChanged: { todoSessionStates.value.append($0) }
+            appShortcutSessionStateChanged: { appShortcutSessionStates.value.append($0) }
         )
 
         return Harness(
@@ -4166,7 +4146,7 @@ class ShortcutManagerSessionTests: XCTestCase {
             shortcuts: shortcuts,
             appDisabled: appDisabled,
             scheduler: scheduler,
-            todoSessionStates: todoSessionStates
+            appShortcutSessionStates: appShortcutSessionStates
         )
     }
 
@@ -4189,25 +4169,25 @@ class ShortcutManagerSessionTests: XCTestCase {
         let expectedKeys: Set<String> = [WindowAction.leftHalf.name]
 
         XCTAssertEqual(harness.bindingStore.boundKeys, expectedKeys)
-        XCTAssertEqual(harness.todoSessionStates.value, [true])
+        XCTAssertEqual(harness.appShortcutSessionStates.value, [true])
 
         resignSession(harness)
 
         XCTAssertTrue(harness.bindingStore.boundKeys.isEmpty)
         XCTAssertEqual(harness.scheduler.pendingCount, 0)
-        XCTAssertEqual(harness.todoSessionStates.value, [true, false])
+        XCTAssertEqual(harness.appShortcutSessionStates.value, [true, false])
 
         activateSession(harness)
 
         XCTAssertTrue(harness.bindingStore.boundKeys.isEmpty)
         XCTAssertEqual(harness.scheduler.pendingCount, 1)
-        XCTAssertEqual(harness.todoSessionStates.value, [true, false])
+        XCTAssertEqual(harness.appShortcutSessionStates.value, [true, false])
 
         harness.scheduler.runNext()
 
         XCTAssertEqual(harness.bindingStore.boundKeys, expectedKeys)
         XCTAssertEqual(harness.scheduler.pendingCount, 0)
-        XCTAssertEqual(harness.todoSessionStates.value, [true, false, true])
+        XCTAssertEqual(harness.appShortcutSessionStates.value, [true, false, true])
     }
 
     func testDuplicateSessionNotificationsAreIdempotent() {
@@ -4265,7 +4245,6 @@ class ShortcutManagerSessionTests: XCTestCase {
         let previousBindingOptions = binder.bindingOptions
         binder.bindingOptions = [NSBindingOption.valueTransformerName: MASDictionaryTransformerName]
         defer {
-            TodoManager.setShortcutBindingsSuspended(false)
             binder.bindingOptions = previousBindingOptions
         }
 
@@ -4290,18 +4269,18 @@ class ShortcutManagerSessionTests: XCTestCase {
 
         XCTAssertTrue(harness.bindingStore.boundKeys.isEmpty)
         XCTAssertEqual(harness.scheduler.pendingCount, 0)
-        XCTAssertEqual(harness.todoSessionStates.value, [false])
+        XCTAssertEqual(harness.appShortcutSessionStates.value, [false])
 
         activateSession(harness)
 
         XCTAssertTrue(harness.bindingStore.boundKeys.isEmpty)
         XCTAssertEqual(harness.scheduler.pendingCount, 1)
-        XCTAssertEqual(harness.todoSessionStates.value, [false])
+        XCTAssertEqual(harness.appShortcutSessionStates.value, [false])
 
         harness.scheduler.runNext()
 
         XCTAssertEqual(harness.bindingStore.boundKeys, [WindowAction.leftHalf.name])
-        XCTAssertEqual(harness.todoSessionStates.value, [false, true])
+        XCTAssertEqual(harness.appShortcutSessionStates.value, [false, true])
     }
 
     func testResignBeforeQueuedActivationCompletesCancelsRestore() {
@@ -4316,7 +4295,7 @@ class ShortcutManagerSessionTests: XCTestCase {
 
         XCTAssertTrue(harness.bindingStore.boundKeys.isEmpty)
         XCTAssertEqual(harness.scheduler.pendingCount, 0)
-        XCTAssertEqual(harness.todoSessionStates.value, [true, false, false])
+        XCTAssertEqual(harness.appShortcutSessionStates.value, [true, false, false])
     }
 }
 
@@ -4443,74 +4422,6 @@ class ShortcutCycleTests: XCTestCase {
         XCTAssertNotNil(ShortcutCycle.shortcut(for: .centerThird, userDefaults: userDefaults))
         XCTAssertEqual(groups.map(\.actions), [[.centerHalf, .centerThird]])
         XCTAssertEqual(groups.first?.representativeAction, .centerHalf)
-    }
-}
-
-class TodoShortcutValidatorTests: XCTestCase {
-
-    private func shortcut(_ keyCode: Int, _ flags: NSEvent.ModifierFlags) -> MASShortcut {
-        MASShortcut(keyCode: keyCode, modifierFlags: flags)
-    }
-
-    private func save(_ shortcut: MASShortcut, forKey key: String, in userDefaults: UserDefaults) {
-        let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName))!
-        let shortcutDict = dictTransformer.reverseTransformedValue(shortcut)
-        userDefaults.set(shortcutDict, forKey: key)
-    }
-
-    private func userDefaultsSuite() -> (String, UserDefaults) {
-        let suiteName = "TodoShortcutValidatorTests.\(UUID().uuidString)"
-        return (suiteName, UserDefaults(suiteName: suiteName)!)
-    }
-
-    func testInvalidatesShortcutUsedByWindowActionWithoutAlreadyTakenError() {
-        let (suiteName, userDefaults) = userDefaultsSuite()
-        defer {
-            userDefaults.removePersistentDomain(forName: suiteName)
-        }
-
-        let duplicateShortcut = shortcut(1, [.option, .command])
-        save(duplicateShortcut, forKey: WindowAction.centerHalf.name, in: userDefaults)
-        let validator = TodoShortcutValidator(defaultsKey: TodoManager.toggleDefaultsKey, userDefaults: userDefaults)
-        var explanation: NSString?
-
-        let isTaken = validator.isShortcutAlreadyTaken(bySystem: duplicateShortcut, explanation: &explanation)
-
-        XCTAssertTrue(validator.isShortcutValid(duplicateShortcut))
-        XCTAssertTrue(isTaken)
-        XCTAssertTrue(explanation?.contains(WindowAction.centerHalf.displayName ?? WindowAction.centerHalf.name) == true)
-    }
-
-    func testInvalidatesShortcutUsedByOtherTodoActionWithoutAlreadyTakenError() {
-        let (suiteName, userDefaults) = userDefaultsSuite()
-        defer {
-            userDefaults.removePersistentDomain(forName: suiteName)
-        }
-
-        let duplicateShortcut = shortcut(1, [.option, .command])
-        save(duplicateShortcut, forKey: TodoManager.reflowDefaultsKey, in: userDefaults)
-        let validator = TodoShortcutValidator(defaultsKey: TodoManager.toggleDefaultsKey, userDefaults: userDefaults)
-        var explanation: NSString?
-
-        let isTaken = validator.isShortcutAlreadyTaken(bySystem: duplicateShortcut, explanation: &explanation)
-
-        XCTAssertTrue(validator.isShortcutValid(duplicateShortcut))
-        XCTAssertTrue(isTaken)
-        XCTAssertTrue(explanation?.contains("Reflow Todo") == true)
-    }
-
-    func testAllowsExistingShortcutForSameTodoAction() {
-        let (suiteName, userDefaults) = userDefaultsSuite()
-        defer {
-            userDefaults.removePersistentDomain(forName: suiteName)
-        }
-
-        let existingShortcut = shortcut(1, [.option, .command])
-        save(existingShortcut, forKey: TodoManager.toggleDefaultsKey, in: userDefaults)
-        let validator = TodoShortcutValidator(defaultsKey: TodoManager.toggleDefaultsKey, userDefaults: userDefaults)
-
-        XCTAssertTrue(validator.isShortcutValid(existingShortcut))
-        XCTAssertFalse(validator.isShortcutAlreadyTaken(bySystem: existingShortcut, explanation: nil))
     }
 }
 
@@ -4790,8 +4701,7 @@ final class CrossDisplayResizeTests: XCTestCase {
             (Defaults.screenEdgeGapRight, CodableDefault(float: 0)),
             (Defaults.screenEdgeGapTop, CodableDefault(float: 0)),
             (Defaults.screenEdgeGapBottom, CodableDefault(float: 0)),
-            (Defaults.combinedDisplayMode, CodableDefault(int: 2)),
-            (Defaults.todo, CodableDefault(int: 2))
+            (Defaults.combinedDisplayMode, CodableDefault(int: 2))
         ]
         let savedDefaults = settings.map { ($0.0, $0.0.toCodable()) }
         defer {

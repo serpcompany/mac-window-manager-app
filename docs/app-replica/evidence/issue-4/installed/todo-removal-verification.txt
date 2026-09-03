@@ -1,0 +1,28 @@
+Todo Mode removal — installed candidate verification
+Date: 2026-09-04 (Asia/Tokyo)
+Artifact: /Applications/Rectangle Clone.app
+Build source: /tmp/rectangle-todo-removal-release/Build/Products/Release/Rectangle Clone.app
+
+Build and test results
+- Clean signed universal Release build: PASS
+- Full Xcode suite: PASS, 318 tests, 0 failures
+- codesign --verify --deep --strict: PASS
+- ibtool storyboard compilation: PASS (only pre-existing clipping notices)
+
+Installed runtime observations
+- Process launched from /Applications/Rectangle Clone.app.
+- General settings accessibility dump contains no Todo controls.
+- Status-item menu accessibility dump contains no Todo commands.
+- Candidate defaults domain has no `todo` or `toggleTodo` key after launch.
+- Installed executable and compiled localized strings contain none of:
+  TodoManager, leftTodo, rightTodo, Toggle Todo, Reflow Todo, Todo Mode,
+  Todo app width, or Todo side.
+
+Visual evidence
+- general-without-todo.png: installed General settings screen with the Todo
+  section absent.
+
+Source/test boundary
+- The only retained Todo persistence strings are in a launch migration that
+  deletes keys written by earlier candidate builds. They do not expose or
+  implement the removed feature.

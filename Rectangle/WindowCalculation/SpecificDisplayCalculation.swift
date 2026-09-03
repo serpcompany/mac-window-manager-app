@@ -19,7 +19,7 @@ class SpecificDisplayCalculation: WindowCalculation {
 
         if targetScreen == usableScreens.currentScreen { return nil }
 
-        let rectParams = params.asRectParams(visibleFrame: targetScreen.adjustedVisibleFrame(params.ignoreTodo))
+        let rectParams = params.asRectParams(visibleFrame: targetScreen.adjustedVisibleFrame())
 
         if Defaults.attemptMatchOnNextPrevDisplay.userEnabled {
             if let lastAction = params.lastAction,
@@ -42,7 +42,7 @@ class SpecificDisplayCalculation: WindowCalculation {
                 // window). Map the window proportionally from the source screen to the destination
                 // screen so it keeps its relative spot instead of jumping to the center. Parity with
                 // NextPrevDisplayCalculation: display 1/2/3 moves behave like next/prev moves.
-                let sourceFrame = params.usableScreens.currentScreen.adjustedVisibleFrame(params.ignoreTodo)
+                let sourceFrame = params.usableScreens.currentScreen.adjustedVisibleFrame()
                 let mappedRect = NextPrevDisplayCalculation.relativePositionedRect(
                     window: rectParams.window.rect,
                     source: sourceFrame,

@@ -56,11 +56,10 @@ struct WindowCalculationParameters {
     let usableScreens: UsableScreens
     let action: WindowAction
     let lastAction: RectangleAction?
-    let ignoreTodo: Bool
     
     func asRectParams(visibleFrame: CGRect? = nil, differentAction: WindowAction? = nil) -> RectCalculationParameters {
         RectCalculationParameters(window: window,
-                                  visibleFrameOfScreen: visibleFrame ?? usableScreens.currentScreen.adjustedVisibleFrame(ignoreTodo),
+                                  visibleFrameOfScreen: visibleFrame ?? usableScreens.currentScreen.adjustedVisibleFrame(),
                                   action: differentAction ?? action,
                                   lastAction: lastAction)
     }
@@ -69,8 +68,7 @@ struct WindowCalculationParameters {
         .init(window: window,
               usableScreens: usableScreens,
               action: differentAction,
-              lastAction: lastAction,
-              ignoreTodo: ignoreTodo)
+              lastAction: lastAction)
     }
 }
 
@@ -230,8 +228,6 @@ class WindowCalculationFactory {
     static let bottomCenterRightEighthCalculation = BottomCenterRightEighthCalculation()
     static let bottomRightEighthCalculation = BottomRightEighthCalculation()
     static let specifiedCalculation = SpecifiedCalculation()
-    static let leftTodoCalculation = LeftTodoCalculation()
-    static let rightTodoCalculation = RightTodoCalculation()
     static let bottomVerticalTwoThirdsCalculation = BottomVerticalTwoThirdsCalculation()
     static let topVerticalTwoThirdsCalculation = TopVerticalTwoThirdsCalculation()
     static let bottomVerticalThirdCalculation = BottomVerticalThirdCalculation()
@@ -343,8 +339,6 @@ class WindowCalculationFactory {
      .doubleWidthLeft: halfOrDoubleDimensionCalculation,
      .doubleWidthRight: halfOrDoubleDimensionCalculation,
      .specified: specifiedCalculation,
-     .leftTodo: leftTodoCalculation,
-     .rightTodo: rightTodoCalculation,
      .topVerticalThird: topVerticalThirdCalculation,
      .middleVerticalThird: middleVerticalThirdCalculation,
      .bottomVerticalThird: bottomVerticalThirdCalculation,

@@ -2,7 +2,7 @@
 
 Status: source implementation and deterministic verification complete; installed/manual acceptance and Settings parity remain red.
 
-Post-install repair note: the first installed reset exposed stale Todo shortcut-recorder writeback and missing Snap Areas toggle refresh. Both now have UI-adjacent regression coverage and a new signed build; installed readback remains pending.
+Post-install repair note: the first installed reset exposed missing Snap Areas toggle refresh. That defect has UI-adjacent regression coverage and installed readback. Todo Mode was subsequently removed from scope by the owner on 2026-09-04 and is not part of the shipping profile.
 
 ## Scope
 
@@ -11,7 +11,6 @@ Encode the three owner screenshots from 2026-09-04 as the candidate-owned shippi
 The profile covers:
 
 - every assigned and intentionally unassigned window shortcut shown in Issue #4;
-- Toggle Todo and Reflow Todo shortcuts;
 - landscape and portrait snap mappings plus the four visible snap behaviors;
 - the General settings recorded in Issue #4;
 - deterministic export/import of the resulting stored profile.
@@ -29,7 +28,7 @@ The candidate must not read `com.knollsoft.Rectangle`, restore upstream update i
 ## Acceptance still requiring installed/manual evidence
 
 - Reset the Developer ID-signed installed candidate to a truly fresh candidate domain and capture the visible profile.
-- Exercise Left, Right, Maximize, Restore, one Third, one Sixth, Toggle Todo, and Reflow Todo against real windows.
+- Exercise Left, Right, Maximize, Restore, one Third, and one Sixth against real windows.
 - Confirm the login item state via the system service and verify persistence through quit/relaunch.
 
 ## HIGH-PRIORITY UNRESOLVED TODO — exhaustive Settings parity audit

@@ -381,7 +381,7 @@ enum DockUtil {
 
 extension NSScreen {
 
-    func adjustedVisibleFrame(_ ignoreTodo: Bool = false, _ ignoreStage: Bool = false) -> CGRect {
+    func adjustedVisibleFrame(_ ignoreStage: Bool = false) -> CGRect {
         let screens = NSScreen.screens
         let dockSnapshot = DockUtil.snapshot(for: screens)
         var newFrame: CGRect
@@ -415,14 +415,6 @@ extension NSScreen {
             }
         }
         
-        if !ignoreTodo, Defaults.todo.userEnabled, Defaults.todoMode.enabled, TodoManager.todoScreen == self, TodoManager.hasTodoWindow() {
-            let sidebarWidth = TodoManager.getSidebarWidth(visibleFrameWidth: newFrame.width)
-            newFrame.size.width -= sidebarWidth
-            if Defaults.todoSidebarSide.value == .left {
-                newFrame.origin.x += sidebarWidth
-            }
-        }
-
         if Defaults.screenEdgeGapsOnMainScreenOnly.enabled, self != NSScreen.screens.first {
             return newFrame
         }
