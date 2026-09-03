@@ -5,8 +5,9 @@ usage() {
   cat <<'EOF'
 Usage: scripts/publish_github_release.sh VERSION RELEASE_COMMIT [--notes-file PATH] [--confirm]
 
-Preflight an approved Mac App Store version, then create its annotated Git tag
-and matching GitHub Release. Remote mutation occurs only with --confirm.
+Preflight a submitted Mac App Store version, then create its annotated Git tag
+and matching GitHub prerelease. Once Apple releases the version, the same
+command promotes the prerelease. Remote mutation occurs only with --confirm.
 EOF
 }
 
@@ -109,9 +110,14 @@ if [[ "$version_count" != "1" ]]; then
 fi
 app_store_state=$(printf '%s' "$version_json" | jq -r '.data[0].attributes.appStoreState')
 case "$app_store_state" in
-  READY_FOR_DISTRIBUTION|READY_FOR_SALE) ;;
+  READY_FOR_DISTRIBUTION|READY_FOR_SALE)
+    release_kind="full"
+    ;;
+  WAITING_FOR_REVIEW|IN_REVIEW|PENDING_DEVELOPER_RELEASE|PENDING_APPLE_RELEASE|PROCESSING_FOR_DISTRIBUTION)
+    release_kind="prerelease"
+    ;;
   *)
-    echo "App Store version $version is $app_store_state; wait until it is released before publishing GitHub" >&2
+    echo "App Store version $version is $app_store_state; it is neither under review nor released" >&2
     exit 1
     ;;
 esac
@@ -137,11 +143,34 @@ fi
 
 release_json=""
 if release_json=$(gh release view "$tag" --repo "$expected_repo" --json url,isDraft,isPrerelease,tagName 2>/dev/null); then
-  if [[ "$(printf '%s' "$release_json" | jq -r '.isDraft or .isPrerelease')" != "false" ]]; then
-    echo "GitHub Release for $tag exists but is draft or prerelease" >&2
+  if [[ "$(printf '%s' "$release_json" | jq -r '.isDraft')" != "false" ]]; then
+    echo "GitHub Release for $tag exists as a draft" >&2
     exit 1
   fi
-  echo "GitHub Release already exists: $(printf '%s' "$release_json" | jq -r .url)"
+  is_prerelease=$(printf '%s' "$release_json" | jq -r '.isPrerelease')
+  release_url=$(printf '%s' "$release_json" | jq -r .url)
+  if [[ "$release_kind" == "prerelease" || "$is_prerelease" == "false" ]]; then
+    echo "GitHub Release already exists: $release_url"
+    exit 0
+  fi
+
+  echo "Release promotion preflight passed"
+  echo "  App Store version: $version ($app_store_state)"
+  echo "  Commit: $release_commit"
+  echo "  Tag: $tag"
+  echo "  GitHub release: $release_url"
+  if [[ "$confirm" != "true" ]]; then
+    echo "Dry run only. Re-run with --confirm to promote the GitHub prerelease."
+    exit 0
+  fi
+
+  gh release edit "$tag" --repo "$expected_repo" --prerelease=false --latest
+  release_json=$(gh release view "$tag" --repo "$expected_repo" --json url,isDraft,isPrerelease,tagName,targetCommitish)
+  if [[ "$(printf '%s' "$release_json" | jq -r '.isDraft or .isPrerelease')" != "false" ]]; then
+    echo "GitHub Release promotion did not produce a published full release" >&2
+    exit 1
+  fi
+  printf '%s\n' "$release_json"
   exit 0
 fi
 
@@ -149,6 +178,7 @@ echo "Release preflight passed"
 echo "  App Store version: $version ($app_store_state)"
 echo "  Commit: $release_commit"
 echo "  Tag: $tag"
+echo "  GitHub release kind: $release_kind"
 echo "  GitHub repository: $expected_repo"
 
 if [[ "$confirm" != "true" ]]; then
@@ -163,7 +193,12 @@ if [[ "$remote_tag_exists" != "true" ]]; then
   git push origin "refs/tags/$tag"
 fi
 
-release_args=("$tag" --repo "$expected_repo" --verify-tag --title "Window Manager $version" --latest)
+release_args=("$tag" --repo "$expected_repo" --verify-tag --title "Window Manager $version")
+if [[ "$release_kind" == "prerelease" ]]; then
+  release_args+=(--prerelease --latest=false)
+else
+  release_args+=(--latest)
+fi
 if [[ -n "$notes_file" ]]; then
   release_args+=(--notes-file "$notes_file")
 else
@@ -172,8 +207,9 @@ fi
 
 gh release create "${release_args[@]}"
 release_json=$(gh release view "$tag" --repo "$expected_repo" --json url,isDraft,isPrerelease,tagName,targetCommitish)
-if [[ "$(printf '%s' "$release_json" | jq -r '.isDraft or .isPrerelease')" != "false" ]]; then
-  echo "Created GitHub Release is unexpectedly draft or prerelease" >&2
+actual_kind=$(printf '%s' "$release_json" | jq -r 'if .isPrerelease then "prerelease" else "full" end')
+if [[ "$(printf '%s' "$release_json" | jq -r '.isDraft')" != "false" || "$actual_kind" != "$release_kind" ]]; then
+  echo "Created GitHub Release does not match expected kind $release_kind" >&2
   exit 1
 fi
 printf '%s\n' "$release_json"
