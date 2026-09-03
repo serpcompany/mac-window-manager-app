@@ -39,8 +39,12 @@ The first Release archive exposed a real Team-ID mismatch between an ad-hoc app 
 - Candidate-owned update infrastructure is intentionally absent.
 - No independent verifier was authorized, so the completion gate remains red.
 
+## Runtime defects found during installed testing
+
+- The first candidate status item reused macOS's generic `Item-0` visibility record. A pre-existing hidden record immediately rewrote `hideMenubarIcon` to `1` on every launch. A unique autosave name alone still allowed macOS to persist it hidden. The status item now uses `co.serp.rectangleclone.statusItem` and makes the in-app **Hide menu bar icon** preference the sole visibility authority; `scripts/diagnose_runtime.sh` is the installed-runtime regression check.
+
 ## Current artifact
 
 - App: `/Applications/Rectangle Clone.app`
 - ZIP: `dist/Rectangle-Clone-1.100-local.zip`
-- ZIP SHA-256: `ae3bf25e94a11633d50f9b0757e8e0fd2ea9def3e12de1618e3e7eb30f2aa755`
+- ZIP SHA-256: `6458eb57355000ed0770ae2fd01db90afc4aa342572e8a6cc158b92194f4c5ec`

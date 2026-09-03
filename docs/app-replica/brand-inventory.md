@@ -20,6 +20,7 @@ The licensed source may be reused under MIT, but its product identity and operat
 | signing.team | Security identity | XSYZ3E4B7D | replace | Owner's existing Developer ID team `847HR8U8D9` | codesign readback |
 | support.urls | Operator endpoint | rectangleapp.com and upstream GitHub links | replace | Repository/support destinations require owner decision | Link and strings audit |
 | defaults.domain | Persistence | com.knollsoft.Rectangle | replace | co.serp.rectangleclone | Fresh launch and plist audit |
+| status.autosave | Persistence | Generic status-item visibility record | replace | `co.serp.rectangleclone.statusItem` | Relaunch with menu icon enabled and inspect candidate defaults |
 | update.framework | Third party | Sparkle | remove | Removed until a candidate-owned update design exists | Dependency and runtime audit |
 | masshortcut | Third party | rxhanson/MASShortcut fork | keep-system | Retain under its license with attribution | Package resolution and license audit |
 | colors.type.motion | Visual system | System controls plus upstream styling | redesign | Establish original semantic tokens after baseline behavior is proven | Runtime surface comparison |

@@ -4,6 +4,7 @@ import Cocoa
 
 class RectangleStatusItem {
     static let instance = RectangleStatusItem()
+    static let autosaveName = "co.serp.rectangleclone.statusItem"
     
     private var nsStatusItem: NSStatusItem?
     private var added: Bool = false
@@ -12,8 +13,6 @@ class RectangleStatusItem {
             nsStatusItem?.menu = statusMenu
         }
     }
-    private var isVisibleObserver: NSKeyValueObservation?
-    
     private init() {}
     
     public func refreshVisibility() {
@@ -35,15 +34,13 @@ class RectangleStatusItem {
     private func add() {
         added = true
         nsStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        nsStatusItem?.autosaveName = Self.autosaveName
         nsStatusItem?.menu = self.statusMenu
         nsStatusItem?.button?.image = NSImage(named: "StatusTemplate")
-        nsStatusItem?.behavior = .removalAllowed
-        isVisibleObserver = nsStatusItem?.observe(\.isVisible, options: [.old, .new]) { nsStatusItem, change in
-            if change.oldValue == true && change.newValue == false {
-                Notification.Name.menuBarIconHidden.post()
-                Defaults.hideMenuBarIcon.enabled = true
-            }
-        }
+        // Visibility is controlled only by the in-app preference. Allowing
+        // system removal gives macOS a second persisted hidden-state source
+        // that can make a fresh candidate identity unreachable.
+        nsStatusItem?.behavior = []
         nsStatusItem?.isVisible = true
     }
     

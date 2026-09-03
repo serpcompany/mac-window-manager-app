@@ -1,0 +1,9 @@
+PASS: Rectangle Clone process is running
+INFO: Dock icon is intentionally hidden (LSUIElement=true)
+PASS: menu-bar icon preference is enabled
+PASS: Rectangle Clone status item is present in the menu bar
+RED: Accessibility authorization is not active; hotkeys cannot initialize
+RED: 1 runtime readiness failure(s)
+
+Command: scripts/diagnose_runtime.sh /Applications/Rectangle Clone.app
+Observed after installing the Developer ID-signed universal Release archive.
