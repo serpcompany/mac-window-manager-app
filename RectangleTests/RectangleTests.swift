@@ -203,6 +203,86 @@ final class ShippingDefaultProfileTests: XCTestCase {
     }
 }
 
+final class ShippingDefaultProfileUIReloadTests: XCTestCase {
+    func testTodoShortcutRecorderDisconnectPreventsStaleModifiersFromOverwritingReset() throws {
+        let userDefaults = UserDefaults.standard
+        let defaultsKey = TodoManager.toggleDefaultsKey
+        let previousValue = userDefaults.object(forKey: defaultsKey)
+        defer {
+            if let previousValue {
+                userDefaults.set(previousValue, forKey: defaultsKey)
+            } else {
+                userDefaults.removeObject(forKey: defaultsKey)
+            }
+        }
+
+        let transformer = try XCTUnwrap(
+            ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName))
+        )
+        let oldShortcut = MASShortcut(keyCode: 11, modifierFlags: [.control, .option])
+        userDefaults.set(transformer.reverseTransformedValue(oldShortcut), forKey: defaultsKey)
+
+        let controller = SettingsViewController()
+        let toggleView = MASShortcutView()
+        let reflowView = MASShortcutView()
+        controller.toggleTodoShortcutView = toggleView
+        controller.reflowTodoShortcutView = reflowView
+        controller.connectTodoShortcutViewsToDefaults()
+        toggleView.shortcutValue = oldShortcut
+
+        controller.disconnectTodoShortcutViewsForDefaultsReset()
+        let resetShortcut = try XCTUnwrap(ShippingDefaultProfile.shortcutByDefaultsKey[defaultsKey]).toMASSHortcut()
+        userDefaults.set(transformer.reverseTransformedValue(resetShortcut), forKey: defaultsKey)
+        controller.connectTodoShortcutViewsToDefaults()
+        defer { controller.disconnectTodoShortcutViewsForDefaultsReset() }
+
+        let displayed = try XCTUnwrap(toggleView.shortcutValue)
+        XCTAssertEqual(displayed.keyCode, 11)
+        XCTAssertEqual(displayed.modifierFlags, NSEvent.ModifierFlags.command)
+        let stored = try XCTUnwrap(ShortcutCycle.shortcut(forDefaultsKey: defaultsKey))
+        XCTAssertEqual(stored.keyCode, 11)
+        XCTAssertEqual(stored.modifierFlags, NSEvent.ModifierFlags.command)
+    }
+
+    func testSnapAreaToggleReloadReflectsResetDefaultsImmediately() {
+        let saved: [(Default, CodableDefault)] = [
+            (Defaults.windowSnapping, Defaults.windowSnapping.toCodable()),
+            (Defaults.unsnapRestore, Defaults.unsnapRestore.toCodable()),
+            (Defaults.footprintAnimationDurationMultiplier, Defaults.footprintAnimationDurationMultiplier.toCodable()),
+            (Defaults.hapticFeedbackOnSnap, Defaults.hapticFeedbackOnSnap.toCodable()),
+            (Defaults.missionControlDragging, Defaults.missionControlDragging.toCodable())
+        ]
+        defer { saved.forEach { $0.0.load(from: $0.1) } }
+
+        Defaults.windowSnapping.enabled = true
+        Defaults.unsnapRestore.enabled = true
+        Defaults.footprintAnimationDurationMultiplier.value = 0.75
+        Defaults.hapticFeedbackOnSnap.enabled = true
+        Defaults.missionControlDragging.enabled = nil
+
+        let controller = SnapAreaViewController()
+        let windowSnappingCheckbox = NSButton(checkboxWithTitle: "", target: nil, action: nil)
+        let unsnapRestoreButton = NSButton(checkboxWithTitle: "", target: nil, action: nil)
+        let animateFootprintCheckbox = NSButton(checkboxWithTitle: "", target: nil, action: nil)
+        let hapticFeedbackCheckbox = NSButton(checkboxWithTitle: "", target: nil, action: nil)
+        let missionControlDraggingCheckbox = NSButton(checkboxWithTitle: "", target: nil, action: nil)
+        controller.windowSnappingCheckbox = windowSnappingCheckbox
+        controller.unsnapRestoreButton = unsnapRestoreButton
+        controller.animateFootprintCheckbox = animateFootprintCheckbox
+        controller.hapticFeedbackCheckbox = hapticFeedbackCheckbox
+        controller.missionControlDraggingCheckbox = missionControlDraggingCheckbox
+
+        controller.reloadToggleStates()
+
+        XCTAssertEqual(windowSnappingCheckbox.state, .on)
+        XCTAssertEqual(unsnapRestoreButton.state, .on)
+        XCTAssertEqual(animateFootprintCheckbox.state, .on)
+        XCTAssertEqual(hapticFeedbackCheckbox.state, .on)
+        XCTAssertEqual(missionControlDraggingCheckbox.state, .off)
+        XCTAssertTrue(missionControlDraggingCheckbox.isHidden)
+    }
+}
+
 class PositionCyclesTests: XCTestCase {
 
     func testSixthsReturnTrue() {

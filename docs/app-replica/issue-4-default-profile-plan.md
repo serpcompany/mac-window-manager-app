@@ -2,6 +2,8 @@
 
 Status: source implementation and deterministic verification complete; installed/manual acceptance and Settings parity remain red.
 
+Post-install repair note: the first installed reset exposed stale Todo shortcut-recorder writeback and missing Snap Areas toggle refresh. Both now have UI-adjacent regression coverage and a new signed build; installed readback remains pending.
+
 ## Scope
 
 Encode the three owner screenshots from 2026-09-04 as the candidate-owned shipping profile. Apply that profile only to a truly fresh candidate defaults domain and when the user explicitly chooses **Restore Default Shortcuts & Snap Areas**. An ordinary version upgrade must not rewrite any existing shortcut, snap-area, or General preference.

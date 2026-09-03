@@ -33,3 +33,20 @@ Scope: screenshot-defined fresh-install and explicit Restore Defaults profile on
 - A Developer ID-signed issue-branch build has not replaced `/Applications/Rectangle Clone.app`, and no candidate defaults domain was reset during this source pass.
 - The required physical actions and login-item readback remain untested for this commit.
 - **HIGH-PRIORITY UNRESOLVED TODO:** exhaustively audit every Settings screen/state/control against `/Applications/Rectangle.app` with paired same-geometry screenshots and accessibility trees. The candidate currently looks different, so no Settings or clone-parity claim is warranted.
+
+## Installed-reset defects repaired after the first verification pass
+
+The first installed Restore Defaults exercise found two defects even though the underlying source profile was correct:
+
+- Toggle Todo was stored as Control-Option-Command-B (`modifierFlags=1835008`) instead of Command-B (`1048576`). The Settings controller rebound an already-bound `MASShortcutView` during the reset/config notification cycle. Its stale pre-reset shortcut could write Control-Option modifiers back into the new assignment. Restore now disconnects both Todo recorder bindings before replacing defaults, and reconnection always unbinds first so it is idempotent.
+- Snap Areas reloaded mapping popups but not its toggle controls. The underlying `hapticFeedbackOnSnap=1` and `footprintAnimationDurationMultiplier=0.75` were correct while Haptic Feedback and Animate Footprint remained visibly off. Both reset and config-import notifications now reload toggle state and mappings together.
+
+Regression evidence after both repairs:
+
+- `ShippingDefaultProfileUIReloadTests`: 2 passed, 0 failed. The tests exercise real `MASShortcutView` bindings and real `NSButton` state reloads.
+- Full suite: 325 passed, 0 failed. Result bundle: `/tmp/rectangle-issue4-hotfix-tests/Logs/Test/Test-Rectangle-2026.09.04_04-00-26-+0900.xcresult`.
+- Clean signed Release build: `/tmp/rectangle-issue4-hotfix-signed-release/Build/Products/Release/Rectangle Clone.app`.
+- `scripts/verify_release.sh`: passed.
+- Executable SHA-256: `fa43a9e4a94351826bf07c50bbe3c60c4a5beba5f50acf5152612b1261f80d44`.
+
+The installed app was deliberately not replaced or reset in this repair pass. Both fixes still require a fresh installed UI readback by the coordinating agent.

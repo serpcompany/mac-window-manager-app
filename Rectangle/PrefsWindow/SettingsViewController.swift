@@ -259,7 +259,9 @@ class SettingsViewController: NSViewController {
         )
         guard response == .alertFirstButtonReturn else { return }
 
+        disconnectTodoShortcutViewsForDefaultsReset()
         guard ShippingDefaultProfile.applyToStandardDefaults() else {
+            connectTodoShortcutViewsToDefaults()
             AlertUtil.oneButtonAlert(
                 question: "Unable to Restore Defaults",
                 text: "The shortcut storage service is unavailable. No settings were changed."
@@ -1174,9 +1176,24 @@ class SettingsViewController: NSViewController {
         TodoManager.initReflowShortcut()
         toggleTodoShortcutView.shortcutValidator = TodoShortcutValidator(defaultsKey: TodoManager.toggleDefaultsKey)
         reflowTodoShortcutView.shortcutValidator = TodoShortcutValidator(defaultsKey: TodoManager.reflowDefaultsKey)
+        connectTodoShortcutViewsToDefaults()
+        showHideTodoModeSettings(animated: false)
+    }
+
+    /// Cocoa bindings can write a shortcut recorder's stale value back while a
+    /// defaults dictionary is replaced. Disconnect before Restore Defaults so
+    /// the canonical shortcut is not combined with the recorder's old modifiers.
+    func disconnectTodoShortcutViewsForDefaultsReset() {
+        toggleTodoShortcutView.setAssociatedUserDefaultsKey(nil, withTransformerName: MASDictionaryTransformerName)
+        reflowTodoShortcutView.setAssociatedUserDefaultsKey(nil, withTransformerName: MASDictionaryTransformerName)
+    }
+
+    func connectTodoShortcutViewsToDefaults() {
+        // Make repeated config/reset reloads idempotent rather than stacking
+        // multiple bindings on the same recorder.
+        disconnectTodoShortcutViewsForDefaultsReset()
         toggleTodoShortcutView.setAssociatedUserDefaultsKey(TodoManager.toggleDefaultsKey, withTransformerName: MASDictionaryTransformerName)
         reflowTodoShortcutView.setAssociatedUserDefaultsKey(TodoManager.reflowDefaultsKey, withTransformerName: MASDictionaryTransformerName)
-        showHideTodoModeSettings(animated: false)
     }
     
     private func showHideTodoModeSettings(animated: Bool) {
