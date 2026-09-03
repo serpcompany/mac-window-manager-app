@@ -12,8 +12,8 @@ Status: **Reconstructed source fork; signed installed launch, Accessibility, Doc
 
 ## Installed candidate evidence
 
-- Installed path: `/Applications/Rectangle Clone.app`.
-- Product/bundle/URL identity: `Rectangle Clone`, `co.serp.rectangleclone`, `rectangleclone`.
+- Installed path: `/Applications/Window Manager.app`.
+- Product/bundle/URL identity: `Window Manager`, `com.serp.windowmanager`, `windowmanager`.
 - Architecture: universal `arm64` + `x86_64`.
 - Signature: Developer ID Application, owner team `847HR8U8D9`.
 - `codesign --verify --deep --strict` passes.
@@ -44,17 +44,17 @@ The first Release archive exposed a real Team-ID mismatch between an ad-hoc app 
 
 ## Runtime defects found during installed testing
 
-- The first candidate status item reused macOS's generic `Item-0` visibility record. A pre-existing hidden record immediately rewrote `hideMenubarIcon` to `1` on every launch. A unique autosave name alone still allowed macOS to persist it hidden. The status item now uses `co.serp.rectangleclone.statusItem` and makes the in-app **Hide menu bar icon** preference the sole visibility authority; `scripts/diagnose_runtime.sh` is the installed-runtime regression check.
-- Toggling the original Accessibility row did not repair it. macOS logged `Failed to match existing code requirement`. Removing the stale row and adding `/Applications/Rectangle Clone.app` created a matching grant; the installed app then passed the readiness probe.
-- A real TextEdit window moved through `rectangleclone://execute-action?name=left-half`, proving the authorized window-control path. Carbon did not accept injected `CGEvent` keystrokes, so a physical shortcut press remains the required hotkey-delivery check rather than a synthetic false failure.
+- The first candidate status item reused macOS's generic `Item-0` visibility record. A pre-existing hidden record immediately rewrote `hideMenubarIcon` to `1` on every launch. A unique autosave name alone still allowed macOS to persist it hidden. The status item now uses `com.serp.windowmanager.statusItem` and makes the in-app **Hide menu bar icon** preference the sole visibility authority; `scripts/diagnose_runtime.sh` is the installed-runtime regression check.
+- Toggling the original Accessibility row did not repair it. macOS logged `Failed to match existing code requirement`. Removing the stale row and adding `/Applications/Window Manager.app` created a matching grant; the installed app then passed the readiness probe.
+- A real TextEdit window moved through `windowmanager://execute-action?name=left-half`, proving the authorized window-control path. Carbon did not accept injected `CGEvent` keystrokes, so a physical shortcut press remains the required hotkey-delivery check rather than a synthetic false failure.
 - The owner physically exercised ⌥⌘← after the permission repair and confirmed that the installed app moved the window.
 - Duplicate shortcut validators reject conflicts and name the owning action. Startup/import cleanup preserves the first action in canonical order and removes later duplicates; the installed candidate defaults contain no duplicate identities.
 - The installed app uses regular activation policy and appears in the Dock accessibility tree. This intentionally differs from Rectangle's `LSUIElement` behavior at the owner's request.
-- The menu-bar status item uses a fixed square length, an explicit template image, a candidate-owned autosave name, and a Rectangle Clone accessibility label. Control Center still reports the item as blocked from the visible right-side menu bar on this crowded system; there is no public third-party `neverClip` API. The normal top-left app menu and Dock icon remain visible.
+- The menu-bar status item uses a fixed square length, an explicit template image, a candidate-owned autosave name, and a Window Manager accessibility label. Control Center still reports the item as blocked from the visible right-side menu bar on this crowded system; there is no public third-party `neverClip` API. The normal top-left app menu and Dock icon remain visible.
 - Issue #4 commit `33b3a5e` was installed and its explicit Restore Defaults flow was exercised. Core/extra Shortcuts, General, and Snap Areas match the requested profile in direct candidate observation; candidate captures and raw defaults are recorded in `docs/app-replica/evidence/issue-4/installed-reset-verification.md`. This remains candidate-only evidence, not the required paired Rectangle Settings audit.
 
 ## Current artifact
 
-- App: `/Applications/Rectangle Clone.app`
+- App: `/Applications/Window Manager.app`
 - ZIP: `dist/Rectangle-Clone-1.100-local.zip`
 - ZIP SHA-256: `13f992c407f68528da2147861ff06e1c0f8e7ba169e382ed7bf8256fbfca12be`

@@ -9,10 +9,10 @@ env:
   XCODE_SCHEME: "Rectangle"
   CODE_SIGN_IDENTITY: "-"
   BUILD_DIR: "build"
-  XCODE_ARCHIVE: "RectangleClone.xcarchive"
-  APP_NAME: "Rectangle Clone.app"
+  XCODE_ARCHIVE: "WindowManager.xcarchive"
+  APP_NAME: "Window Manager.app"
   EXPORT_OPTIONS_PLIST: "exportOptions.plist"
-  DMG_NAME: "Rectangle Clone"
+  DMG_NAME: "Window Manager"
   DMG_FILE_NAME: "Rectangle-Clone.dmg"
 
 jobs:

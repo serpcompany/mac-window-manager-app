@@ -7,7 +7,7 @@ import os.log
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    static let launcherAppId = "co.serp.rectangleclone.launcher"
+    static let launcherAppId = "com.serp.windowmanager.launcher"
 
     private let accessibilityAuthorization = AccessibilityAuthorization()
     private let statusItem = RectangleStatusItem.instance
@@ -23,7 +23,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var applicationToggle: ApplicationToggle!
     private var windowCalculationFactory: WindowCalculationFactory!
     private var snappingManager: SnappingManager!
-    private var stackBadgeManager: StackBadgeManager!
     private var titleBarManager: TitleBarManager!
     private var greenButtonManager: GreenButtonManager!
     
@@ -47,8 +46,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         Defaults.loadFromSupportDir()
-        migrateShowEighthsInMenu()
-
         checkVersion()
         mainStatusMenu.delegate = self
         statusItem.refreshVisibility()
@@ -73,8 +70,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         mainStatusMenu.autoenablesItems = false
         addMenuIcons()
         addWindowActionMenuItems()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(rebuildMenu), name: .showAdditionalSizesInMenuChanged, object: nil)
 
         // Candidate update infrastructure is intentionally not configured. The
         // upstream appcast and signing key belong to Rectangle's operator.
@@ -104,6 +99,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             ShippingDefaultProfile.synchronizeStandardDefaults()
         }
         ShippingDefaultProfile.removeRetiredTodoDefaults()
+        ShippingDefaultProfile.removeRetiredFeatureDefaults()
         if let lastVersion = Defaults.lastVersion.value,
            let intLastVersion = Int(lastVersion) {
             if intLastVersion < 46 {
@@ -155,7 +151,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.shortcutManager = ShortcutManager(windowManager: windowManager)
         self.applicationToggle = ApplicationToggle(shortcutManager: shortcutManager)
         self.snappingManager = SnappingManager()
-        self.stackBadgeManager = StackBadgeManager()
         self.titleBarManager = TitleBarManager()
         self.greenButtonManager = GreenButtonManager()
         checkForProblematicApps()
@@ -174,7 +169,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         for app in runningApps {
             guard let bundleId = app.bundleIdentifier else { continue }
             if let conflictingAppName = conflictingAppsIds[bundleId] {
-                AlertUtil.oneButtonAlert(question: "Potential window manager conflict: \(conflictingAppName)", text: "Since \(conflictingAppName) might have some overlapping behavior with Rectangle Clone, it's recommended that you either disable or quit \(conflictingAppName).")
+                AlertUtil.oneButtonAlert(question: "Potential window manager conflict: \(conflictingAppName)", text: "Since \(conflictingAppName) might have some overlapping behavior with Window Manager, it's recommended that you either disable or quit \(conflictingAppName).")
                 break
             }
         }
@@ -226,7 +221,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let displayNameString = displayNames.joined(separator: "\n")
         
         if !problemBundles.isEmpty {
-            AlertUtil.oneButtonAlert(question: "Known issues with installed applications", text: "\(displayNameString)\n\nThese applications have issues with the drag to screen edge to snap functionality in Rectangle Clone.\n\nYou can either ignore the applications using the menu item in Rectangle Clone, or disable drag to screen edge snapping in Rectangle Clone preferences.")
+            AlertUtil.oneButtonAlert(question: "Known issues with installed applications", text: "\(displayNameString)\n\nThese applications have issues with the drag to screen edge to snap functionality in Window Manager.\n\nYou can either ignore the applications using the menu item in Window Manager, or disable drag to screen edge snapping in Window Manager preferences.")
             Defaults.notifiedOfProblemApps.enabled = true
         }
     }
@@ -396,9 +391,6 @@ extension AppDelegate: NSMenuDelegate {
     }
     
     func addWindowActionMenuItems() {
-        let additionalSizeCategories: Set<WindowActionCategory> = [.eighths, .ninths, .twelfths, .sixteenths]
-        let submenuOnlyWhenAdditional: Set<WindowActionCategory> = [.thirds, .size]
-        let showAdditional = Defaults.showAdditionalSizesInMenu.userEnabled
         var menuIndex = 0
         var categoryMenus: [CategoryMenu] = []
         for action in WindowAction.active {
@@ -407,23 +399,16 @@ extension AppDelegate: NSMenuDelegate {
             newMenuItem.representedObject = action
 
             if !Defaults.showAllActionsInMenu.userEnabled, let category = action.category {
-                // When additional sizes are off, keep Thirds and Size as flat items
-                if submenuOnlyWhenAdditional.contains(category) && !showAdditional {
-                    // Fall through to flat item handling below
-                } else {
-                    if menuIndex != 0 && action.firstInGroup {
-                        let menu = NSMenu(title: category.displayName)
-                        menu.autoenablesItems = false
-                        categoryMenus.append(CategoryMenu(menu: menu, category: category))
-                    }
-                    categoryMenus.last?.menu.addItem(newMenuItem)
-                    continue
+                if menuIndex != 0 && action.firstInGroup {
+                    let menu = NSMenu(title: category.displayName)
+                    menu.autoenablesItems = false
+                    categoryMenus.append(CategoryMenu(menu: menu, category: category))
                 }
+                categoryMenus.last?.menu.addItem(newMenuItem)
+                continue
             }
 
-            // Flat item - suppress extra separator for almostMaximize when Size is not a submenu
-            let showSeparator = action.firstInGroup && !(action == .almostMaximize && !showAdditional)
-            if menuIndex != 0 && showSeparator {
+            if menuIndex != 0 && action.firstInGroup {
                 mainStatusMenu.insertItem(NSMenuItem.separator(), at: menuIndex)
                 menuIndex += 1
             }
@@ -439,10 +424,6 @@ extension AppDelegate: NSMenuDelegate {
             for categoryMenu in sortedCategoryMenus {
                 categoryMenu.menu.delegate = self
                 let menuMenuItem = NSMenuItem(title: categoryMenu.category.displayName, action: nil, keyEquivalent: "")
-                if additionalSizeCategories.contains(categoryMenu.category) {
-                    menuMenuItem.isHidden = !Defaults.showAdditionalSizesInMenu.userEnabled
-                    additionalSizeMenuItems.append(menuMenuItem)
-                }
                 mainStatusMenu.insertItem(menuMenuItem, at: menuIndex)
                 mainStatusMenu.setSubmenu(categoryMenu.menu, for: menuMenuItem)
                 menuIndex += 1
@@ -463,14 +444,6 @@ extension AppDelegate: NSMenuDelegate {
         dynamicMenuItemCount = 0
         additionalSizeMenuItems.removeAll()
         addWindowActionMenuItems()
-    }
-
-    private func migrateShowEighthsInMenu() {
-        let oldKey = "showEighthsInMenu"
-        let oldValue = UserDefaults.standard.integer(forKey: oldKey)
-        if oldValue != 0 && Defaults.showAdditionalSizesInMenu.notSet {
-            Defaults.showAdditionalSizesInMenu.enabled = (oldValue == 1)
-        }
     }
 
     struct CategoryMenu {
@@ -513,7 +486,7 @@ extension AppDelegate {
             
             func confirmExecuteTask(action: String, bundleId: String) -> Bool {
                 // Defense-in-depth: any web page or another app can trigger the
-                // `rectangleclone://execute-task=ignore-app` URL with an arbitrary
+                // `windowmanager://execute-task=ignore-app` URL with an arbitrary
                 // bundle-id. Without confirmation this silently mutates
                 // Rectangle's `disabledApps` defaults. Skip the prompt only
                 // when Rectangle itself is frontmost (i.e. the user almost
@@ -523,8 +496,8 @@ extension AppDelegate {
                 }
                 let alert = NSAlert()
                 alert.alertStyle = .warning
-                alert.messageText = "Allow Rectangle Clone URL action?".localized
-                alert.informativeText = String(format: "An external source asked Rectangle Clone to perform \"%@\" on app bundle id \"%@\". Allow?".localized, action, bundleId)
+                alert.messageText = "Allow Window Manager URL action?".localized
+                alert.informativeText = String(format: "An external source asked Window Manager to perform \"%@\" on app bundle id \"%@\". Allow?".localized, action, bundleId)
                 alert.addButton(withTitle: "Allow".localized)
                 alert.addButton(withTitle: "Cancel".localized)
                 NSApp.activate(ignoringOtherApps: true)

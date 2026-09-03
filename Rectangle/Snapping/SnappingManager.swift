@@ -184,11 +184,6 @@ class SnappingManager {
                 return false
             }
         }
-        if let windowId = windowId {
-            if StageUtil.stageCapable && StageUtil.stageEnabled && StageUtil.getStageStripWindowGroup(windowId) != nil {
-                return false
-            }
-        }
         return true
     }
     

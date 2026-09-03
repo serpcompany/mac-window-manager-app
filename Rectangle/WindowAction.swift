@@ -135,8 +135,32 @@ enum WindowAction: Int, Codable {
          displayEight = 127,
          displayNine = 128
 
-    // Order matters here - it's used in the menu
-    static let active = [leftHalf, rightHalf, centerHalf, topHalf, bottomHalf,
+    /// Actions that were reachable only through the owner-removed Extras surface.
+    /// Keep the enum cases for backwards-compatible decoding, but do not bind,
+    /// export, import, show in menus, or accept them through the URL scheme.
+    static let retiredExtras: Set<WindowAction> = [
+        .largerWidth, .smallerWidth,
+        .topVerticalThird, .middleVerticalThird, .bottomVerticalThird,
+        .topVerticalTwoThirds, .bottomVerticalTwoThirds,
+        .topLeftEighth, .topCenterLeftEighth, .topCenterRightEighth, .topRightEighth,
+        .bottomLeftEighth, .bottomCenterLeftEighth, .bottomCenterRightEighth, .bottomRightEighth,
+        .topLeftNinth, .topCenterNinth, .topRightNinth,
+        .middleLeftNinth, .middleCenterNinth, .middleRightNinth,
+        .bottomLeftNinth, .bottomCenterNinth, .bottomRightNinth,
+        .topLeftTwelfth, .topCenterLeftTwelfth, .topCenterRightTwelfth, .topRightTwelfth,
+        .middleLeftTwelfth, .middleCenterLeftTwelfth, .middleCenterRightTwelfth, .middleRightTwelfth,
+        .bottomLeftTwelfth, .bottomCenterLeftTwelfth, .bottomCenterRightTwelfth, .bottomRightTwelfth,
+        .topLeftSixteenth, .topCenterLeftSixteenth, .topCenterRightSixteenth, .topRightSixteenth,
+        .upperMiddleLeftSixteenth, .upperMiddleCenterLeftSixteenth,
+        .upperMiddleCenterRightSixteenth, .upperMiddleRightSixteenth,
+        .lowerMiddleLeftSixteenth, .lowerMiddleCenterLeftSixteenth,
+        .lowerMiddleCenterRightSixteenth, .lowerMiddleRightSixteenth,
+        .bottomLeftSixteenth, .bottomCenterLeftSixteenth,
+        .bottomCenterRightSixteenth, .bottomRightSixteenth
+    ]
+
+    // Order matters here - it's used in the menu.
+    private static let fullActionCatalog = [leftHalf, rightHalf, centerHalf, topHalf, bottomHalf,
                          topLeft, topRight, bottomLeft, bottomRight,
                          firstThird, centerThird, lastThird, firstTwoThirds, centerTwoThirds, lastTwoThirds,
                          topVerticalThird, middleVerticalThird, bottomVerticalThird, topVerticalTwoThirds, bottomVerticalTwoThirds,
@@ -167,6 +191,8 @@ enum WindowAction: Int, Codable {
                          displayOne, displayTwo, displayThree, displayFour, displayFive,
                          displaySix, displaySeven, displayEight, displayNine
     ]
+
+    static let active = fullActionCatalog.filter { !retiredExtras.contains($0) }
 
     func post() {
         NotificationCenter.default.post(name: notificationName, object: ExecutionParameters(self))

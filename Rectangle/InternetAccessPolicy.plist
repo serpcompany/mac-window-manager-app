@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>ApplicationDescription</key>
-	<string>Rectangle Clone is a local, open-source window manager.</string>
+	<string>Window Manager is a local, open-source window manager.</string>
 	<key>Connections</key>
 	<array/>
 </dict>

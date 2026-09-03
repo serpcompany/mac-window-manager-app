@@ -1,4 +1,4 @@
-# Rectangle Clone scope
+# Window Manager scope
 
 ## Authorization and source
 
@@ -19,9 +19,9 @@ The source commit is the functional baseline. The older installed build is suppo
 
 ## Candidate identity
 
-- Working product name: **Rectangle Clone**
-- Working bundle identifier: `co.serp.rectangleclone`
-- Working URL scheme: `rectangleclone`
+- Working product name: **Window Manager**
+- Working bundle identifier: `com.serp.windowmanager`
+- Working URL scheme: `windowmanager`
 - Intended use: an independently buildable, rebranded macOS window manager derived from the licensed Rectangle source
 - Distribution: local development artifact signed with the owner's existing Developer ID identity; notarization, update infrastructure, final name, and public-release destination remain owner decisions
 
@@ -54,6 +54,6 @@ The candidate is not Rectangle, is not endorsed by Rectangle's authors, and must
 On 2026-09-04 the owner explicitly requested these changes from Rectangle behavior:
 
 - Reject duplicate shortcut assignments rather than cycling multiple actions on one shortcut.
-- Show Rectangle Clone in the Dock by default. On macOS this also means showing it in Command-Tab.
+- Show Window Manager in the Dock by default. On macOS this also means showing it in Command-Tab.
 - Keep a menu-bar status item enabled by default, with the Dock as the recovery path when macOS clips third-party items on a crowded menu bar.
 - Remove Rectangle's Todo Mode feature entirely, including its Settings section, menu commands, shortcuts, persistence keys, layout behavior, and supporting code. The owner explicitly removed it from clone scope on 2026-09-04 after confirming it was not needed.

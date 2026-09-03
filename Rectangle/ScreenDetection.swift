@@ -381,7 +381,7 @@ enum DockUtil {
 
 extension NSScreen {
 
-    func adjustedVisibleFrame(_ ignoreStage: Bool = false) -> CGRect {
+    func adjustedVisibleFrame() -> CGRect {
         let screens = NSScreen.screens
         let dockSnapshot = DockUtil.snapshot(for: screens)
         var newFrame: CGRect
@@ -402,19 +402,6 @@ extension NSScreen {
             newFrame = DockUtil.correctedVisibleFrame(for: self, snapshot: dockSnapshot)
         }
 
-        if !ignoreStage && Defaults.stageSize.value > 0 {
-            if StageUtil.stageCapable && StageUtil.stageEnabled && StageUtil.stageStripShow && StageUtil.isStageStripVisible(self) {
-                let stageSize = Defaults.stageSize.value < 1
-                    ? newFrame.size.width * Defaults.stageSize.cgFloat
-                    : Defaults.stageSize.cgFloat
-                
-                if StageUtil.stageStripPosition == .left {
-                    newFrame.origin.x += stageSize
-                }
-                newFrame.size.width -= stageSize
-            }
-        }
-        
         if Defaults.screenEdgeGapsOnMainScreenOnly.enabled, self != NSScreen.screens.first {
             return newFrame
         }

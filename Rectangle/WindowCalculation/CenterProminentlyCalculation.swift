@@ -6,19 +6,13 @@ class CenterProminentlyCalculation: WindowCalculation {
     
     override func calculate(_ params: WindowCalculationParameters) -> WindowCalculationResult? {
         
-        var screenFrame: CGRect?
-        if !Defaults.alwaysAccountForStage.userEnabled {
-            screenFrame = params.usableScreens.currentScreen.adjustedVisibleFrame(true)
-        }
-                
-        let rectResult = calculateRect(params.asRectParams(visibleFrame: screenFrame))
+        let rectResult = calculateRect(params.asRectParams())
         
         let resultingAction: WindowAction = rectResult.resultingAction ?? params.action
 
         return WindowCalculationResult(rect: rectResult.rect,
                                        screen: params.usableScreens.currentScreen,
-                                       resultingAction: resultingAction,
-                                       resultingScreenFrame: screenFrame)
+                                       resultingAction: resultingAction)
     }
     
     override func calculateRect(_ params: RectCalculationParameters) -> RectResult {

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-app_path="${1:-/Applications/Rectangle Clone.app}"
-expected_bundle_id="co.serp.rectangleclone"
+app_path="${1:-/Applications/Window Manager.app}"
+expected_bundle_id="com.serp.windowmanager"
 expected_team_id="847HR8U8D9"
 
 if [[ ! -d "$app_path" ]]; then
@@ -11,7 +11,7 @@ if [[ ! -d "$app_path" ]]; then
 fi
 
 plist="$app_path/Contents/Info.plist"
-executable="$app_path/Contents/MacOS/Rectangle Clone"
+executable="$app_path/Contents/MacOS/Window Manager"
 
 actual_bundle_id=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$plist")
 actual_name=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleName' "$plist")
@@ -20,8 +20,8 @@ ls_ui_element=$(/usr/libexec/PlistBuddy -c 'Print :LSUIElement' "$plist")
 team_id=$(codesign -dv --verbose=4 "$app_path" 2>&1 | sed -n 's/^TeamIdentifier=//p')
 
 [[ "$actual_bundle_id" == "$expected_bundle_id" ]]
-[[ "$actual_name" == "Rectangle Clone" ]]
-[[ "$actual_scheme" == "rectangleclone" ]]
+[[ "$actual_name" == "Window Manager" ]]
+[[ "$actual_scheme" == "windowmanager" ]]
 [[ "$ls_ui_element" == "false" ]]
 [[ "$team_id" == "$expected_team_id" ]]
 
@@ -35,4 +35,4 @@ if rg -a -q 'rectangleapp\.com|com\.knollsoft\.Rectangle|XSYZ3E4B7D|SUPublicEDKe
   exit 1
 fi
 
-echo "PASS: signed universal Rectangle Clone artifact has isolated identity"
+echo "PASS: signed universal Window Manager artifact has isolated identity"

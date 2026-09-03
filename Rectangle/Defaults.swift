@@ -70,7 +70,7 @@ struct ShippingDefaultProfile {
                 "unsnapRestore", "footprintAnimationDurationMultiplier",
                 "hapticFeedbackOnSnap", "landscapeSnapAreas", "portraitSnapAreas",
                 "gapSize", "skipGapTopEdge", "moveCursorAcrossDisplays",
-                "doubleClickTitleBar", "greenButtonOverride", "stageSize"
+                "doubleClickTitleBar", "greenButtonOverride"
             ]
     }
 
@@ -120,7 +120,6 @@ struct ShippingDefaultProfile {
         userDefaults.set(1, forKey: "moveCursorAcrossDisplays")
         userDefaults.set(0, forKey: "doubleClickTitleBar")
         userDefaults.set(true, forKey: "greenButtonOverride")
-        userDefaults.set(Float(190), forKey: "stageSize")
         storeJSON(landscapeSnapAreas, forKey: "landscapeSnapAreas", in: userDefaults)
         storeJSON(portraitSnapAreas, forKey: "portraitSnapAreas", in: userDefaults)
         return true
@@ -145,7 +144,6 @@ struct ShippingDefaultProfile {
         Defaults.moveCursorAcrossDisplays.enabled = true
         Defaults.doubleClickTitleBar.value = 0
         Defaults.greenButtonOverride.enabled = true
-        Defaults.stageSize.value = 190
         Defaults.landscapeSnapAreas.typedValue = landscapeSnapAreas
         Defaults.portraitSnapAreas.typedValue = portraitSnapAreas
     }
@@ -163,6 +161,18 @@ struct ShippingDefaultProfile {
             "todo", "todoMode", "todoApplication", "todoSidebarWidth",
             "todoSidebarWidthUnit", "todoSidebarSide", "toggleTodo", "reflowTodo"
         ].forEach { userDefaults.removeObject(forKey: $0) }
+    }
+
+    /// Remove persistence for the owner-removed Stage Manager and Extras features.
+    static func removeRetiredFeatureDefaults(from userDefaults: UserDefaults = .standard) {
+        let retiredPreferenceKeys = [
+            "stageSize", "dragFromStage", "alwaysAccountForStage",
+            "widthStepSize", "showAdditionalSizesInMenu", "showEighthsInMenu",
+            "cyclingOverlapOffset", "cyclingOverlapOffsetSize", "cyclingOverlapMaxCascade",
+            "stackBadge", "horizontalSplitRatio", "verticalSplitRatio"
+        ]
+        (retiredPreferenceKeys + WindowAction.retiredExtras.map(\.name) + StackBadgeManager.defaultsKeys)
+            .forEach { userDefaults.removeObject(forKey: $0) }
     }
 
     private static func storeJSON<T: Encodable>(_ value: T, forKey key: String, in userDefaults: UserDefaults) {
@@ -252,9 +262,6 @@ class Defaults {
     static let shortEdgeSnapAreaSize = FloatDefault(key: "shortEdgeSnapAreaSize", defaultValue: 145)
     static let cascadeAllDeltaSize = FloatDefault(key: "cascadeAllDeltaSize", defaultValue: 30)
     static let sixthsSnapArea = OptionalBoolDefault(key: "sixthsSnapArea")
-    static let stageSize = FloatDefault(key: "stageSize", defaultValue: 190)
-    static let dragFromStage = OptionalBoolDefault(key: "dragFromStage")
-    static let alwaysAccountForStage = OptionalBoolDefault(key: "alwaysAccountForStage")
     static let landscapeSnapAreas = JSONDefault<[Directional:SnapAreaConfig]>(key: "landscapeSnapAreas")
     static let portraitSnapAreas = JSONDefault<[Directional:SnapAreaConfig]>(key: "portraitSnapAreas")
     static let missionControlDragging = OptionalBoolDefault(key: "missionControlDragging")
@@ -307,7 +314,6 @@ class Defaults {
         minimumWindowWidth,
         minimumWindowHeight,
         sizeOffset,
-        widthStepSize,
         unsnapRestore,
         curtainChangeSize,
         smallerShrinksMaximizedHeight,
@@ -320,7 +326,6 @@ class Defaults {
         screenEdgeGapsOnMainScreenOnly,
         screenEdgeGapTopNotch,
         showAllActionsInMenu,
-        showAdditionalSizesInMenu,
         footprintAlpha,
         footprintBorderWidth,
         footprintFade,
@@ -334,8 +339,6 @@ class Defaults {
         notifiedOfProblemApps,
         specifiedHeight,
         specifiedWidth,
-        horizontalSplitRatio,
-        verticalSplitRatio,
         moveCursorAcrossDisplays,
         moveCursor,
         autoMaximize,
@@ -345,9 +348,6 @@ class Defaults {
         shortEdgeSnapAreaSize,
         cascadeAllDeltaSize,
         sixthsSnapArea,
-        stageSize,
-        dragFromStage,
-        alwaysAccountForStage,
         landscapeSnapAreas,
         portraitSnapAreas,
         missionControlDragging,
@@ -363,11 +363,6 @@ class Defaults {
         systemWideMouseDown,
         systemWideMouseDownApps,
         screensOrderedByX,
-        showAdditionalSizesInMenu,
-        cyclingOverlapOffset,
-        cyclingOverlapOffsetSize,
-        cyclingOverlapMaxCascade,
-        stackBadge,
         moveFixedSizeToEdge,
         greenButtonOverride
     ]

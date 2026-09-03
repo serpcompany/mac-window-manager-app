@@ -100,7 +100,7 @@ final class ShippingDefaultProfileTests: XCTestCase {
         XCTAssertEqual(userDefaults.integer(forKey: "moveCursorAcrossDisplays"), 1)
         XCTAssertEqual(userDefaults.integer(forKey: "doubleClickTitleBar"), 0)
         XCTAssertTrue(userDefaults.bool(forKey: "greenButtonOverride"))
-        XCTAssertEqual(userDefaults.float(forKey: "stageSize"), 190)
+        XCTAssertNil(userDefaults.object(forKey: "stageSize"))
 
         let landscape: [Directional: SnapAreaConfig] = try decodeJSONDefault("landscapeSnapAreas")
         assertSnap(landscape, .tl, action: .topLeft)
@@ -121,6 +121,21 @@ final class ShippingDefaultProfileTests: XCTestCase {
         assertSnap(portrait, .bl, action: .bottomLeft)
         assertSnap(portrait, .b, compound: .halves)
         assertSnap(portrait, .br, action: .bottomRight)
+    }
+
+    func testRetiredStageAndExtrasDefaultsAreRemoved() {
+        let keys = [
+            "stageSize", "dragFromStage", "alwaysAccountForStage",
+            "widthStepSize", "showAdditionalSizesInMenu", "showEighthsInMenu",
+            "cyclingOverlapOffset", "cyclingOverlapOffsetSize", "cyclingOverlapMaxCascade",
+            "stackBadge", "horizontalSplitRatio", "verticalSplitRatio"
+        ] + WindowAction.retiredExtras.map(\.name) + StackBadgeManager.defaultsKeys
+        keys.forEach { userDefaults.set("legacy", forKey: $0) }
+
+        ShippingDefaultProfile.removeRetiredFeatureDefaults(from: userDefaults)
+
+        keys.forEach { XCTAssertNil(userDefaults.object(forKey: $0), $0) }
+        XCTAssertTrue(Set(WindowAction.active).isDisjoint(with: WindowAction.retiredExtras))
     }
 
     func testFreshInstallGateAppliesOnce() throws {
@@ -162,7 +177,7 @@ final class ShippingDefaultProfileTests: XCTestCase {
         XCTAssertEqual(userDefaults.float(forKey: "gapSize"), 0)
 
         let config = Config(
-            bundleId: "co.serp.rectangleclone",
+            bundleId: "com.serp.windowmanager",
             version: "ShippingDefaultProfileTests",
             shortcuts: ShippingDefaultProfile.shortcutByDefaultsKey,
             defaults: [
@@ -615,20 +630,22 @@ final class DockVisibleFrameTests: XCTestCase {
 
 class DefaultsExportTests: XCTestCase {
 
-    func testOverlapDefaultsInExportArray() {
+    func testRetiredExtrasDefaultsAreNotExported() {
         let keys = Defaults.array.map { $0.key }
-        XCTAssertTrue(keys.contains("cyclingOverlapOffset"), "cyclingOverlapOffset missing from Defaults.array")
-        XCTAssertTrue(keys.contains("cyclingOverlapOffsetSize"), "cyclingOverlapOffsetSize missing from Defaults.array")
-        XCTAssertTrue(keys.contains("cyclingOverlapMaxCascade"), "cyclingOverlapMaxCascade missing from Defaults.array")
+        XCTAssertFalse(keys.contains("cyclingOverlapOffset"))
+        XCTAssertFalse(keys.contains("cyclingOverlapOffsetSize"))
+        XCTAssertFalse(keys.contains("cyclingOverlapMaxCascade"))
         XCTAssertTrue(keys.contains("cooperativeCornerResize"), "cooperativeCornerResize missing from Defaults.array")
-        XCTAssertTrue(keys.contains("stackBadge"), "stackBadge missing from Defaults.array")
+        XCTAssertFalse(keys.contains("stackBadge"))
+        XCTAssertFalse(keys.contains("stageSize"))
+        XCTAssertFalse(keys.contains("showAdditionalSizesInMenu"))
         XCTAssertTrue(keys.contains("shippingDefaultProfileVersion"), "shipping profile marker missing from Defaults.array")
     }
 }
 
 class ConfigImportTests: XCTestCase {
 
-    private static let shortcutKeys = WindowAction.active.map(\.name) + StackBadgeManager.defaultsKeys
+    private static let shortcutKeys = WindowAction.active.map(\.name)
     private var storedValues = [String: Any]()
     private var absentKeys = Set<String>()
     private var previousShippingProfileVersion = 0
@@ -729,7 +746,7 @@ class ConfigImportTests: XCTestCase {
     }
 
     private func loadConfig(shortcuts: [String: Shortcut], defaults: [String: CodableDefault] = [:]) throws {
-        let config = Config(bundleId: "co.serp.rectangleclone",
+        let config = Config(bundleId: "com.serp.windowmanager",
                             version: "ConfigImportTests",
                             shortcuts: shortcuts,
                             defaults: defaults)
@@ -4696,7 +4713,6 @@ final class CrossDisplayResizeTests: XCTestCase {
             (Defaults.horizontalSplitRatio, CodableDefault(float: 50)),
             (Defaults.moveFixedSizeToEdge, CodableDefault(int: EdgeAlignment.edgesAndCorners.rawValue)),
             (Defaults.gapSize, CodableDefault(float: 0)),
-            (Defaults.stageSize, CodableDefault(float: 0)),
             (Defaults.screenEdgeGapLeft, CodableDefault(float: 0)),
             (Defaults.screenEdgeGapRight, CodableDefault(float: 0)),
             (Defaults.screenEdgeGapTop, CodableDefault(float: 0)),
