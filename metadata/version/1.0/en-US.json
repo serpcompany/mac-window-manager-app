@@ -1,6 +1,7 @@
 {
   "description": "Window Manager arranges macOS windows with configurable keyboard shortcuts and drag-to-edge snap areas. Move windows into halves, corners, thirds, fourths, and sixths; move them between displays; center, maximize, resize, and restore them.\n\nWindow Manager runs locally. It does not include analytics, advertising, account sign-in, or a network update service.",
   "keywords": "windows,resize,snap,shortcuts,productivity,desktop,display,arrange",
-  "promotionalText": "Arrange windows quickly with keyboard shortcuts and drag-to-edge snapping.",
-  "whatsNew": "Initial release of Window Manager."
+  "supportUrl": "https://serp.store/support",
+  "marketingUrl": "https://serp.store",
+  "promotionalText": "Arrange windows quickly with keyboard shortcuts and drag-to-edge snapping."
 }
