@@ -14,3 +14,7 @@ No App Store submission blocker remains. Exact sandbox-runtime Accessibility ver
 The matching GitHub prerelease is `v1.0.0` and includes the Developer ID–signed, notarized, stapled universal installer `Window-Manager-1.0.0.dmg`. It will be promoted to a full release after Apple approval.
 
 Resolved resources are recorded in Issue #9: app `6808371833`, version `7a92c15a-2073-417d-a0b2-7dc0b2bc0765`, valid build `86a7091b-2336-4810-8838-f73ebf2be6ee`, and submission `0adf89f0-3a22-4677-8f8e-ac13a1412307`.
+
+## Shipped implementation issues
+
+The implementation work for #4, #5, #7, and #9 is merged into `main`, included in source tag `v1.0.0`, packaged in the notarized GitHub DMG, and included in App Store build 2. Those implementation issues are closed by the housekeeping PR that adds this record. Apple review and post-install observation continue through the release monitor rather than keeping shipped code issues open.
