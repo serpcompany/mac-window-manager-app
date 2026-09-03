@@ -1,0 +1,8 @@
+Local provisioning-profile audit
+Locations checked:
+- /Users/devin/Library/MobileDevice/Provisioning Profiles
+- /Users/devin/Library/Developer/Xcode/UserData/Provisioning Profiles
+Match rule: decoded application-identifier contains "windowmanager"
+Result: no matching local main or helper profile found.
+
+The keychain separately contains a valid Apple Distribution identity for team 847HR8U8D9; see local-signing-identities.txt.
