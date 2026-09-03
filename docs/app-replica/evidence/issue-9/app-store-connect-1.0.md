@@ -24,5 +24,8 @@ Recorded 2026-09-04 (Asia/Tokyo).
 - Review submission: `28defa41-2ad7-4f9e-9615-cb8f0feaf0cf`
 - Submitted: 2026-09-03T21:44:25.219Z
 - Current state: `WAITING_FOR_REVIEW`
+- Git tag: annotated `v1.0`, resolving to release source commit `16c0f57c85dd20ae2510d18630f9170954d290cb`
+- GitHub Release: https://github.com/serpcompany/mac-window-manager-app/releases/tag/v1.0
+- GitHub state: published prerelease while Apple review is pending
 
-The canonical readiness check reported zero blocking errors before submission. The public API cannot verify App Privacy publication, so its published state was verified in the signed-in App Store Connect UI. Version 1.0 and its single review item were submitted successfully and both report `WAITING_FOR_REVIEW`.
+The canonical readiness check reported zero blocking errors before submission. The public API cannot verify App Privacy publication, so its published state was verified in the signed-in App Store Connect UI. Version 1.0 and its single review item were submitted successfully and both report `WAITING_FOR_REVIEW`. The GitHub prerelease will be promoted to a full release after Apple reports the version ready for distribution.
