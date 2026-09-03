@@ -60,7 +60,7 @@ Automatic updates are disabled in this development identity. The fork does not c
 
 ## Releases
 
-Mac App Store submissions are mirrored in this repository with an annotated `v<version>` tag and a matching GitHub prerelease, then promoted to a full release after Apple approval. The tag points to the exact commit used for the App Store build and does not attach the receipt-bound Mac App Store package. See [the release runbook](docs/release/local-release.md).
+Mac App Store submissions are mirrored with strict `vMAJOR.MINOR.PATCH` tags and GitHub prereleases, then promoted after Apple approval. Every GitHub release includes a universal Developer ID–signed, Apple-notarized `.dmg` installer; the receipt-bound Mac App Store package is kept separate. See [the release runbook](docs/release/local-release.md).
 
 ## Verification
 

@@ -19,4 +19,4 @@ Run `git diff --check`, the full Xcode test suite, a clean candidate build, buil
 
 ## Releases
 
-For any version/build change, App Store submission, Git tag, or GitHub Release, follow `docs/release/local-release.md`. A release is complete only when the approved App Store version has an annotated `v<version>` tag and a published GitHub Release targeting the exact commit used for its uploaded build.
+For any version/build change, App Store submission, Git tag, DMG, or GitHub Release, follow `docs/release/local-release.md`. Use strict `MAJOR.MINOR.PATCH` SemVer. A release is complete only when its annotated tag targets the exact build commit and its GitHub Release includes a verified Developer ID–signed, notarized DMG installer.
