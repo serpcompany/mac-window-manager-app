@@ -1,10 +1,14 @@
-# Version 1.0 App Store blockers
+# Version 1.0 App Store status
 
-The signed candidate is uploaded and valid in App Store Connect, but submission remains blocked on owner/account facts:
+Mac Window Manager 1.0 was submitted to App Review on 2026-09-03T21:44:25.219Z. Submission `28defa41-2ad7-4f9e-9615-cb8f0feaf0cf` is `WAITING_FOR_REVIEW`.
 
-- Owner-selected selling price and territories. No availability record exists yet.
-- App Review contact email and phone number. Reviewer notes can then be created without demo credentials.
-- App Privacy “no data collected” answers must be reviewed and published through App Store Connect’s web workflow.
-- Exact sandbox-runtime Accessibility verification remains pending installation through TestFlight or the Mac App Store; a distribution-signed payload cannot launch directly without a store receipt.
+Completed App Store configuration:
 
-Resolved resources are recorded in Issue #9: app `6808371833`, version `7a92c15a-2073-417d-a0b2-7dc0b2bc0765`, and valid build `57589b0f-f16e-43c7-bbc9-d1ea27c02023`. Metadata, category, copyright, content rights, age rating, encryption compliance, build attachment, and one validated desktop screenshot are complete.
+- US $4.99 base price, all 175 current storefronts, and automatic availability in new storefronts.
+- App Review contact and reviewer instructions, with no demo account required.
+- App Privacy published as “Data Not Collected.”
+- Metadata, category, copyright, content rights, age rating, encryption compliance, build attachment, and one validated desktop screenshot.
+
+No App Store submission blocker remains. Exact sandbox-runtime Accessibility verification is still pending installation through the Mac App Store; a distribution-signed payload cannot be launched directly without a store receipt. This runtime evidence requirement remains separate from Apple’s review submission state.
+
+Resolved resources are recorded in Issue #9: app `6808371833`, version `7a92c15a-2073-417d-a0b2-7dc0b2bc0765`, valid build `57589b0f-f16e-43c7-bbc9-d1ea27c02023`, and submission `28defa41-2ad7-4f9e-9615-cb8f0feaf0cf`.

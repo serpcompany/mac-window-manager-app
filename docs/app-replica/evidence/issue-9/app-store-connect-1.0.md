@@ -16,5 +16,12 @@ Recorded 2026-09-04 (Asia/Tokyo).
 - Privacy policy: https://serp.store/legal/privacy
 - Screenshot set: APP_DESKTOP (`90227cec-3864-414c-947f-85e4b39c30f7`)
 - Screenshot asset: `880a3c79-c9f0-44e2-ba46-c5c7f7256102`, complete
+- Price: US $4.99 base price
+- Availability: all 175 current storefronts; new storefronts enabled
+- App Review contact: configured
+- App Privacy: published as “Data Not Collected” on 2026-09-04 (Asia/Tokyo)
+- Review submission: `28defa41-2ad7-4f9e-9615-cb8f0feaf0cf`
+- Submitted: 2026-09-03T21:44:25.219Z
+- Current state: `WAITING_FOR_REVIEW`
 
-Canonical readiness reports two blocking errors: review details are missing and app availability is missing. App Privacy publish state is an additional web-session advisory. Submission has not been created.
+The canonical readiness check reported zero blocking errors before submission. The public API cannot verify App Privacy publication, so its published state was verified in the signed-in App Store Connect UI. Version 1.0 and its single review item were submitted successfully and both report `WAITING_FOR_REVIEW`.
