@@ -23,6 +23,8 @@ Pods
 
 ## Build products
 build/
+dist/
+.derived*/
 *.o
 *.LinkFileList
 *.hmap
@@ -33,4 +35,3 @@ build/
 *~
 *.dat
 *.dep
-

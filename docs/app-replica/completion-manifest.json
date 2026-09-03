@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "claim": "complete-reference",
+  "scope_statement": "Clone the open-source Rectangle macOS app, preserving every reachable behavior from source commit bf86a4b7d3dd246b895f149a99b39bcb89f22bfd while applying a separate working identity.",
+  "inventory_complete": false,
+  "primary_workflow_passed": false,
+  "installed_artifact_verified": false,
+  "independent_verification": {
+    "required": true,
+    "passed": false,
+    "verifier": ""
+  },
+  "rows": [
+    {"id":"launch.permission-required","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"menu.default","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"menu.option","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"settings.shortcuts","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"settings.snap-areas","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"settings.general","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"action.window-layouts","kind":"behavior","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"action.multi-display","kind":"behavior","in_scope":true,"status":"unresolved","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"snapping.drag","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"ignore.application","kind":"behavior","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"url.actions-and-tasks","kind":"behavior","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"config.import-export","kind":"behavior","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"login-item","kind":"behavior","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"updates","kind":"behavior","in_scope":true,"status":"unresolved","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"logging","kind":"both","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"persistence.identity","kind":"behavior","in_scope":true,"status":"untested","exercised":false,"evidence":{"reference":[],"candidate":[],"comparison":[],"behavior":[]}},
+    {"id":"packaging.identity","kind":"both","in_scope":true,"status":"pass","exercised":true,"evidence":{"reference":["docs/app-replica/scope.md","LICENSE"],"candidate":["docs/app-replica/evidence/1.100/candidate/installed-info-plist.txt","docs/app-replica/evidence/1.100/candidate/installed-codesign.txt","docs/app-replica/evidence/1.100/candidate/installed-executable-sha256.txt"],"comparison":["docs/app-replica/brand-inventory.md","docs/app-replica/evidence/1.100/candidate/installed-forbidden-identity-search.txt"],"behavior":["docs/app-replica/verification.md"]}}
+  ]
+}

@@ -1,0 +1,10 @@
+Reference: /Applications/Rectangle.app, version 0.98 (104)
+Environment: macOS 26.5.2, Dark, en_US, built-in Retina display
+Window: Rectangle Settings
+Toolbar: Shortcuts, Snap Areas, General
+Visible shortcut rows: Left, Right, Center, Top, Bottom, Top Left, Top Right, Bottom Left, Bottom Right, Maximize, Almost Maximize, Maximize Height, Make Smaller, Make Larger, Move to Center, Restore, Next Display, Previous Display
+Each shortcut recorder exposes an accessibility description and help text for recording or clearing the shortcut.
+Window controls: close, disabled zoom, minimize.
+The focused element during capture was the extra-shortcuts disclosure button.
+
+This concise capture accompanies the full-window screenshot. A full fresh accessibility capture is required from source version 1.100 and from the candidate before visual rows can pass.

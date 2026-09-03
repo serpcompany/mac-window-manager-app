@@ -560,7 +560,7 @@
       }
     },
     "1Xt-HY-uBw.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"RectangleLauncher\"; ObjectID = \"1Xt-HY-uBw\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Rectangle Clone Launcher\"; ObjectID = \"1Xt-HY-uBw\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -572,175 +572,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         }
       }
@@ -2048,7 +2048,7 @@
       }
     },
     "4sb-4s-VLi.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Quit RectangleLauncher\"; ObjectID = \"4sb-4s-VLi\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Quit Rectangle Clone Launcher\"; ObjectID = \"4sb-4s-VLi\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -2060,181 +2060,181 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukončit RectangleLauncher"
+            "value" : "Ukončit Rectangle Clone Launcher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Schließen"
+            "value" : "Rectangle Clone Launcher Schließen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keluar RectangleLauncher"
+            "value" : "Keluar Rectangle Clone Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Išeiti iš RectangleLauncher"
+            "value" : "Išeiti iš Rectangle Clone Launcher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avslutt RectangleLauncher"
+            "value" : "Avslutt Rectangle Clone Launcher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avslutt RectangleLauncher"
+            "value" : "Avslutt Rectangle Clone Launcher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fechar RectangleLauncher"
+            "value" : "Fechar Rectangle Clone Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sair do RectangleLauncher"
+            "value" : "Sair do Rectangle Clone Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukončiť RectangleLauncher"
+            "value" : "Ukončiť Rectangle Clone Launcher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit Rectangle Clone Launcher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Thoát RectangleLauncher"
+            "value" : "Thoát Rectangle Clone Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "退出RectangleLauncher"
+            "value" : "退出Rectangle Clone Launcher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結束RectangleLauncher"
+            "value" : "結束Rectangle Clone Launcher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結束RectangleLauncher"
+            "value" : "結束Rectangle Clone Launcher"
           }
         }
       }
     },
     "5kV-Vb-QxS.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"About RectangleLauncher\"; ObjectID = \"5kV-Vb-QxS\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"About Rectangle Clone Launcher\"; ObjectID = \"5kV-Vb-QxS\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -2246,175 +2246,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O aplikaci RectangleLauncher"
+            "value" : "O aplikaci Rectangle Clone Launcher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Über RectangleLauncher"
+            "value" : "Über Rectangle Clone Launcher"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tentang RectangleLauncher"
+            "value" : "Tentang Rectangle Clone Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apie RectangleLauncher"
+            "value" : "Apie Rectangle Clone Launcher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om RectangleLauncher"
+            "value" : "Om Rectangle Clone Launcher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om RectangleLauncher"
+            "value" : "Om Rectangle Clone Launcher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sobre o RectangleLauncher"
+            "value" : "Sobre o Rectangle Clone Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sobre o RectangleLauncher"
+            "value" : "Sobre o Rectangle Clone Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O aplikácii RectangleLauncher"
+            "value" : "O aplikácii Rectangle Clone Launcher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About Rectangle Clone Launcher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Giới thiệu RectangleLauncher"
+            "value" : "Giới thiệu Rectangle Clone Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "关于RectangleLauncher"
+            "value" : "关于Rectangle Clone Launcher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關於RectangleLauncher"
+            "value" : "關於Rectangle Clone Launcher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關於RectangleLauncher"
+            "value" : "關於Rectangle Clone Launcher"
           }
         }
       }
@@ -8372,7 +8372,7 @@
       }
     },
     "FKE-Sm-Kum.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"RectangleLauncher Help\"; ObjectID = \"FKE-Sm-Kum\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Rectangle Clone Launcher Help\"; ObjectID = \"FKE-Sm-Kum\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -8384,175 +8384,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher nápověda"
+            "value" : "Rectangle Clone Launcher nápověda"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Hilfe"
+            "value" : "Rectangle Clone Launcher Hilfe"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bantuan RectangleLauncher"
+            "value" : "Bantuan Rectangle Clone Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher pagalba"
+            "value" : "Rectangle Clone Launcher pagalba"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher-hjelp"
+            "value" : "Rectangle Clone Launcher-hjelp"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher-hjelp"
+            "value" : "Rectangle Clone Launcher-hjelp"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajuda do RectangleLauncher"
+            "value" : "Ajuda do Rectangle Clone Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajuda do RectangleLauncer"
+            "value" : "Ajuda do Rectangle Clone Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher nápoveda"
+            "value" : "Rectangle Clone Launcher nápoveda"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "Rectangle Clone Launcher Help"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trợ giúp của RectangleLauncher"
+            "value" : "Trợ giúp của Rectangle Clone Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher帮助"
+            "value" : "Rectangle Clone Launcher帮助"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher輔助說明"
+            "value" : "Rectangle Clone Launcher輔助說明"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher輔助說明"
+            "value" : "Rectangle Clone Launcher輔助說明"
           }
         }
       }
@@ -15254,7 +15254,7 @@
       }
     },
     "Olw-nP-bQN.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Hide RectangleLauncher\"; ObjectID = \"Olw-nP-bQN\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Hide Rectangle Clone Launcher\"; ObjectID = \"Olw-nP-bQN\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -15266,175 +15266,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skrýt RectangleLauncher"
+            "value" : "Skrýt Rectangle Clone Launcher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Verstecken"
+            "value" : "Rectangle Clone Launcher Verstecken"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sembunyikan RectangleLauncher"
+            "value" : "Sembunyikan Rectangle Clone Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Slėpti RectangleLauncher"
+            "value" : "Slėpti Rectangle Clone Launcher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skjul RectangleLauncher"
+            "value" : "Skjul Rectangle Clone Launcher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gøym RectangleLauncher"
+            "value" : "Gøym Rectangle Clone Launcher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ocultar RectangleLauncher"
+            "value" : "Ocultar Rectangle Clone Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esconder RectangleLauncher"
+            "value" : "Esconder Rectangle Clone Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skryť RectangleLauncher"
+            "value" : "Skryť Rectangle Clone Launcher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide Rectangle Clone Launcher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ẩn RectangleLauncher"
+            "value" : "Ẩn Rectangle Clone Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隐藏RectangleLauncher"
+            "value" : "隐藏Rectangle Clone Launcher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隱藏RectangleLauncher"
+            "value" : "隱藏Rectangle Clone Launcher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隱藏RectangleLauncher"
+            "value" : "隱藏Rectangle Clone Launcher"
           }
         }
       }
@@ -19532,7 +19532,7 @@
       }
     },
     "uQy-DD-JDr.title" : {
-      "comment" : "Class = \"NSMenu\"; title = \"RectangleLauncher\"; ObjectID = \"uQy-DD-JDr\";",
+      "comment" : "Class = \"NSMenu\"; title = \"Rectangle Clone Launcher\"; ObjectID = \"uQy-DD-JDr\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -19544,175 +19544,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "Rectangle Clone Launcher"
           }
         }
       }

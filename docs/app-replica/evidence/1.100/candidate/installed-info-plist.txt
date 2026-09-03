@@ -1,0 +1,37 @@
+{
+  "BuildMachineOSBuild" => "25F84"
+  "CFBundleDevelopmentRegion" => "en"
+  "CFBundleExecutable" => "Rectangle Clone"
+  "CFBundleIconFile" => "AppIcon"
+  "CFBundleIconName" => "AppIcon"
+  "CFBundleIdentifier" => "co.serp.rectangleclone"
+  "CFBundleInfoDictionaryVersion" => "6.0"
+  "CFBundleName" => "Rectangle Clone"
+  "CFBundlePackageType" => "APPL"
+  "CFBundleShortVersionString" => "1.100"
+  "CFBundleSupportedPlatforms" => [
+    0 => "MacOSX"
+  ]
+  "CFBundleURLTypes" => [
+    0 => {
+      "CFBundleURLSchemes" => [
+        0 => "rectangleclone"
+      ]
+    }
+  ]
+  "CFBundleVersion" => "106"
+  "DTCompiler" => "com.apple.compilers.llvm.clang.1_0"
+  "DTPlatformBuild" => "25A352"
+  "DTPlatformName" => "macosx"
+  "DTPlatformVersion" => "26.0"
+  "DTSDKBuild" => "25A352"
+  "DTSDKName" => "macosx26.0"
+  "DTXcode" => "2600"
+  "DTXcodeBuild" => "17A324"
+  "LSApplicationCategoryType" => "public.app-category.productivity"
+  "LSMinimumSystemVersion" => "10.15"
+  "LSUIElement" => true
+  "NSHumanReadableCopyright" => "Rectangle Clone is derived from Rectangle © 2019-2026 Ryan Hanson and licensed under the MIT License."
+  "NSMainStoryboardFile" => "Main"
+  "NSPrincipalClass" => "NSApplication"
+}

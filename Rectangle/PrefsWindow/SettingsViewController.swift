@@ -2,7 +2,6 @@
 
 import Cocoa
 import ServiceManagement
-import Sparkle
 import MASShortcut
 
 class SettingsViewController: NSViewController {
@@ -145,7 +144,7 @@ class SettingsViewController: NSViewController {
     }
     
     @IBAction func checkForUpdates(_ sender: Any) {
-        AppDelegate.instance.updaterController?.checkForUpdates(sender)
+        // Hidden while no candidate-owned update service is configured.
     }
     
     @IBAction func toggleDoubleClickTitleBar(_ sender: NSButton) {
@@ -162,7 +161,7 @@ class SettingsViewController: NSViewController {
             let conflictTitleText = NSLocalizedString(
                 "Conflict with system setting", tableName: "Main", value: "", comment: "")
             let conflictDescriptionText = NSLocalizedString(
-                "To let Rectangle manage the title bar double click functionality, you need to disable the corresponding macOS setting.", tableName: "Main", value: "", comment: "")
+                "To let Rectangle Clone manage the title bar double click functionality, you need to disable the corresponding macOS setting.", tableName: "Main", value: "", comment: "")
 
             
             let closeText = NSLocalizedString("DVo-aG-piG.title", tableName: "Main", value: "Close", comment: "")
@@ -251,11 +250,11 @@ class SettingsViewController: NSViewController {
     
     @IBAction func restoreDefaults(_ sender: Any) {
         // Ask user if they want to restore to Rectangle or Spectacle defaults
-        let currentDefaults = Defaults.alternateDefaultShortcuts.enabled ? "Rectangle" : "Spectacle"
+        let currentDefaults = Defaults.alternateDefaultShortcuts.enabled ? "Rectangle Clone" : "Spectacle"
         let defaultShortcutsTitle = NSLocalizedString("Default Shortcuts", tableName: "Main", value: "", comment: "")
         let currentlyUsingText = NSLocalizedString("Currently using: ", tableName: "Main", value: "", comment: "")
         let cancelText = NSLocalizedString("Cancel", tableName: "Main", value: "", comment: "")
-        let response = AlertUtil.threeButtonAlert(question: defaultShortcutsTitle, text: currentlyUsingText + currentDefaults, buttonOneText: "Rectangle", buttonTwoText: "Spectacle", buttonThreeText: cancelText)
+        let response = AlertUtil.threeButtonAlert(question: defaultShortcutsTitle, text: currentlyUsingText + currentDefaults, buttonOneText: "Rectangle Clone", buttonTwoText: "Spectacle", buttonThreeText: cancelText)
         if response == .alertThirdButtonReturn { return }
 
         //  Restore default shortcuts
@@ -274,7 +273,7 @@ class SettingsViewController: NSViewController {
         Notification.Name.windowSnapping.post(object: false)
         let savePanel = NSSavePanel()
         savePanel.allowedFileTypes = ["json"]
-        savePanel.nameFieldStringValue = "RectangleConfig"
+        savePanel.nameFieldStringValue = "RectangleCloneConfig"
         let response = savePanel.runModal()
         if response == .OK, let url = savePanel.url {
             do {
@@ -1082,7 +1081,8 @@ class SettingsViewController: NSViewController {
                                                name: .stackBadgeChanged,
                                                object: nil)
 
-        checkForUpdatesAutomaticallyCheckbox.bind(.value, to: AppDelegate.instance.updaterController.updater, withKeyPath: "automaticallyChecksForUpdates", options: nil)
+        checkForUpdatesAutomaticallyCheckbox.isHidden = true
+        checkForUpdatesButton.isHidden = true
         
         let appVersionString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         let buildString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
@@ -1140,7 +1140,7 @@ class SettingsViewController: NSViewController {
     }
     
     func updateCheckForUpdatesTitle() {
-        checkForUpdatesButton.title = AppDelegate.instance.hasPendingUpdate ? "Update Available…".localized : "Check for Updates…".localized(key: "74m-kw-w1f.title")
+        checkForUpdatesButton.isHidden = true
     }
     
     func initializeTodoModeSettings() {
@@ -1167,7 +1167,7 @@ class SettingsViewController: NSViewController {
     }
     
     func initializeToggles() {
-        checkForUpdatesAutomaticallyCheckbox.state = Defaults.SUEnableAutomaticChecks.enabled ? .on : .off
+        checkForUpdatesAutomaticallyCheckbox.state = .off
         
         launchOnLoginCheckbox.state = Defaults.launchOnLogin.enabled ? .on : .off
         

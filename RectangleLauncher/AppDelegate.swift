@@ -10,7 +10,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             terminate()
             return
         }
-        let mainAppIdentifier = "com.knollsoft.Rectangle"
+        let mainAppIdentifier = "co.serp.rectangleclone"
         let running = NSWorkspace.shared.runningApplications
         let isRunning = !running.filter({$0.bundleIdentifier == mainAppIdentifier}).isEmpty
         
@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             components.removeLast()
             components.removeLast()
             components.append("MacOS")
-            components.append("Rectangle")
+            components.append("Rectangle Clone")
             let newPath = NSString.path(withComponents: components)
             NSWorkspace.shared.launchApplication(newPath)
         }
@@ -39,4 +39,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
 }
-

@@ -1,22 +1,15 @@
 # Contributing
 
-## Feature Requests
+Keep changes focused, preserve the existing test-backed window-calculation behavior, and add deterministic tests for behavioral changes.
 
-Rectangle is not accepting any new feature requests at this time, sorry. You can file a feature request for a feature that you plan to implement and submit a pull request for, so that the feature can be reviewed and you will know ahead of time if the feature will be rejected.  
+Run the full suite before submitting changes:
 
-## Bugs
+```bash
+xcodebuild -project Rectangle.xcodeproj -scheme Rectangle \
+  -configuration Debug -derivedDataPath .derived \
+  CODE_SIGNING_ALLOWED=NO test
+```
 
-Please search through the existing issues, open and closed, before filing a new bug.
-Add the version of Rectangle, the version of the OS, and screenshots or videos as necessary.
+Do not add Rectangle's bundle IDs, signing team, update keys, appcast, domains, credentials, or release destinations. Contributions remain licensed under the repository's MIT License.
 
-## Coding Style
-
-Please match the existing coding style as much as possible.
-
-## License
-
-By contributing to Rectangle you agree that your contributions will be licensed under its MIT license.
-
-## Incentives
-
-Logic from Rectangle is used in the [Multitouch](https://multitouch.app) app. The [Rectangle Pro](https://rectangleapp.com/pro) app is entirely built on top of Rectangle. If you contribute significant code or localizations that get merged into Rectangle, you get a free license of Multitouch or Rectangle Pro. Contributors to Sparkle, MASShortcut, or Spectacle can also receive free Multitouch or Rectangle Pro licenses (just send me an email).
+Runtime claims require evidence from the exact candidate bundle. Permission, shortcut, drag-to-snap, login-item, URL, and persistence behavior cannot be marked verified from unit tests alone.
