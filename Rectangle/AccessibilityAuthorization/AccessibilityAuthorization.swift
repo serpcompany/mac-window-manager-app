@@ -8,6 +8,11 @@ class AccessibilityAuthorization {
     private var accessibilityWindowController: NSWindowController?
     
     public func checkAccessibility(completion: @escaping () -> Void) -> Bool {
+#if DEBUG
+        if ProcessInfo.processInfo.environment["WINDOW_MANAGER_SCREENSHOT_MODE"] == "1" {
+            return true
+        }
+#endif
         if !AXIsProcessTrusted() {
             
             accessibilityWindowController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "AccessibilityWindowController") as? NSWindowController
