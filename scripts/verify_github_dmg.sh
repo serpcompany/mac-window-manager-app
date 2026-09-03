@@ -19,9 +19,7 @@ fi
 
 mount_dir=$(mktemp -d /tmp/window-manager-dmg-mount.XXXXXX)
 cleanup() {
-  if mount | grep -Fq " on $mount_dir "; then
-    hdiutil detach "$mount_dir" >/dev/null
-  fi
+  hdiutil detach "$mount_dir" >/dev/null 2>&1 || true
   rmdir "$mount_dir" 2>/dev/null || true
 }
 trap cleanup EXIT
