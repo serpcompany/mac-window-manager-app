@@ -18,7 +18,7 @@ class NextPrevDisplayCalculation: WindowCalculation {
         }
 
         if let screen = screen {
-            let rectParams = params.asRectParams(visibleFrame: screen.adjustedVisibleFrame(params.ignoreTodo))
+            let rectParams = params.asRectParams(visibleFrame: screen.adjustedVisibleFrame())
             
             if Defaults.attemptMatchOnNextPrevDisplay.userEnabled {
                 if let lastAction = params.lastAction,
@@ -40,7 +40,7 @@ class NextPrevDisplayCalculation: WindowCalculation {
                     // Issue #1723: opt-in ON but no replayable lastAction (e.g. a manually positioned
                     // window). Map the window proportionally from the source screen to the destination
                     // screen so it keeps its relative spot instead of jumping to the center.
-                    let sourceFrame = params.usableScreens.currentScreen.adjustedVisibleFrame(params.ignoreTodo)
+                    let sourceFrame = params.usableScreens.currentScreen.adjustedVisibleFrame()
                     let mappedRect = NextPrevDisplayCalculation.relativePositionedRect(window: rectParams.window.rect,
                                                                                        source: sourceFrame,
                                                                                        destination: rectParams.visibleFrameOfScreen)

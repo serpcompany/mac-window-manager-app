@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "product": "Window Manager",
+  "ownership": "Owner-supplied SERP artwork; authorized in GitHub issue #5",
+  "generator": "scripts/generate_brand_assets.sh",
+  "sources": [
+    {
+      "original_path": "/Users/devin/Brands/SERP/SERP - ICO : FAVICONS/favicon.svg",
+      "repository_path": "docs/app-replica/assets/window-manager/sources/favicon.svg",
+      "sha256": "593a0a02a4e9abed1739dd5c6ebadf99318ed55fd9c5ad0b1c90756ea3c1acca",
+      "dimensions": "1024x1024 viewBox",
+      "color_alpha": "black mark on transparency",
+      "verification": "hash enforced by generator"
+    },
+    {
+      "original_path": "/Users/devin/Brands/SERP/SERP - ICO : FAVICONS/favicon.png",
+      "repository_path": "docs/app-replica/assets/window-manager/sources/favicon.png",
+      "sha256": "03c94b8d0c598e93023b224695c0d86f79a3d99ff0190f1ef0b4797489d39924",
+      "dimensions": "1024x1024",
+      "color_alpha": "RGBA; black mark on transparency",
+      "verification": "hash enforced by generator"
+    },
+    {
+      "original_path": "/Users/devin/Brands/SERP/SERP - ICONS/SERP-3000x3000.png",
+      "repository_path": "docs/app-replica/assets/window-manager/sources/serp-3000x3000.png",
+      "sha256": "be75f385d114ec37a8b338131721e71edf24d686afac93785dbe538bd8eec7c7",
+      "dimensions": "3000x3000",
+      "color_alpha": "opaque RGB; white mark on black",
+      "verification": "hash enforced by generator"
+    },
+    {
+      "original_path": "/Users/devin/Brands/SERP/SERP - PNG/SERP - Arrow Logo - Black - Up.png",
+      "repository_path": "docs/app-replica/assets/window-manager/sources/arrow-logo-black-up.png",
+      "sha256": "03c94b8d0c598e93023b224695c0d86f79a3d99ff0190f1ef0b4797489d39924",
+      "dimensions": "1024x1024",
+      "color_alpha": "RGBA; black mark on transparency",
+      "verification": "hash enforced by generator"
+    }
+  ],
+  "outputs": [
+    {
+      "paths": [
+        "Rectangle/Assets.xcassets/AppIcon.appiconset/mac016pts1x.png",
+        "Rectangle/Assets.xcassets/AppIcon.appiconset/mac016pts2x.png",
+        "Rectangle/Assets.xcassets/AppIcon.appiconset/mac032pts1x.png",
+        "Rectangle/Assets.xcassets/AppIcon.appiconset/mac032pts2x.png",
+        "Rectangle/Assets.xcassets/AppIcon.appiconset/mac128pts1x.png",
+        "Rectangle/Assets.xcassets/AppIcon.appiconset/mac128pts2x.png",
+        "Rectangle/Assets.xcassets/AppIcon.appiconset/mac256pts1x.png",
+        "Rectangle/Assets.xcassets/AppIcon.appiconset/mac256pts2x.png",
+        "Rectangle/Assets.xcassets/AppIcon.appiconset/mac512pts1x.png",
+        "Rectangle/Assets.xcassets/AppIcon.appiconset/mac512pts2x.png"
+      ],
+      "transform": "Lanczos resize of the unmodified 3000x3000 opaque SERP artwork to the required 16/32/64/128/256/512/1024 pixel slots; metadata stripped",
+      "verification": "asset-catalog build plus pixel-dimension checks"
+    },
+    {
+      "paths": [
+        "Rectangle/Assets.xcassets/StatusTemplate.imageset/WindowManagerStatusTemplate1x.png",
+        "Rectangle/Assets.xcassets/StatusTemplate.imageset/WindowManagerStatusTemplate2x.png",
+        "Rectangle/Assets.xcassets/StatusTemplate.imageset/WindowManagerStatusTemplate3x.png"
+      ],
+      "transform": "Render the unchanged SVG geometry at 22/44/66 pixels on transparency; mark NSImage as template at runtime",
+      "verification": "alpha/dimension inspection and installed status-item evidence"
+    },
+    {
+      "paths": [
+        "Rectangle/AppIcon.icon/icon.json",
+        "Rectangle/AppIcon.icon/Assets/Background.svg",
+        "Rectangle/AppIcon.icon/Assets/Mark.svg"
+      ],
+      "transform": "macOS 26 layered icon with a solid black background and the unchanged SERP path recolored white",
+      "verification": "clean Xcode asset-catalog build; legacy catalog remains fallback"
+    },
+    {
+      "paths": [
+        "docs/app-replica/assets/window-manager/generated/WindowManager.icns",
+        "docs/app-replica/assets/window-manager/generated/app-icons-light.png",
+        "docs/app-replica/assets/window-manager/generated/app-icons-dark.png",
+        "docs/app-replica/assets/window-manager/generated/status-icons-light.png",
+        "docs/app-replica/assets/window-manager/generated/status-icons-dark.png"
+      ],
+      "transform": "iconutil package and fixed-layout light/dark human-review sheets",
+      "verification": "regenerate and compare hashes"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>destination</key>
+	<string>export</string>
+	<key>method</key>
+	<string>app-store-connect</string>
+	<key>signingStyle</key>
+	<string>manual</string>
+	<key>signingCertificate</key>
+	<string>Apple Distribution</string>
+	<key>installerSigningCertificate</key>
+	<string>82347BB5FB4E159ED3719A6B7698968E83F41AFC</string>
+	<key>teamID</key>
+	<string>847HR8U8D9</string>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>com.serp.windowmanager</key>
+		<string>Window Manager Mac App Store</string>
+		<key>com.serp.windowmanager.launcher</key>
+		<string>Window Manager Launcher Mac App Store</string>
+	</dict>
+</dict>
+</plist>

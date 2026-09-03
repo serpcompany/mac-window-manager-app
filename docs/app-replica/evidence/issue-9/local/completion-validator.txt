@@ -1,0 +1,118 @@
+RED: 117 completion gate failure(s)
+- reference inventory is not complete
+- primary workflow has not passed
+- installed artifact is not verified
+- independent verification has not passed
+- independent verifier identity is required
+- launch.permission-required: in-scope status is 'untested', not 'pass'
+- launch.permission-required: was not directly exercised
+- launch.permission-required: reference evidence is required
+- launch.permission-required: candidate evidence is required
+- launch.permission-required: comparison evidence is required
+- launch.permission-required: behavior evidence is required
+- menu.default: in-scope status is 'untested', not 'pass'
+- menu.default: was not directly exercised
+- menu.default: reference evidence is required
+- menu.default: candidate evidence is required
+- menu.default: comparison evidence is required
+- menu.default: behavior evidence is required
+- menu.option: in-scope status is 'untested', not 'pass'
+- menu.option: was not directly exercised
+- menu.option: reference evidence is required
+- menu.option: candidate evidence is required
+- menu.option: comparison evidence is required
+- menu.option: behavior evidence is required
+- settings.shortcuts: in-scope status is 'untested', not 'pass'
+- settings.shortcuts: was not directly exercised
+- settings.shortcuts: reference evidence is required
+- settings.shortcuts: candidate evidence is required
+- settings.shortcuts: comparison evidence is required
+- settings.shortcuts: behavior evidence is required
+- settings.snap-areas: in-scope status is 'untested', not 'pass'
+- settings.snap-areas: was not directly exercised
+- settings.snap-areas: reference evidence is required
+- settings.snap-areas: candidate evidence is required
+- settings.snap-areas: comparison evidence is required
+- settings.snap-areas: behavior evidence is required
+- settings.general: in-scope status is 'untested', not 'pass'
+- settings.general: was not directly exercised
+- settings.general: reference evidence is required
+- settings.general: candidate evidence is required
+- settings.general: comparison evidence is required
+- settings.general: behavior evidence is required
+- settings.exhaustive-reference-audit: in-scope status is 'unresolved', not 'pass'
+- settings.exhaustive-reference-audit: was not directly exercised
+- settings.exhaustive-reference-audit: reference evidence is required
+- settings.exhaustive-reference-audit: candidate evidence is required
+- settings.exhaustive-reference-audit: comparison evidence is required
+- settings.exhaustive-reference-audit: behavior evidence is required
+- shortcut.unique-assignment: in-scope status is 'untested', not 'pass'
+- shortcut.unique-assignment: was not directly exercised
+- shortcut.unique-assignment: candidate evidence is required
+- shortcut.unique-assignment: behavior evidence is required
+- action.window-layouts: in-scope status is 'untested', not 'pass'
+- action.window-layouts: was not directly exercised
+- action.window-layouts: reference evidence is required
+- action.window-layouts: candidate evidence is required
+- action.window-layouts: behavior evidence is required
+- action.multi-display: in-scope status is 'unresolved', not 'pass'
+- action.multi-display: was not directly exercised
+- action.multi-display: reference evidence is required
+- action.multi-display: candidate evidence is required
+- action.multi-display: behavior evidence is required
+- snapping.drag: in-scope status is 'untested', not 'pass'
+- snapping.drag: was not directly exercised
+- snapping.drag: reference evidence is required
+- snapping.drag: candidate evidence is required
+- snapping.drag: comparison evidence is required
+- snapping.drag: behavior evidence is required
+- ignore.application: in-scope status is 'untested', not 'pass'
+- ignore.application: was not directly exercised
+- ignore.application: reference evidence is required
+- ignore.application: candidate evidence is required
+- ignore.application: behavior evidence is required
+- url.actions-and-tasks: in-scope status is 'untested', not 'pass'
+- url.actions-and-tasks: was not directly exercised
+- url.actions-and-tasks: reference evidence is required
+- url.actions-and-tasks: candidate evidence is required
+- url.actions-and-tasks: behavior evidence is required
+- config.import-export: in-scope status is 'untested', not 'pass'
+- config.import-export: was not directly exercised
+- config.import-export: reference evidence is required
+- config.import-export: candidate evidence is required
+- config.import-export: behavior evidence is required
+- login-item: in-scope status is 'untested', not 'pass'
+- login-item: was not directly exercised
+- login-item: reference evidence is required
+- login-item: candidate evidence is required
+- login-item: behavior evidence is required
+- updates: in-scope status is 'unresolved', not 'pass'
+- updates: was not directly exercised
+- updates: reference evidence is required
+- updates: candidate evidence is required
+- updates: behavior evidence is required
+- logging: in-scope status is 'untested', not 'pass'
+- logging: was not directly exercised
+- logging: reference evidence is required
+- logging: candidate evidence is required
+- logging: comparison evidence is required
+- logging: behavior evidence is required
+- persistence.identity: in-scope status is 'untested', not 'pass'
+- persistence.identity: was not directly exercised
+- persistence.identity: reference evidence is required
+- persistence.identity: candidate evidence is required
+- persistence.identity: behavior evidence is required
+- app.presence.dock: in-scope status is 'untested', not 'pass'
+- app.presence.dock: was not directly exercised
+- app.presence.dock: candidate evidence is required
+- app.presence.dock: comparison evidence is required
+- app.presence.dock: behavior evidence is required
+- app.presence.menu-status: in-scope status is 'unresolved', not 'pass'
+- app.presence.menu-status: was not directly exercised
+- app.presence.menu-status: candidate evidence is required
+- app.presence.menu-status: comparison evidence is required
+- app.presence.menu-status: behavior evidence is required
+- packaging.identity: in-scope status is 'unresolved', not 'pass'
+- packaging.identity: was not directly exercised
+- packaging.identity: candidate evidence is required
+- packaging.identity: behavior evidence is required

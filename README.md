@@ -1,13 +1,13 @@
-# Rectangle Clone
+# Window Manager
 
-Rectangle Clone is a rebranded macOS window manager derived from the MIT-licensed [Rectangle](https://github.com/rxhanson/Rectangle) project. It keeps Rectangle's window-management behavior while using an isolated development identity:
+Window Manager is a rebranded macOS window manager derived from the MIT-licensed [Rectangle](https://github.com/rxhanson/Rectangle) project. It keeps Rectangle's window-management behavior while using an isolated development identity:
 
-- Product: **Rectangle Clone**
-- Bundle identifier: `co.serp.rectangleclone`
-- URL scheme: `rectangleclone://`
+- Product: **Window Manager**
+- Bundle identifier: `com.serp.windowmanager`
+- URL scheme: `windowmanager://`
 - App presence: Dock, Command-Tab, and menu-bar status item enabled by default
-- Preferences: `~/Library/Preferences/co.serp.rectangleclone.plist`
-- Startup config: `~/Library/Application Support/Rectangle Clone/RectangleCloneConfig.json`
+- Preferences: `~/Library/Preferences/com.serp.windowmanager.plist`
+- Startup config: `~/Library/Application Support/Window Manager/WindowManagerConfig.json`
 
 This is currently a local development build, not an official Rectangle release and not endorsed by Rectangle's authors.
 
@@ -35,21 +35,21 @@ xcodebuild \
   -derivedDataPath .derived \
   build
 
-open '.derived/Build/Products/Debug/Rectangle Clone.app'
+open '.derived/Build/Products/Debug/Window Manager.app'
 ```
 
 macOS Accessibility approval is tied to the candidate bundle and signature. Do not expect Rectangle's existing permission to carry over.
 
 ## Use
 
-Rectangle Clone is a regular Dock app with a menu-bar status item. Click the Dock icon to reopen Settings, open the four-pane menu item when macOS has space to display it, choose a window action, or use the configured shortcuts. Drag-to-snap and the full set of extra grid sizes are retained from upstream.
+Window Manager is a regular Dock app with a menu-bar status item. Click the Dock icon to reopen Settings, open the four-pane menu item when macOS has space to display it, choose a window action, or use the configured shortcuts. Drag-to-snap and the full set of extra grid sizes are retained from upstream.
 
 macOS couples Dock and Command-Tab presence, so both are enabled together. On a crowded or notched menu bar, macOS may clip third-party status items; the Dock icon remains the reliable recovery path.
 
 Execute an action by URL without intentionally foregrounding the app:
 
 ```bash
-open -g 'rectangleclone://execute-action?name=left-half'
+open -g 'windowmanager://execute-action?name=left-half'
 ```
 
 The full action vocabulary and hidden preferences are documented in [TerminalCommands.md](TerminalCommands.md).

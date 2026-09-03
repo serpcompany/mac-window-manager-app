@@ -1,0 +1,7 @@
+Final Issue #9 local test pass
+Command: xcodebuild -project Rectangle.xcodeproj -scheme Rectangle -configuration Debug -destination platform=macOS -derivedDataPath /tmp/window-manager-issue9-tests test CODE_SIGNING_ALLOWED=NO
+Result: TEST SUCCEEDED
+Executed: 273 tests after removal of the retired Extras-only test suites
+Failures: 0
+Unexpected failures: 0
+Date: 2026-09-04 (Asia/Tokyo)

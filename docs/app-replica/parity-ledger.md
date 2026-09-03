@@ -7,15 +7,16 @@ Status is deliberately red until each row is exercised against the frozen source
 | launch.permission-required | First launch without Accessibility | Explain/request permission; recover after denial; relaunch | untested |
 | menu.default | Menu-bar menu, ordinary modifier state | Open menu; inspect enabled actions, shortcuts, settings, ignore, quit | untested |
 | menu.option | Menu-bar menu while Option is held | Reveal logging/about alternate item | untested |
-| settings.shortcuts | Shortcuts tab, default and edited | Record/clear shortcuts; extra shortcuts; persist relaunch | untested |
-| shortcut.unique-assignment | All shortcut recorders/import/startup | Reject a duplicate, name its owner, normalize legacy duplicates | pass |
+| settings.shortcuts | Shortcuts tab, default and edited | Record/clear in-scope shortcuts; persist relaunch | untested |
+| shortcut.unique-assignment | All shortcut recorders/import/startup | Reject a duplicate, name its owner, normalize legacy duplicates | untested on final identity |
 | settings.snap-areas | Snap Areas tab | Configure edge/corner mappings and modifier behavior; persist | untested |
 | settings.general | General tab | Exercise every visible control; import/export/reset; persist | untested |
+| settings.exhaustive-reference-audit | Every Settings screen/state/control versus installed `/Applications/Rectangle.app` | Capture paired full-window screenshots and accessibility trees at identical geometry; compare visual structure, text, controls, interactions, side effects, and relaunch persistence | **HIGH-PRIORITY TODO — unresolved: candidate visibly differs; exhaustive paired audit not yet run** |
 | action.halves | Normal resizable window | Left/right/top/bottom/center half and cycling | untested |
 | action.corners | Normal resizable window | Four quarters and corner cycling | untested |
 | action.thirds | Normal resizable window | Thirds and two-thirds on landscape/portrait | untested |
 | action.fourths-and-three-fourths | Normal resizable window | Fourth and three-fourths positions | untested |
-| action.sixths-eighths-ninths-twelfths-sixteenths | Extra sizes | Every additional grid action and repeated-cycle behavior | untested |
+| action.sixths | Normal Shortcuts lower section | Sixth positions and repeated-cycle behavior | untested |
 | action.maximize-size-center-restore | Normal resizable window | Maximize variants, smaller/larger, center, restore | untested |
 | action.move | Normal resizable window | Directional move and fixed-size edge alignment | untested |
 | action.displays | Multi-display window | Next/previous display, screen ordering, cursor movement | unresolved: only one display connected |
@@ -31,7 +32,10 @@ Status is deliberately red until each row is exercised against the frozen source
 | logging | Debug logging window | Open, generate action, redact dynamic values as needed, close | untested |
 | persistence.identity | Candidate defaults domain | Settings persist under candidate identity without reading Rectangle preferences | untested |
 | packaging.identity | Built/installed app | Product name, bundle ID, URL scheme, signature, assets, credits | untested |
-| app.presence.dock | Installed app, default launch | Dock and Command-Tab presence; Dock reopen path | pass |
+| app.presence.dock | Installed app, default launch | Dock and Command-Tab presence; Dock reopen path | untested on final identity |
 | app.presence.menu-status | Installed app, crowded menu bar | Create visible labeled status item and survive relaunch | unresolved: Control Center clips third-party item |
+| feature.todo-mode | Owner-approved product difference | Todo UI, menu commands, shortcuts, layout behavior, and persisted settings are excluded; stale candidate keys are removed on launch | excluded — approved 2026-09-04; final-identity install pending |
+| feature.stage-manager | Owner-approved product difference | Stage settings, detection, reservation, drag handling, and stale keys are excluded; macOS Stage Manager itself is untouched | excluded — approved in Issue #6; source-tested, installed evidence pending |
+| feature.general-extras | Owner-approved product difference | Extras UI and its exclusive actions/settings/stack wiring are excluded; normal fourths/sixths remain | excluded — approved in Issue #8; source-tested, installed evidence pending |
 
 The completion manifest is the machine-readable authority. This table is the human review surface and will expand when a newly reachable state is discovered.

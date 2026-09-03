@@ -1,4 +1,4 @@
-# Rectangle Clone scope
+# Window Manager scope
 
 ## Authorization and source
 
@@ -19,15 +19,16 @@ The source commit is the functional baseline. The older installed build is suppo
 
 ## Candidate identity
 
-- Working product name: **Rectangle Clone**
-- Working bundle identifier: `co.serp.rectangleclone`
-- Working URL scheme: `rectangleclone`
+- Owner-approved product name: **Window Manager**
+- Owner-approved bundle identifier: `com.serp.windowmanager`
+- Owner-approved helper identifier: `com.serp.windowmanager.launcher`
+- Owner-approved URL scheme: `windowmanager`
 - Intended use: an independently buildable, rebranded macOS window manager derived from the licensed Rectangle source
-- Distribution: local development artifact signed with the owner's existing Developer ID identity; notarization, update infrastructure, final name, and public-release destination remain owner decisions
+- Distribution target: Mac App Store under team `847HR8U8D9`; account records, profiles, legal metadata, support/privacy URLs, and submission remain blocked owner work
 
 ## Literal finish line
 
-This is an unqualified clone request, so the claim is `complete-reference`: preserve every reachable behavior from the frozen source while separating product identity and operator-controlled infrastructure. No functional exclusions have been approved.
+This is an unqualified clone request, so the claim is `complete-reference`, with the explicit owner-approved exclusions below. All other reachable behavior remains in scope.
 
 The first acceptance unit is: launch the exact candidate bundle, satisfy Accessibility authorization, move a normal app window to the left half using the menu or shortcut, restore it, quit/relaunch, and repeat successfully with candidate preferences isolated from Rectangle.
 
@@ -47,12 +48,15 @@ User shortcut preferences, ignored-app lists, logs, window titles, and filesyste
 
 ## Explicit non-claims
 
-The candidate is not Rectangle, is not endorsed by Rectangle's authors, and must not use their signing identity, bundle IDs, update keys, appcast, domains, support channels, or release infrastructure. Final trademark clearance and final original brand artwork remain owner decisions.
+The candidate is not Rectangle, is not endorsed by Rectangle's authors, and must not use their signing identity, bundle IDs, update keys, appcast, domains, support channels, or release infrastructure. Trademark clearance and App Store legal attestations remain owner responsibilities.
 
 ## Owner-approved product differences
 
 On 2026-09-04 the owner explicitly requested these changes from Rectangle behavior:
 
 - Reject duplicate shortcut assignments rather than cycling multiple actions on one shortcut.
-- Show Rectangle Clone in the Dock by default. On macOS this also means showing it in Command-Tab.
+- Show Window Manager in the Dock by default. On macOS this also means showing it in Command-Tab.
 - Keep a menu-bar status item enabled by default, with the Dock as the recovery path when macOS clips third-party items on a crowded menu bar.
+- Remove Rectangle's Todo Mode feature entirely, including its Settings section, menu commands, shortcuts, persistence keys, layout behavior, and supporting code. The owner explicitly removed it from clone scope on 2026-09-04 after confirming it was not needed.
+- Remove Stage Manager integration entirely. Window calculations no longer reserve its recent-apps area, its Settings surface and utility are removed, and stale candidate keys are deleted without changing the macOS setting (Issue #6).
+- Remove General → Extras entirely. Extras-only shortcut registration, menu/URL exposure, configuration import/export, preferences, stacked-window wiring, and stale keys are retired; the normal Shortcuts tab including fourths and sixths remains (Issue #8).

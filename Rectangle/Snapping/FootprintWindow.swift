@@ -9,7 +9,7 @@ class FootprintWindow: NSWindow {
         let initialRect = NSRect(x: 0, y: 0, width: 0, height: 0)
         super.init(contentRect: initialRect, styleMask: .titled, backing: .buffered, defer: false)
 
-        title = "Rectangle Clone"
+        title = "Window Manager"
         isOpaque = false
         level = .modalPanel
         hasShadow = false
@@ -46,10 +46,6 @@ class FootprintWindow: NSWindow {
     }
     
     override var isVisible: Bool {
-        // Workaround for footprint getting pushed off of Stage Manager
-        if StageUtil.stageCapable && StageUtil.stageEnabled && StageUtil.stageStripShow {
-            return true
-        }
         return realIsVisible
     }
     

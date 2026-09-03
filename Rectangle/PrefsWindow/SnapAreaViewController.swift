@@ -81,19 +81,14 @@ class SnapAreaViewController: NSViewController {
     }
     
     override func viewDidLoad() {
-        windowSnappingCheckbox.state = Defaults.windowSnapping.userDisabled ? .off : .on
-        unsnapRestoreButton.state = Defaults.unsnapRestore.userDisabled ? .off : .on
-        animateFootprintCheckbox.state = Defaults.footprintAnimationDurationMultiplier.value > 0 ? .on : .off
-        hapticFeedbackCheckbox.state = Defaults.hapticFeedbackOnSnap.userEnabled ? .on : .off
-        missionControlDraggingCheckbox.state = Defaults.missionControlDragging.userDisabled ? .on : .off
-        missionControlDraggingCheckbox.isHidden = !Defaults.missionControlDragging.userDisabled
+        reloadToggleStates()
         showHidePortrait()
-        
+
         Notification.Name.configImported.onPost(using: { [weak self] _ in
-            self?.loadSnapAreas()
+            self?.reloadFromDefaults()
         })
         Notification.Name.defaultSnapAreas.onPost(using: { [weak self] _ in
-            self?.loadSnapAreas()
+            self?.reloadFromDefaults()
         })
         Notification.Name.appWillBecomeActive.onPost() { [weak self] _ in
             self?.showHidePortrait()
@@ -104,6 +99,20 @@ class SnapAreaViewController: NSViewController {
         NotificationCenter.default.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: nil) { [weak self] _ in
             self?.showHidePortrait()
         }
+    }
+
+    func reloadToggleStates() {
+        windowSnappingCheckbox.state = Defaults.windowSnapping.userDisabled ? .off : .on
+        unsnapRestoreButton.state = Defaults.unsnapRestore.userDisabled ? .off : .on
+        animateFootprintCheckbox.state = Defaults.footprintAnimationDurationMultiplier.value > 0 ? .on : .off
+        hapticFeedbackCheckbox.state = Defaults.hapticFeedbackOnSnap.userEnabled ? .on : .off
+        missionControlDraggingCheckbox.state = Defaults.missionControlDragging.userDisabled ? .on : .off
+        missionControlDraggingCheckbox.isHidden = !Defaults.missionControlDragging.userDisabled
+    }
+
+    func reloadFromDefaults() {
+        reloadToggleStates()
+        loadSnapAreas()
     }
     
     func showHidePortrait() {

@@ -2,8 +2,8 @@
   "color-space-for-untagged-svg-colors" : "display-p3",
   "fill" : {
     "linear-gradient" : [
-      "display-p3:0.36863,0.43529,0.50980,1.00000",
-      "srgb:0.24706,0.27451,0.33333,1.00000"
+      "display-p3:0.00000,0.00000,0.00000,1.00000",
+      "srgb:0.00000,0.00000,0.00000,1.00000"
     ]
   },
   "groups" : [
@@ -12,8 +12,8 @@
       "layers" : [
         {
           "glass" : true,
-          "image-name" : "Dots.svg",
-          "name" : "Dots"
+          "image-name" : "Background.svg",
+          "name" : "SERP black background"
         }
       ],
       "shadow" : {
@@ -22,8 +22,8 @@
       },
       "specular" : true,
       "translucency" : {
-        "enabled" : true,
-        "value" : 0.2
+          "enabled" : true,
+          "value" : 0.2
       }
     },
     {
@@ -34,15 +34,15 @@
               "appearance" : "tinted",
               "value" : {
                 "linear-gradient" : [
-                  "gray:0.90000,1.00000",
-                  "extended-gray:0.75000,1.00000"
+                  "gray:1.00000,1.00000",
+                  "extended-gray:0.90000,1.00000"
                 ]
               }
             }
           ],
           "glass" : true,
-          "image-name" : "Overlay.svg",
-          "name" : "Overlay"
+          "image-name" : "Mark.svg",
+          "name" : "SERP mark"
         }
       ],
       "shadow" : {
@@ -50,8 +50,8 @@
         "opacity" : 0.5
       },
       "translucency" : {
-        "enabled" : true,
-        "value" : 0.5
+          "enabled" : true,
+          "value" : 0.2
       }
     }
   ],

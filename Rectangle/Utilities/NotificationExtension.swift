@@ -9,7 +9,6 @@ extension Notification.Name {
     static let frontAppChanged = Notification.Name("frontAppChanged")
     static let allowAnyShortcut = Notification.Name("allowAnyShortcutToggle")
     static let changeDefaults = Notification.Name("changeDefaults")
-    static let todoMenuToggled = Notification.Name("todoMenuToggled")
     static let appWillBecomeActive = Notification.Name("appWillBecomeActive")
     static let missionControlDragging = Notification.Name("missionControlDragging")
     static let menuBarIconHidden = Notification.Name("menuBarIconHidden")
@@ -19,7 +18,6 @@ extension Notification.Name {
     static let updateAvailability = Notification.Name("updateAvailability")
     static let showAdditionalSizesInMenuChanged = Notification.Name("showAdditionalSizesInMenuChanged")
     static let shortcutRecording = Notification.Name("shortcutRecording")
-    static let stackBadgeChanged = Notification.Name("stackBadgeChanged")
 
     func post(
         center: NotificationCenter = NotificationCenter.default,

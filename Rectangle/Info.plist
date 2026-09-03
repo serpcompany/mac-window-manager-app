@@ -23,7 +23,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>rectangleclone</string>
+				<string>windowmanager</string>
 			</array>
 		</dict>
 	</array>
@@ -36,7 +36,7 @@
 	<key>LSUIElement</key>
 	<false/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Rectangle Clone is derived from Rectangle © 2019-2026 Ryan Hanson and licensed under the MIT License.</string>
+	<string>Window Manager is derived from Rectangle © 2019-2026 Ryan Hanson and licensed under the MIT License.</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>

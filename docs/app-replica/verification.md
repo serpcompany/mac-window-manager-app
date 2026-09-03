@@ -1,56 +1,31 @@
 # Verification status
 
-Status: **Reconstructed source fork; signed installed launch, Accessibility, Dock presence, and primary left-half hotkey verified. Exhaustive parity remains pending.**
+Status: **Window Manager local release candidate compiles; App Store signing, installed runtime acceptance, and complete parity remain blocked.**
 
-## Deterministic source evidence
+## Issue #9 local evidence
 
-- Frozen upstream commit: `bf86a4b7d3dd246b895f149a99b39bcb89f22bfd`.
-- Unmodified upstream Debug build succeeded.
-- Unmodified upstream suite passed 310/310 tests.
-- Rebranded candidate suite passed 314/314 tests after the identity, updater, duplicate-shortcut, and Dock changes.
-- Candidate Debug and universal Release archives build successfully.
+- Final full Debug test suite: 273 tests passed after removing retired Extras-only implementation and tests.
+- Signed sandboxed universal Mac App Store archive and signed installer export succeeded at `/tmp/Window Manager.xcarchive` and `/tmp/WindowManagerAppStoreExport/Window Manager.pkg`.
+- Built identity: Window Manager 1.0 (1), `com.serp.windowmanager`, `windowmanager`, embedded `com.serp.windowmanager.launcher`.
+- Built privacy manifest: present and plist-valid.
+- Source and artifact forbidden searches: no Shortcut Coach identity, `com.knollsoft.*`, `XSYZ3E4B7D`, upstream appcast/update key, old candidate bundle ID, or old candidate display name.
+- Canonical metadata: `asc metadata validate --dir ./metadata --output table` reports 0 errors and 0 warnings.
+- Stage Manager and General → Extras UI/registration/menu/URL/config wiring are absent; the retired calculation factory routes, stack badge, and overlap-offset implementations are removed. Legacy names remain only for deletion, decoding compatibility, and regression assertions.
+- Owner artwork hashes are enforced by `scripts/generate_brand_assets.sh`; legacy and layered icon catalogs compile.
 
-## Installed candidate evidence
+Evidence is under `docs/app-replica/evidence/issue-9/local/` and the asset package under `docs/app-replica/assets/window-manager/`.
 
-- Installed path: `/Applications/Rectangle Clone.app`.
-- Product/bundle/URL identity: `Rectangle Clone`, `co.serp.rectangleclone`, `rectangleclone`.
-- Architecture: universal `arm64` + `x86_64`.
-- Signature: Developer ID Application, owner team `847HR8U8D9`.
-- `codesign --verify --deep --strict` passes.
-- Installed executable SHA-256 exactly matches the archived source executable.
-- The rebranded Accessibility onboarding and stale-grant recovery paths were exercised; the installed app is currently trusted.
-- Built-product search finds none of the upstream bundle IDs, signing team, appcast, update key, update domain, or Sparkle framework.
+## Installed behavior already established on the prior candidate
 
-The first Release archive exposed a real Team-ID mismatch between an ad-hoc app and the embedded Sparkle framework. The candidate removed Sparkle and its UI entry points, rebuilt with the owner's stable Developer ID identity, and relaunched successfully. The broken intermediate installed copies and packages were moved to Trash with descriptive names and remain recoverable.
+Earlier Developer ID candidate work exercised Accessibility reauthorization, Dock presence, a physical left-half shortcut, and the menu-bar visibility investigation. Those observations belong to the old candidate identity and do not verify this final Mac App Store candidate.
 
-## Brand evidence
+macOS can clip third-party status items on crowded/notched menu bars and exposes no public never-clip priority API. Window Manager therefore keeps the item enabled by default, uses a fixed square template item with a unique autosave identity and accessibility label, prevents system-removal persistence, and remains reachable through its ordinary Dock/app menu. Issue #7 still requires owner-visible installed proof under the current display arrangement.
 
-- New four-pane app icon and menu-bar glyph are independently authored in this repository.
-- Visible product strings and localized Rectangle brand tokens were replaced with the working identity.
-- Upstream MIT license and accurate attribution remain.
-- Final product name, legal owner copy, support destination, notarization, and release destination remain owner decisions.
+## Remaining gates
 
-## Unresolved runtime gates
-
-- The stale Accessibility row was removed and the exact installed Developer ID-signed app was added again. The authorization window remains closed after relaunch and the runtime-readiness probe is green.
-- The physical left-half hotkey passed; a complete left-half → restore → relaunch sequence still requires one paired evidence pass.
-- Settings, drag-to-snap, URL actions, ignore/unignore, import/export, login item, and the exhaustive action matrix remain untested as installed behavior.
-- Multi-display behavior cannot be directly exercised with the current one-display environment.
-- Candidate-owned update infrastructure is intentionally absent.
-- No independent verifier was authorized, so the completion gate remains red.
-
-## Runtime defects found during installed testing
-
-- The first candidate status item reused macOS's generic `Item-0` visibility record. A pre-existing hidden record immediately rewrote `hideMenubarIcon` to `1` on every launch. A unique autosave name alone still allowed macOS to persist it hidden. The status item now uses `co.serp.rectangleclone.statusItem` and makes the in-app **Hide menu bar icon** preference the sole visibility authority; `scripts/diagnose_runtime.sh` is the installed-runtime regression check.
-- Toggling the original Accessibility row did not repair it. macOS logged `Failed to match existing code requirement`. Removing the stale row and adding `/Applications/Rectangle Clone.app` created a matching grant; the installed app then passed the readiness probe.
-- A real TextEdit window moved through `rectangleclone://execute-action?name=left-half`, proving the authorized window-control path. Carbon did not accept injected `CGEvent` keystrokes, so a physical shortcut press remains the required hotkey-delivery check rather than a synthetic false failure.
-- The owner physically exercised ⌥⌘← after the permission repair and confirmed that the installed app moved the window.
-- Duplicate shortcut validators reject conflicts and name the owning action. Startup/import cleanup preserves the first action in canonical order and removes later duplicates; the installed candidate defaults contain no duplicate identities.
-- The installed app uses regular activation policy and appears in the Dock accessibility tree. This intentionally differs from Rectangle's `LSUIElement` behavior at the owner's request.
-- The menu-bar status item uses a fixed square length, an explicit template image, a candidate-owned autosave name, and a Rectangle Clone accessibility label. Control Center still reports the item as blocked from the visible right-side menu bar on this crowded system; there is no public third-party `neverClip` API. The normal top-left app menu and Dock icon remain visible.
-
-## Current artifact
-
-- App: `/Applications/Rectangle Clone.app`
-- ZIP: `dist/Rectangle-Clone-1.100-local.zip`
-- ZIP SHA-256: `13f992c407f68528da2147861ff06e1c0f8e7ba169e382ed7bf8256fbfca12be`
+- App Store Connect app/version creation, upload, processing, strict validation, and submission. Bundle IDs, certificates, profiles, signed archive, and signed installer export are complete.
+- Exact signed `/Applications/Window Manager.app` install and menu-bar, Dock, shortcuts, settings, persistence, Accessibility, login-item, URL, config, quit/relaunch exercises.
+- Screenshots/accessibility trees from that exact artifact, including Settings without Stage Manager or Extras and SERP artwork in Finder/Dock/About/menu bar.
+- Sandbox compatibility for system-wide Accessibility window control.
+- Owner legal/support/privacy/review/availability/age-rating decisions listed in `docs/release/app-store-blockers.md`.
+- Paired in-scope audit and independent fresh-context verification. The completion validator is expected to remain red.

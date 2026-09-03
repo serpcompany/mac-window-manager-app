@@ -1,6 +1,6 @@
 # Security policy
 
-Rectangle Clone requires macOS Accessibility permission (`AXUIElement`) to move and resize windows. It operates locally and does not collect or transmit window layouts, keystrokes, or personal data.
+Window Manager requires macOS Accessibility permission (`AXUIElement`) to move and resize windows. It operates locally and does not collect or transmit window layouts, keystrokes, or personal data.
 
 The development build has no update endpoint. Rectangle's upstream appcast and signing key have been removed. Any future networking or update mechanism requires a candidate-owned endpoint, signing key, privacy review, and runtime destination audit.
 

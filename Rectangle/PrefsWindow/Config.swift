@@ -13,23 +13,13 @@ extension Defaults {
                 shortcuts[action.name] = Shortcut(masShortcut: masShortcut)
             }
         }
-        for defaultsKey in TodoManager.defaultsKeys + StackBadgeManager.defaultsKeys {
-            guard
-                let shortcutDict = UserDefaults.standard.dictionary(forKey: defaultsKey),
-                let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName)),
-                let shortcut = dictTransformer.transformedValue(shortcutDict) as? MASShortcut
-            else {
-                continue
-            }
-            shortcuts[defaultsKey] = Shortcut(masShortcut: shortcut)
-        }
         
         var codableDefaults = [String: CodableDefault]()
         for exportableDefault in Defaults.array {
             codableDefaults[exportableDefault.key] = exportableDefault.toCodable()
         }
                 
-        let config = Config(bundleId: "co.serp.rectangleclone",
+        let config = Config(bundleId: "com.serp.windowmanager",
                             version: version,
                             shortcuts: shortcuts,
                             defaults: codableDefaults)
@@ -63,6 +53,9 @@ extension Defaults {
         guard let jsonString = try? String(contentsOf: fileUrl, encoding: .utf8),
               let config = convert(jsonString: jsonString) else { return }
 
+        let importsShippingProfile = (config.defaults["shippingDefaultProfileVersion"]?.int ?? 0)
+            >= ShippingDefaultProfile.version
+
         for availableDefault in Defaults.array {
             if let codedDefault = config.defaults[availableDefault.key] {
                 availableDefault.load(from: codedDefault)
@@ -76,18 +69,14 @@ extension Defaults {
                 let dictValue = dictTransformer.reverseTransformedValue(shortcut)
                 UserDefaults.standard.setValue(dictValue, forKey: action.name)
             } else {
-                UserDefaults.standard.removeObject(forKey: action.name)
+                if importsShippingProfile {
+                    UserDefaults.standard.set([String: Any](), forKey: action.name)
+                } else {
+                    UserDefaults.standard.removeObject(forKey: action.name)
+                }
             }
         }
-        for defaultsKey in TodoManager.defaultsKeys + StackBadgeManager.defaultsKeys {
-            if let importedShortcut = config.shortcuts[defaultsKey], importedShortcut.keyCode >= 0 {
-                let shortcut = importedShortcut.toMASSHortcut()
-                let dictValue = dictTransformer.reverseTransformedValue(shortcut)
-                UserDefaults.standard.setValue(dictValue, forKey: defaultsKey)
-            } else {
-                UserDefaults.standard.removeObject(forKey: defaultsKey)
-            }
-        }
+        ShippingDefaultProfile.removeRetiredFeatureDefaults()
 
         AppShortcutConflict.removeDuplicateAssignments()
         
@@ -96,9 +85,9 @@ extension Defaults {
     
     static func loadFromSupportDir() {
         if let rectangleSupportURL = getSupportDir()?
-            .appendingPathComponent("Rectangle Clone", isDirectory: true) {
+            .appendingPathComponent("Window Manager", isDirectory: true) {
             
-            let configURL = rectangleSupportURL.appendingPathComponent("RectangleCloneConfig.json")
+            let configURL = rectangleSupportURL.appendingPathComponent("WindowManagerConfig.json")
                         
             let exists = try? configURL.checkResourceIsReachable()
             if exists == true {
@@ -125,16 +114,16 @@ extension Defaults {
                 
                 guard isSafe else {
                     AlertUtil.oneButtonAlert(
-                        question: "Refused to load RectangleCloneConfig.json",
-                        text: "The configuration file at \(path) is a symlink or world-writable. Rectangle Clone has refused to load it. Remove the file or fix its permissions and try again."
+                        question: "Refused to load WindowManagerConfig.json",
+                        text: "The configuration file at \(path) is a symlink or world-writable. Window Manager has refused to load it. Remove the file or fix its permissions and try again."
                     )
                     try? fm.removeItem(at: configURL)
                     return
                 }
                 
                 let response = AlertUtil.twoButtonAlert(
-                    question: "Apply Rectangle Clone configuration?",
-                    text: "A configuration file was found at \(path). Applying it will overwrite your current Rectangle Clone shortcuts and preferences. Apply now?",
+                    question: "Apply Window Manager configuration?",
+                    text: "A configuration file was found at \(path). Applying it will overwrite your current Window Manager shortcuts and preferences. Apply now?",
                     confirmText: "Apply",
                     cancelText: "Discard"
                 )
@@ -145,14 +134,14 @@ extension Defaults {
                 
                 load(fileUrl: configURL)
                 do {
-                    let newFilename = "RectangleCloneConfig\(timestamp()).json"
+                    let newFilename = "WindowManagerConfig\(timestamp()).json"
                     
                     try fm.moveItem(atPath: configURL.path, toPath: rectangleSupportURL.appendingPathComponent(newFilename).path)
                 } catch {
                     do {
                         try fm.removeItem(at: configURL)
                     } catch {
-                        AlertUtil.oneButtonAlert(question: "Error after loading from Support Dir", text: "Unable to rename/remove RectangleCloneConfig.json from \(rectangleSupportURL) after loading.")
+                        AlertUtil.oneButtonAlert(question: "Error after loading from Support Dir", text: "Unable to rename/remove WindowManagerConfig.json from \(rectangleSupportURL) after loading.")
                     }
                 }
             }

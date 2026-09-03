@@ -7,7 +7,7 @@ import os.log
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    static let launcherAppId = "co.serp.rectangleclone.launcher"
+    static let launcherAppId = "com.serp.windowmanager.launcher"
 
     private let accessibilityAuthorization = AccessibilityAuthorization()
     private let statusItem = RectangleStatusItem.instance
@@ -23,7 +23,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var applicationToggle: ApplicationToggle!
     private var windowCalculationFactory: WindowCalculationFactory!
     private var snappingManager: SnappingManager!
-    private var stackBadgeManager: StackBadgeManager!
     private var titleBarManager: TitleBarManager!
     private var greenButtonManager: GreenButtonManager!
     
@@ -47,8 +46,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         Defaults.loadFromSupportDir()
-        migrateShowEighthsInMenu()
-
         checkVersion()
         mainStatusMenu.delegate = self
         statusItem.refreshVisibility()
@@ -74,8 +71,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         addMenuIcons()
         addWindowActionMenuItems()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(rebuildMenu), name: .showAdditionalSizesInMenuChanged, object: nil)
-
         // Candidate update infrastructure is intentionally not configured. The
         // upstream appcast and signing key belong to Rectangle's operator.
         updatesMenuItem.isHidden = true
@@ -87,11 +82,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.applicationToggle.reloadFromDefaults()
             self.shortcutManager.reloadFromDefaults()
             self.snappingManager.reloadFromDefaults()
-            self.initializeTodo(false)
-        })
-        
-        Notification.Name.todoMenuToggled.onPost(using: { _ in
-            self.initializeTodo(false)
         })
         
         prevActiveAppObservation = NSWorkspace.shared.observe(\.frontmostApplication, options: .old) { workspace, change in
@@ -101,6 +91,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func checkVersion() {
         let currentVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+        let installedShippingProfile = ShippingDefaultProfile.applyIfFreshInstall(
+            to: .standard,
+            persistentDomainName: Bundle.main.bundleIdentifier
+        )
+        if installedShippingProfile {
+            ShippingDefaultProfile.synchronizeStandardDefaults()
+        }
+        ShippingDefaultProfile.removeRetiredTodoDefaults()
+        ShippingDefaultProfile.removeRetiredFeatureDefaults()
         if let lastVersion = Defaults.lastVersion.value,
            let intLastVersion = Int(lastVersion) {
             if intLastVersion < 46 {
@@ -116,7 +115,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         } else {
             Defaults.installVersion.value = currentVersion
-            Defaults.allowAnyShortcut.enabled = true
         }
         MASShortcutMigration.syncRenamedSideShortcutAliases()
         
@@ -153,10 +151,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.shortcutManager = ShortcutManager(windowManager: windowManager)
         self.applicationToggle = ApplicationToggle(shortcutManager: shortcutManager)
         self.snappingManager = SnappingManager()
-        self.stackBadgeManager = StackBadgeManager()
         self.titleBarManager = TitleBarManager()
         self.greenButtonManager = GreenButtonManager()
-        self.initializeTodo()
         checkForProblematicApps()
         MacTilingDefaults.checkForBuiltInTiling(skipIfAlreadyNotified: true)
     }
@@ -173,7 +169,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         for app in runningApps {
             guard let bundleId = app.bundleIdentifier else { continue }
             if let conflictingAppName = conflictingAppsIds[bundleId] {
-                AlertUtil.oneButtonAlert(question: "Potential window manager conflict: \(conflictingAppName)", text: "Since \(conflictingAppName) might have some overlapping behavior with Rectangle Clone, it's recommended that you either disable or quit \(conflictingAppName).")
+                AlertUtil.oneButtonAlert(question: "Potential window manager conflict: \(conflictingAppName)", text: "Since \(conflictingAppName) might have some overlapping behavior with Window Manager, it's recommended that you either disable or quit \(conflictingAppName).")
                 break
             }
         }
@@ -225,7 +221,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let displayNameString = displayNames.joined(separator: "\n")
         
         if !problemBundles.isEmpty {
-            AlertUtil.oneButtonAlert(question: "Known issues with installed applications", text: "\(displayNameString)\n\nThese applications have issues with the drag to screen edge to snap functionality in Rectangle Clone.\n\nYou can either ignore the applications using the menu item in Rectangle Clone, or disable drag to screen edge snapping in Rectangle Clone preferences.")
+            AlertUtil.oneButtonAlert(question: "Known issues with installed applications", text: "\(displayNameString)\n\nThese applications have issues with the drag to screen edge to snap functionality in Window Manager.\n\nYou can either ignore the applications using the menu item in Window Manager, or disable drag to screen edge snapping in Window Manager preferences.")
             Defaults.notifiedOfProblemApps.enabled = true
         }
     }
@@ -328,7 +324,6 @@ extension AppDelegate: NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
         if menu != mainStatusMenu {
             updateWindowActionMenuItems(menu: menu)
-            updateTodoModeMenuItems(menu: menu)
             return
         }
         
@@ -342,7 +337,6 @@ extension AppDelegate: NSMenuDelegate {
         }
         
         updateWindowActionMenuItems(menu: menu)
-        updateTodoModeMenuItems(menu: menu)
 
         viewLoggingMenuItem.keyEquivalentModifierMask = .option
         quitMenuItem.keyEquivalent = "q"
@@ -397,9 +391,6 @@ extension AppDelegate: NSMenuDelegate {
     }
     
     func addWindowActionMenuItems() {
-        let additionalSizeCategories: Set<WindowActionCategory> = [.eighths, .ninths, .twelfths, .sixteenths]
-        let submenuOnlyWhenAdditional: Set<WindowActionCategory> = [.thirds, .size]
-        let showAdditional = Defaults.showAdditionalSizesInMenu.userEnabled
         var menuIndex = 0
         var categoryMenus: [CategoryMenu] = []
         for action in WindowAction.active {
@@ -408,23 +399,16 @@ extension AppDelegate: NSMenuDelegate {
             newMenuItem.representedObject = action
 
             if !Defaults.showAllActionsInMenu.userEnabled, let category = action.category {
-                // When additional sizes are off, keep Thirds and Size as flat items
-                if submenuOnlyWhenAdditional.contains(category) && !showAdditional {
-                    // Fall through to flat item handling below
-                } else {
-                    if menuIndex != 0 && action.firstInGroup {
-                        let menu = NSMenu(title: category.displayName)
-                        menu.autoenablesItems = false
-                        categoryMenus.append(CategoryMenu(menu: menu, category: category))
-                    }
-                    categoryMenus.last?.menu.addItem(newMenuItem)
-                    continue
+                if menuIndex != 0 && action.firstInGroup {
+                    let menu = NSMenu(title: category.displayName)
+                    menu.autoenablesItems = false
+                    categoryMenus.append(CategoryMenu(menu: menu, category: category))
                 }
+                categoryMenus.last?.menu.addItem(newMenuItem)
+                continue
             }
 
-            // Flat item - suppress extra separator for almostMaximize when Size is not a submenu
-            let showSeparator = action.firstInGroup && !(action == .almostMaximize && !showAdditional)
-            if menuIndex != 0 && showSeparator {
+            if menuIndex != 0 && action.firstInGroup {
                 mainStatusMenu.insertItem(NSMenuItem.separator(), at: menuIndex)
                 menuIndex += 1
             }
@@ -440,10 +424,6 @@ extension AppDelegate: NSMenuDelegate {
             for categoryMenu in sortedCategoryMenus {
                 categoryMenu.menu.delegate = self
                 let menuMenuItem = NSMenuItem(title: categoryMenu.category.displayName, action: nil, keyEquivalent: "")
-                if additionalSizeCategories.contains(categoryMenu.category) {
-                    menuMenuItem.isHidden = !Defaults.showAdditionalSizesInMenu.userEnabled
-                    additionalSizeMenuItems.append(menuMenuItem)
-                }
                 mainStatusMenu.insertItem(menuMenuItem, at: menuIndex)
                 mainStatusMenu.setSubmenu(categoryMenu.menu, for: menuMenuItem)
                 menuIndex += 1
@@ -453,9 +433,7 @@ extension AppDelegate: NSMenuDelegate {
         mainStatusMenu.insertItem(NSMenuItem.separator(), at: menuIndex)
 
         menuIndex += 1
-        addTodoModeMenuItems(startingIndex: menuIndex)
-        // Track total dynamic items: window actions + separators + todo items (4 items + 1 separator)
-        dynamicMenuItemCount = menuIndex + 5
+        dynamicMenuItemCount = menuIndex
     }
 
     @objc func rebuildMenu() {
@@ -468,147 +446,11 @@ extension AppDelegate: NSMenuDelegate {
         addWindowActionMenuItems()
     }
 
-    private func migrateShowEighthsInMenu() {
-        let oldKey = "showEighthsInMenu"
-        let oldValue = UserDefaults.standard.integer(forKey: oldKey)
-        if oldValue != 0 && Defaults.showAdditionalSizesInMenu.notSet {
-            Defaults.showAdditionalSizesInMenu.enabled = (oldValue == 1)
-        }
-    }
-
     struct CategoryMenu {
         let menu: NSMenu
         let category: WindowActionCategory
     }
 
-}
-
-// todo mode
-extension AppDelegate {
-    func initializeTodo(_ bringToFront: Bool = true) {
-        self.showHideTodoMenuItems()
-        TodoManager.registerUnregisterToggleShortcut()
-        TodoManager.registerUnregisterReflowShortcut()
-        TodoManager.moveAllIfNeeded(bringToFront)
-    }
-
-    enum TodoItem {
-        case mode, app, reflow, separator, window
-
-        var tag: Int {
-            switch self {
-            case .mode: return 101
-            case .app: return 102
-            case .reflow: return 103
-            case .separator: return 104
-            case .window: return 105
-            }
-        }
-        
-        static let tags = [101, 102, 103, 104, 105]
-    }
-
-    private func addTodoModeMenuItems(startingIndex: Int) {
-        var menuIndex = startingIndex
-
-        let todoModeItemTitle = NSLocalizedString("Enable Todo Mode", tableName: "Main", value: "", comment: "")
-        let todoModeMenuItem = NSMenuItem(title: todoModeItemTitle, action: #selector(toggleTodoMode), keyEquivalent: "")
-        todoModeMenuItem.tag = TodoItem.mode.tag
-        todoModeMenuItem.target = self
-        mainStatusMenu.insertItem(todoModeMenuItem, at: menuIndex)
-        menuIndex += 1
-
-        let todoAppItemTitle = NSLocalizedString("Use frontmost.app as Todo App", tableName: "Main", value: "", comment: "")
-        let todoAppMenuItem = NSMenuItem(title: todoAppItemTitle, action: #selector(setTodoApp), keyEquivalent: "")
-        todoAppMenuItem.tag = TodoItem.app.tag
-        mainStatusMenu.insertItem(todoAppMenuItem, at: menuIndex)
-        menuIndex += 1
-
-        let todoWindowItemTitle = NSLocalizedString("Use as Todo Window", tableName: "Main", value: "", comment: "")
-        let todoWindowMenuItem = NSMenuItem(title: todoWindowItemTitle, action: #selector(setTodoWindow), keyEquivalent: "")
-        todoWindowMenuItem.tag = TodoItem.window.tag
-        mainStatusMenu.insertItem(todoWindowMenuItem, at: menuIndex)
-        menuIndex += 1
-        
-        let todoReflowItemTitle = NSLocalizedString("Reflow Todo", tableName: "Main", value: "", comment: "")
-        let todoReflowItem = NSMenuItem(title: todoReflowItemTitle, action: #selector(todoReflow), keyEquivalent: "")
-        todoReflowItem.tag = TodoItem.reflow.tag
-        mainStatusMenu.insertItem(todoReflowItem, at: menuIndex)
-        menuIndex += 1
-        
-        let separator = NSMenuItem.separator()
-        separator.tag = TodoItem.separator.tag
-        mainStatusMenu.insertItem(separator, at: menuIndex)
-        
-        showHideTodoMenuItems()
-    }
-    
-    private func showHideTodoMenuItems() {
-        for item in mainStatusMenu.items {
-            if TodoItem.tags.contains(item.tag) {
-                item.isHidden = !Defaults.todo.userEnabled
-            }
-        }
-    }
-
-    @objc func toggleTodoMode(_ sender: NSMenuItem) {
-        let enabled = sender.state == .off
-        TodoManager.setTodoMode(enabled)
-    }
-
-    @objc func setTodoApp(_ sender: NSMenuItem) {
-        applicationToggle.setTodoApp()
-        TodoManager.moveAllIfNeeded()
-    }
-
-    @objc func todoReflow(_ sender: NSMenuItem) {
-        TodoManager.moveAll()
-    }
-    
-    @objc func setTodoWindow(_ sender: NSMenuItem) {
-        TodoManager.resetTodoWindow()
-        TodoManager.moveAllIfNeeded()
-    }
-
-    private func updateTodoModeMenuItems(menu: NSMenu) {
-        guard Defaults.todo.userEnabled,
-              let todoAppMenuItem = menu.item(withTag: TodoItem.app.tag),
-              let todoModeMenuItem = menu.item(withTag: TodoItem.mode.tag),
-              let todoReflowMenuItem = menu.item(withTag: TodoItem.reflow.tag),
-              let todoWindowMenuItem = menu.item(withTag: TodoItem.window.tag)
-        else {
-            return
-        }
-
-        if let frontAppName = ApplicationToggle.frontAppName {
-            let appString = NSLocalizedString("Use frontmost.app as Todo App", tableName: "Main", value: "", comment: "")
-            todoAppMenuItem.title = appString.replacingOccurrences(
-                of: "frontmost.app", with: frontAppName)
-            todoAppMenuItem.isEnabled = !applicationToggle.todoAppIsActive()
-            todoAppMenuItem.state = applicationToggle.todoAppIsActive() ? .on : .off
-            todoAppMenuItem.isHidden = false
-        } else {
-            todoAppMenuItem.isHidden = true
-        }
-
-        todoModeMenuItem.state = Defaults.todoMode.enabled ? .on : .off
-        
-        if let fullKeyEquivalent = TodoManager.getToggleKeyDisplay(),
-            let keyEquivalent = fullKeyEquivalent.0?.lowercased() {
-            todoModeMenuItem.keyEquivalent = keyEquivalent
-            todoModeMenuItem.keyEquivalentModifierMask = fullKeyEquivalent.1
-        }
-
-        if let fullKeyEquivalent = TodoManager.getReflowKeyDisplay(),
-            let keyEquivalent = fullKeyEquivalent.0?.lowercased() {
-            todoReflowMenuItem.keyEquivalent = keyEquivalent
-            todoReflowMenuItem.keyEquivalentModifierMask = fullKeyEquivalent.1
-        }
-        
-        todoReflowMenuItem.isEnabled = Defaults.todoMode.enabled
-        
-        todoWindowMenuItem.isHidden = !applicationToggle.todoAppIsActive() || TodoManager.isTodoWindowFront()
-    }
 }
 
 extension AppDelegate: NSWindowDelegate {
@@ -644,7 +486,7 @@ extension AppDelegate {
             
             func confirmExecuteTask(action: String, bundleId: String) -> Bool {
                 // Defense-in-depth: any web page or another app can trigger the
-                // `rectangleclone://execute-task=ignore-app` URL with an arbitrary
+                // `windowmanager://execute-task=ignore-app` URL with an arbitrary
                 // bundle-id. Without confirmation this silently mutates
                 // Rectangle's `disabledApps` defaults. Skip the prompt only
                 // when Rectangle itself is frontmost (i.e. the user almost
@@ -654,8 +496,8 @@ extension AppDelegate {
                 }
                 let alert = NSAlert()
                 alert.alertStyle = .warning
-                alert.messageText = "Allow Rectangle Clone URL action?".localized
-                alert.informativeText = String(format: "An external source asked Rectangle Clone to perform \"%@\" on app bundle id \"%@\". Allow?".localized, action, bundleId)
+                alert.messageText = "Allow Window Manager URL action?".localized
+                alert.informativeText = String(format: "An external source asked Window Manager to perform \"%@\" on app bundle id \"%@\". Allow?".localized, action, bundleId)
                 alert.addButton(withTitle: "Allow".localized)
                 alert.addButton(withTitle: "Cancel".localized)
                 NSApp.activate(ignoringOtherApps: true)

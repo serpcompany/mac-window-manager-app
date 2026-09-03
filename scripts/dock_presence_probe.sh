@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-app_path="${1:-/Applications/Rectangle Clone.app}"
+app_path="${1:-/Applications/Window Manager.app}"
 
 [[ $(/usr/libexec/PlistBuddy -c 'Print :LSUIElement' "$app_path/Contents/Info.plist") == "false" ]]
 
@@ -15,28 +15,28 @@ func copy(_ element: AXUIElement, _ attribute: String) -> AnyObject? {
     return value
 }
 
-func containsRectangleClone(_ element: AXUIElement, depth: Int = 0) -> Bool {
+func containsWindowManager(_ element: AXUIElement, depth: Int = 0) -> Bool {
     guard depth <= 8 else { return false }
     let title = copy(element, kAXTitleAttribute) as? String ?? ""
     let description = copy(element, kAXDescriptionAttribute) as? String ?? ""
-    if title == "Rectangle Clone" || description == "Rectangle Clone" { return true }
+    if title == "Window Manager" || description == "Window Manager" { return true }
     return ((copy(element, kAXChildrenAttribute) as? [AXUIElement]) ?? [])
-        .contains { containsRectangleClone($0, depth: depth + 1) }
+        .contains { containsWindowManager($0, depth: depth + 1) }
 }
 
-guard let app = NSWorkspace.shared.runningApplications.first(where: { $0.bundleIdentifier == "co.serp.rectangleclone" }),
+guard let app = NSWorkspace.shared.runningApplications.first(where: { $0.bundleIdentifier == "com.serp.windowmanager" }),
       app.activationPolicy == .regular
 else {
-    fputs("RED: Rectangle Clone is not running with regular Dock activation policy\n", stderr)
+    fputs("RED: Window Manager is not running with regular Dock activation policy\n", stderr)
     exit(1)
 }
 
 guard let dock = NSWorkspace.shared.runningApplications.first(where: { $0.bundleIdentifier == "com.apple.dock" }),
-      containsRectangleClone(AXUIElementCreateApplication(dock.processIdentifier))
+      containsWindowManager(AXUIElementCreateApplication(dock.processIdentifier))
 else {
-    fputs("RED: Rectangle Clone is absent from the Dock accessibility tree\n", stderr)
+    fputs("RED: Window Manager is absent from the Dock accessibility tree\n", stderr)
     exit(1)
 }
 
-print("GREEN: Rectangle Clone is present in the Dock with regular activation policy")
+print("GREEN: Window Manager is present in the Dock with regular activation policy")
 SWIFT

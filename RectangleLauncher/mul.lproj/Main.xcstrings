@@ -560,7 +560,7 @@
       }
     },
     "1Xt-HY-uBw.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Rectangle Clone Launcher\"; ObjectID = \"1Xt-HY-uBw\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Window Manager Launcher\"; ObjectID = \"1Xt-HY-uBw\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -572,175 +572,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         }
       }
@@ -2048,7 +2048,7 @@
       }
     },
     "4sb-4s-VLi.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Quit Rectangle Clone Launcher\"; ObjectID = \"4sb-4s-VLi\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Quit Window Manager Launcher\"; ObjectID = \"4sb-4s-VLi\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -2060,181 +2060,181 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukončit Rectangle Clone Launcher"
+            "value" : "Ukončit Window Manager Launcher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Schließen"
+            "value" : "Window Manager Launcher Schließen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keluar Rectangle Clone Launcher"
+            "value" : "Keluar Window Manager Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Išeiti iš Rectangle Clone Launcher"
+            "value" : "Išeiti iš Window Manager Launcher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avslutt Rectangle Clone Launcher"
+            "value" : "Avslutt Window Manager Launcher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avslutt Rectangle Clone Launcher"
+            "value" : "Avslutt Window Manager Launcher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fechar Rectangle Clone Launcher"
+            "value" : "Fechar Window Manager Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sair do Rectangle Clone Launcher"
+            "value" : "Sair do Window Manager Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukončiť Rectangle Clone Launcher"
+            "value" : "Ukončiť Window Manager Launcher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit Rectangle Clone Launcher"
+            "value" : "Quit Window Manager Launcher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Thoát Rectangle Clone Launcher"
+            "value" : "Thoát Window Manager Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "退出Rectangle Clone Launcher"
+            "value" : "退出Window Manager Launcher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結束Rectangle Clone Launcher"
+            "value" : "結束Window Manager Launcher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結束Rectangle Clone Launcher"
+            "value" : "結束Window Manager Launcher"
           }
         }
       }
     },
     "5kV-Vb-QxS.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"About Rectangle Clone Launcher\"; ObjectID = \"5kV-Vb-QxS\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"About Window Manager Launcher\"; ObjectID = \"5kV-Vb-QxS\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -2246,175 +2246,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O aplikaci Rectangle Clone Launcher"
+            "value" : "O aplikaci Window Manager Launcher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Über Rectangle Clone Launcher"
+            "value" : "Über Window Manager Launcher"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tentang Rectangle Clone Launcher"
+            "value" : "Tentang Window Manager Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apie Rectangle Clone Launcher"
+            "value" : "Apie Window Manager Launcher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om Rectangle Clone Launcher"
+            "value" : "Om Window Manager Launcher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om Rectangle Clone Launcher"
+            "value" : "Om Window Manager Launcher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sobre o Rectangle Clone Launcher"
+            "value" : "Sobre o Window Manager Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sobre o Rectangle Clone Launcher"
+            "value" : "Sobre o Window Manager Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O aplikácii Rectangle Clone Launcher"
+            "value" : "O aplikácii Window Manager Launcher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Rectangle Clone Launcher"
+            "value" : "About Window Manager Launcher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Giới thiệu Rectangle Clone Launcher"
+            "value" : "Giới thiệu Window Manager Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "关于Rectangle Clone Launcher"
+            "value" : "关于Window Manager Launcher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關於Rectangle Clone Launcher"
+            "value" : "關於Window Manager Launcher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關於Rectangle Clone Launcher"
+            "value" : "關於Window Manager Launcher"
           }
         }
       }
@@ -8372,7 +8372,7 @@
       }
     },
     "FKE-Sm-Kum.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Rectangle Clone Launcher Help\"; ObjectID = \"FKE-Sm-Kum\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Window Manager Launcher Help\"; ObjectID = \"FKE-Sm-Kum\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -8384,175 +8384,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher nápověda"
+            "value" : "Window Manager Launcher nápověda"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Hilfe"
+            "value" : "Window Manager Launcher Hilfe"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bantuan Rectangle Clone Launcher"
+            "value" : "Bantuan Window Manager Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher pagalba"
+            "value" : "Window Manager Launcher pagalba"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher-hjelp"
+            "value" : "Window Manager Launcher-hjelp"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher-hjelp"
+            "value" : "Window Manager Launcher-hjelp"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajuda do Rectangle Clone Launcher"
+            "value" : "Ajuda do Window Manager Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajuda do Rectangle Clone Launcher"
+            "value" : "Ajuda do Window Manager Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher nápoveda"
+            "value" : "Window Manager Launcher nápoveda"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Help"
+            "value" : "Window Manager Launcher Help"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trợ giúp của Rectangle Clone Launcher"
+            "value" : "Trợ giúp của Window Manager Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher帮助"
+            "value" : "Window Manager Launcher帮助"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher輔助說明"
+            "value" : "Window Manager Launcher輔助說明"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher輔助說明"
+            "value" : "Window Manager Launcher輔助說明"
           }
         }
       }
@@ -15254,7 +15254,7 @@
       }
     },
     "Olw-nP-bQN.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Hide Rectangle Clone Launcher\"; ObjectID = \"Olw-nP-bQN\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Hide Window Manager Launcher\"; ObjectID = \"Olw-nP-bQN\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -15266,175 +15266,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skrýt Rectangle Clone Launcher"
+            "value" : "Skrýt Window Manager Launcher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher Verstecken"
+            "value" : "Window Manager Launcher Verstecken"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sembunyikan Rectangle Clone Launcher"
+            "value" : "Sembunyikan Window Manager Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Slėpti Rectangle Clone Launcher"
+            "value" : "Slėpti Window Manager Launcher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skjul Rectangle Clone Launcher"
+            "value" : "Skjul Window Manager Launcher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gøym Rectangle Clone Launcher"
+            "value" : "Gøym Window Manager Launcher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ocultar Rectangle Clone Launcher"
+            "value" : "Ocultar Window Manager Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esconder Rectangle Clone Launcher"
+            "value" : "Esconder Window Manager Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skryť Rectangle Clone Launcher"
+            "value" : "Skryť Window Manager Launcher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide Rectangle Clone Launcher"
+            "value" : "Hide Window Manager Launcher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ẩn Rectangle Clone Launcher"
+            "value" : "Ẩn Window Manager Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隐藏Rectangle Clone Launcher"
+            "value" : "隐藏Window Manager Launcher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隱藏Rectangle Clone Launcher"
+            "value" : "隱藏Window Manager Launcher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隱藏Rectangle Clone Launcher"
+            "value" : "隱藏Window Manager Launcher"
           }
         }
       }
@@ -19532,7 +19532,7 @@
       }
     },
     "uQy-DD-JDr.title" : {
-      "comment" : "Class = \"NSMenu\"; title = \"Rectangle Clone Launcher\"; ObjectID = \"uQy-DD-JDr\";",
+      "comment" : "Class = \"NSMenu\"; title = \"Window Manager Launcher\"; ObjectID = \"uQy-DD-JDr\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -19544,175 +19544,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rectangle Clone Launcher"
+            "value" : "Window Manager Launcher"
           }
         }
       }

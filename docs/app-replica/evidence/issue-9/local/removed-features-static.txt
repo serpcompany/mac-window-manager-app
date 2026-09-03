@@ -1,0 +1,7 @@
+Owner-approved removal static checks
+PASS: Stage Manager and General > Extras UI/registration/menu/URL/config wiring are absent.
+PASS: retired Extras calculations are excluded from the runtime calculation factory.
+PASS: stack-badge and overlap-offset implementation files and project references are removed.
+PASS: command-line documentation no longer advertises retired feature keys/actions.
+
+Legacy preference/action names remain only in explicit deletion lists, compatibility enum decoding, and removal regression assertions. Installed runtime absence remains untested until the store-signed build is processed and installable.

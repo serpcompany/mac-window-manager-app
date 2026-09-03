@@ -40,7 +40,7 @@ class ShortcutManager {
     private let shortcutsProvider: () -> [WindowAction: MASShortcut]
     private let appDisabledProvider: () -> Bool
     private let scheduler: ShortcutRebindScheduler
-    private let todoSessionStateChanged: (Bool) -> Void
+    private let appShortcutSessionStateChanged: (Bool) -> Void
     private var boundShortcutActions = Set<WindowAction>()
     private var shortcutIdentities = [WindowAction: ShortcutCycle.ShortcutIdentity]()
     private var isUpdatingShortcutBindings = false
@@ -63,10 +63,7 @@ class ShortcutManager {
         scheduler: @escaping ShortcutRebindScheduler = { action in
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: action)
         },
-        todoSessionStateChanged: @escaping (Bool) -> Void = { isActive in
-            TodoManager.setShortcutBindingsSessionActive(isActive)
-            StackBadgeManager.setShortcutBindingsSessionActive(isActive)
-        }
+        appShortcutSessionStateChanged: @escaping (Bool) -> Void = { _ in }
     ) {
         self.windowManager = windowManager
         self.bindingStore = bindingStore
@@ -75,12 +72,12 @@ class ShortcutManager {
         self.shortcutsProvider = shortcutsProvider
         self.appDisabledProvider = appDisabledProvider
         self.scheduler = scheduler
-        self.todoSessionStateChanged = todoSessionStateChanged
+        self.appShortcutSessionStateChanged = appShortcutSessionStateChanged
         self.sessionIsActive = activeStateProvider()
 
         bindingStore.configure()
         AppShortcutConflict.removeDuplicateAssignments()
-        todoSessionStateChanged(sessionIsActive)
+        appShortcutSessionStateChanged(sessionIsActive)
 
         registerDefaults()
 
@@ -151,12 +148,14 @@ class ShortcutManager {
     }
 
     private func registerDefaults() {
-
+        let usesShippingProfile = Defaults.shippingDefaultProfileVersion.value >= ShippingDefaultProfile.version
         let defaultShortcuts = WindowAction.active.reduce(into: [String: MASShortcut]()) { dict, windowAction in
-            guard let defaultShortcut = Defaults.alternateDefaultShortcuts.enabled
-                ? windowAction.alternateDefault
-                : windowAction.spectacleDefault
-            else { return }
+            let defaultShortcut = usesShippingProfile
+                ? ShippingDefaultProfile.shortcutByDefaultsKey[windowAction.name]
+                : (Defaults.alternateDefaultShortcuts.enabled
+                    ? windowAction.alternateDefault
+                    : windowAction.spectacleDefault)
+            guard let defaultShortcut else { return }
             let shortcut = MASShortcut(keyCode: defaultShortcut.keyCode, modifierFlags: NSEvent.ModifierFlags(rawValue: defaultShortcut.modifierFlags))
             dict[windowAction.name] = shortcut
         }
@@ -171,7 +170,7 @@ class ShortcutManager {
         sessionRebindPending = false
         sessionGeneration &+= 1
         unbindShortcuts()
-        todoSessionStateChanged(false)
+        appShortcutSessionStateChanged(false)
     }
 
     @objc private func sessionDidBecomeActive(_ notification: Notification) {
@@ -192,7 +191,7 @@ class ShortcutManager {
             self.sessionRebindPending = false
             self.unbindShortcuts()
             self.bindShortcuts()
-            self.todoSessionStateChanged(true)
+            self.appShortcutSessionStateChanged(true)
         }
     }
 
@@ -205,10 +204,6 @@ class ShortcutManager {
         var parameters = originalParameters
 
         if MultiWindowManager.execute(parameters: parameters) {
-            return
-        }
-
-        if TodoManager.execute(parameters: parameters) {
             return
         }
 
@@ -299,8 +294,6 @@ class ShortcutManager {
             }
         }
 
-        TodoManager.setShortcutBindingsSuspended(isRecording)
-        StackBadgeManager.setShortcutBindingsSuspended(isRecording)
     }
 
     private func isRepeatAction(parameters: ExecutionParameters, windowElement: AccessibilityElement, windowId: CGWindowID) -> Bool {

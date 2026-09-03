@@ -108,12 +108,10 @@ class WindowManager {
             }
         }
         
-        let ignoreTodo = windowId.map { TodoManager.isTodoWindow($0) } ?? false
-        
         if frontmostWindowElement.isSheet == true
             || currentWindowRect.isNull
             || usableScreens.frameOfCurrentScreen.isNull
-            || usableScreens.currentScreen.adjustedVisibleFrame(ignoreTodo).isNull {
+            || usableScreens.currentScreen.adjustedVisibleFrame().isNull {
             NSSound.beep()
             Logger.log("Window is not snappable or usable screen is not valid")
             return
@@ -124,7 +122,7 @@ class WindowManager {
         
         let windowCalculation = WindowCalculationFactory.calculationsByAction[action]
         
-        let calculationParams = WindowCalculationParameters(window: currentWindow, usableScreens: usableScreens, action: action, lastAction: lastRectangleAction, ignoreTodo: ignoreTodo)
+        let calculationParams = WindowCalculationParameters(window: currentWindow, usableScreens: usableScreens, action: action, lastAction: lastRectangleAction)
         guard var calcResult = windowCalculation?.calculate(calculationParams) else {
             NSSound.beep()
             Logger.log("Nil calculation result")
@@ -139,12 +137,8 @@ class WindowManager {
             calcResult.rect = GapCalculation.applyGaps(calcResult.rect, dimension: gapsApplicable, sharedEdges: gapSharedEdges, gapSize: Defaults.gapSize.value, skipTopGap: Defaults.skipGapTopEdge.enabled)
         }
 
-        if Defaults.cyclingOverlapOffset.userEnabled, action.overlapOffsetApplies {
-            calcResult.rect = OverlapOffsetGeometry.applyOverlapOffsetIfNeeded(calcResult.rect, windowId: windowId, screen: calcResult.screen)
-        }
-
         let isFixedSize = (!frontmostWindowElement.isResizable() && action.resizes) || frontmostWindowElement.isSystemDialog == true
-        let visibleFrameOfDestinationScreen = calcResult.resultingScreenFrame ?? calcResult.screen.adjustedVisibleFrame(ignoreTodo)
+        let visibleFrameOfDestinationScreen = calcResult.resultingScreenFrame ?? calcResult.screen.adjustedVisibleFrame()
         let isMovedAcrossDisplays = sourceScreens.currentScreen != calcResult.screen
         let cooperativeCornerPlan = cooperativeCornerResizePlan(focusedWindowId: windowId,
                                                                 focusedWindowIsFixedSize: isFixedSize,
@@ -236,7 +230,7 @@ class WindowManager {
                                                   source: parameters.source,
                                                   oldFocusedFrame: currentNormalizedRect,
                                                   newFocusedFrame: resultingRect.screenFlipped,
-                                                  screenFrame: sourceScreens.currentScreen.adjustedVisibleFrame(ignoreTodo),
+                                                  screenFrame: sourceScreens.currentScreen.adjustedVisibleFrame(),
                                                   currentAction: action,
                                                   lastRectangleAction: lastRectangleAction)
             resultingRect = frontmostWindowElement.frame
