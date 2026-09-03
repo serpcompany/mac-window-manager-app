@@ -24,8 +24,13 @@ Recorded 2026-09-04 (Asia/Tokyo).
 - Review submission: `28defa41-2ad7-4f9e-9615-cb8f0feaf0cf`
 - Submitted: 2026-09-03T21:44:25.219Z
 - Current state: `WAITING_FOR_REVIEW`
-- Git tag: annotated `v1.0`, resolving to release source commit `16c0f57c85dd20ae2510d18630f9170954d290cb`
-- GitHub Release: https://github.com/serpcompany/mac-window-manager-app/releases/tag/v1.0
+- GitHub SemVer: `1.0.0` (App Store version `1.0`)
+- Git tag: annotated `v1.0.0`, resolving to release source commit `16c0f57c85dd20ae2510d18630f9170954d290cb`
+- GitHub Release: https://github.com/serpcompany/mac-window-manager-app/releases/tag/v1.0.0
 - GitHub state: published prerelease while Apple review is pending
+- Installer asset: `Window-Manager-1.0.0.dmg` (2,259,190 bytes)
+- Installer SHA-256: `fab16700d06064b74084029fddae666bfb7751c723ee3c81e681adab7a7378a6`
+- Installer signing: Developer ID Application, team `847HR8U8D9`, hardened runtime, universal Intel/Apple silicon
+- Apple notarization: accepted submission `24bb177b-6dc8-46c7-9496-175058bdbf2e`; ticket stapled and Gatekeeper accepted
 
-The canonical readiness check reported zero blocking errors before submission. The public API cannot verify App Privacy publication, so its published state was verified in the signed-in App Store Connect UI. Version 1.0 and its single review item were submitted successfully and both report `WAITING_FOR_REVIEW`. The GitHub prerelease will be promoted to a full release after Apple reports the version ready for distribution.
+The canonical readiness check reported zero blocking errors before submission. The public API cannot verify App Privacy publication, so its published state was verified in the signed-in App Store Connect UI. Version 1.0 and its single review item were submitted successfully and both report `WAITING_FOR_REVIEW`. GitHub uses the normalized SemVer `v1.0.0`; its prerelease includes the verified DMG and will be promoted after Apple reports the version ready for distribution. The superseded `v1.0` GitHub release and tag were removed.
