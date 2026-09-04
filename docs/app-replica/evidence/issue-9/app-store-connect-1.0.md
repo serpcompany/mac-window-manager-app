@@ -5,8 +5,8 @@ Recorded 2026-09-04 (Asia/Tokyo).
 - App: Mac Window Manager (`6808371833`)
 - Bundle ID: `com.serp.windowmanager`
 - Version: 1.0 (`7a92c15a-2073-417d-a0b2-7dc0b2bc0765`)
-- Build: 2 (`86a7091b-2336-4810-8838-f73ebf2be6ee`), processing state `VALID`
-- Release source commit: `97785c04c1c96642d0bf946b96e9318fe6ac7804`
+- Build: 3 (`a4e32754-23da-4e27-a0fe-0118c51a7a57`), processing state `VALID`
+- Release source commit: `d609c8cc178ebe38b4e25ab6945fbd63a1d5083f`
 - Build attached to version: yes
 - Encryption: exempt / does not use non-exempt encryption
 - Category: Productivity
@@ -22,15 +22,15 @@ Recorded 2026-09-04 (Asia/Tokyo).
 - App Review contact: configured
 - App Privacy: published as “Data Not Collected” on 2026-09-04 (Asia/Tokyo)
 - Review submission: `0adf89f0-3a22-4677-8f8e-ac13a1412307`
-- Submitted: 2026-09-03T22:46:40.155Z
+- Resubmitted: 2026-09-04T03:01:17.792Z
 - Current state: `WAITING_FOR_REVIEW`
 - GitHub SemVer: `1.0.0` (App Store version `1.0`)
-- Git tag: annotated `v1.0.0`, resolving to release source commit `97785c04c1c96642d0bf946b96e9318fe6ac7804`
+- Git tag: annotated `v1.0.0`, resolving to release source commit `d609c8cc178ebe38b4e25ab6945fbd63a1d5083f`
 - GitHub Release: https://github.com/serpcompany/mac-window-manager-app/releases/tag/v1.0.0
 - GitHub state: published prerelease while Apple review is pending
 - Installer asset: `Window-Manager-1.0.0.dmg`
-- Installer SHA-256: `cb11173380bf336b188307b82f4c017d2e61c1d4d7f84584a5ab904319f39c6f`
+- Installer SHA-256: `175cc93335f299dc5dc6bbc7f3c63e71c0beb28af4f7755891a7e898406dc060`
 - Installer signing: Developer ID Application, team `847HR8U8D9`, hardened runtime, universal Intel/Apple silicon
-- Apple notarization: accepted submission `cbe08978-6005-4e27-bcdc-cb391d8bfdb5`; ticket stapled and Gatekeeper accepted
+- Apple notarization: accepted submission `68e9b860-f8c0-450d-a41a-1a09ea8a66c9`; ticket stapled and Gatekeeper accepted
 
-The first build was withdrawn after a storefront audit found an effectively blank compiled icon, a single permission-only screenshot, weak copy, and an underpriced listing. Build 2 removes the faulty Icon Composer source, uses the verified high-contrast asset catalog icon, supplies five real-UI screenshots, expands the sales copy, and sets the base price to $9.99. The canonical readiness check and review doctor reported zero blocking issues before resubmission. The public API cannot verify App Privacy publication, so its published state was verified in the signed-in App Store Connect UI. Version 1.0 and its current review item report `WAITING_FOR_REVIEW`. GitHub uses the normalized SemVer `v1.0.0`; its prerelease and notarized DMG were replaced to target the repaired source commit and will be promoted after Apple reports the version ready for distribution.
+The first build was withdrawn after a storefront audit found an effectively blank compiled icon, a single permission-only screenshot, weak copy, and an underpriced listing. Build 2 fixed the storefront presentation but Apple rejected it under guideline 2.5.1 because its binary referenced the private `__AXUIElementGetWindow` symbol. PR #13 removed the declaration and call, replaced window-ID resolution with public Core Graphics window descriptions matched to public Accessibility data, added regression coverage, and added final-binary deny-list checks. The signed App Store build 3 and notarized GitHub DMG both pass `nm` and `strings` scans with no `AXUIElementGetWindow` reference. Build 3 is attached to the existing review item, which was marked resolved and resubmitted. The public API cannot verify App Privacy publication, so its published state was verified in the signed-in App Store Connect UI. Version 1.0 and its current review submission report `WAITING_FOR_REVIEW`.
