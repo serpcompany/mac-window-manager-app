@@ -83,10 +83,4 @@ extension AXUIElement {
         return pid
     }
     
-    func getWindowId() -> CGWindowID? {
-        var windowId = CGWindowID(0)
-        let result = _AXUIElementGetWindow(self, &windowId)
-        guard result == .success else { return nil }
-        return windowId
-    }
 }
