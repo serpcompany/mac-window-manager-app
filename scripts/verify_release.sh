@@ -35,4 +35,9 @@ if rg -a -q 'rectangleapp\.com|com\.knollsoft\.Rectangle|XSYZ3E4B7D|SUPublicEDKe
   exit 1
 fi
 
+if nm -u "$executable" | grep -q 'AXUIElementGetWindow' || strings "$executable" | grep -q 'AXUIElementGetWindow'; then
+  echo "Forbidden non-public AXUIElementGetWindow API found in app executable" >&2
+  exit 1
+fi
+
 echo "PASS: signed universal Window Manager artifact has isolated identity"

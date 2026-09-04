@@ -198,7 +198,13 @@ class AccessibilityElement {
     }
     
     var windowId: CGWindowID? {
-        wrappedElement.getWindowId()
+        let frame = frame
+        guard let pid, !frame.isNull else { return nil }
+        return AccessibilityElement.matchingWindowId(
+            pid: pid,
+            frame: frame,
+            windowInfo: WindowUtil.getWindowList()
+        )
     }
 
     func getWindowId() -> CGWindowID? {
@@ -206,10 +212,6 @@ class AccessibilityElement {
             return windowId
         }
         let frame = frame
-        // Take the first match because there's no real way to guarantee which window we're actually getting
-        if let pid = pid, let info = (WindowUtil.getWindowList().first { $0.pid == pid && $0.frame == frame }) {
-            return info.id
-        }
         if !frame.isNull {
             // Last resort (#640): derive a stand-in id from the accessibility
             // element's identity so window-id-keyed bookkeeping keeps working
@@ -226,6 +228,10 @@ class AccessibilityElement {
     /// real ids are assigned incrementally by the window server.
     static func deriveWindowId(fromElementHash hash: CFHashCode) -> CGWindowID {
         CGWindowID(0x8000_0000) | (CGWindowID(truncatingIfNeeded: hash) & 0x7FFF_FFFF)
+    }
+
+    static func matchingWindowId(pid: pid_t, frame: CGRect, windowInfo: [WindowInfo]) -> CGWindowID? {
+        windowInfo.first { $0.pid == pid && $0.frame == frame }?.id
     }
     
     var pid: pid_t? {

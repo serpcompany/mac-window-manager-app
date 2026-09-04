@@ -4153,6 +4153,18 @@ class NilWindowIdCalculationTests: XCTestCase {
 }
 
 class DerivedWindowIdTests: XCTestCase {
+
+    func testPublicWindowInfoMatchUsesPidAndFrame() {
+        let targetFrame = CGRect(x: 10, y: 20, width: 640, height: 480)
+        let windowInfo = [
+            WindowInfo(id: 11, level: 0, frame: targetFrame, pid: 100, processName: "Wrong Process"),
+            WindowInfo(id: 12, level: 0, frame: CGRect(x: 0, y: 0, width: 100, height: 100), pid: 200, processName: "Wrong Frame"),
+            WindowInfo(id: 13, level: 0, frame: targetFrame, pid: 200, processName: "Target")
+        ]
+
+        XCTAssertEqual(AccessibilityElement.matchingWindowId(pid: 200, frame: targetFrame, windowInfo: windowInfo), 13)
+        XCTAssertNil(AccessibilityElement.matchingWindowId(pid: 300, frame: targetFrame, windowInfo: windowInfo))
+    }
     
     func testDerivedIdHasHighBitSet() {
         XCTAssertEqual(AccessibilityElement.deriveWindowId(fromElementHash: 0) & 0x8000_0000, 0x8000_0000)
